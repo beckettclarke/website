@@ -1,0 +1,111 @@
+#projects{
+  overflow-y:scroll;
+}
+
+#projects.animatepage{
+  animation:gbo .5s ease-out;
+}
+@keyframes gbo {0% {transform: translateY(160px);opacity:0;} 100% {transform: translateY(0px);opacity:1;}}
+
+#projtitle{
+  text-align: center;
+  font-family:var(--fb);
+}
+
+/* #projects.animatepage > *{
+  /* counter-increment: item-counter;
+  --ad: counter(item-counter);
+  --adu: calc(1s + (0.1s * var(--ad))); 
+  animation: glidebottom var(--adu) ease-out;
+} */
+
+project{
+  display:grid;
+  grid-template-columns: 48px 1fr 95px;
+  background:black;
+  width:306px;
+  height:73px;
+  align-items:center;
+  gap:5px;
+  padding:10px;
+  border-radius:10px;
+  backdrop-filter: var(--glo-filter);
+  -webkit-backdrop-filter: var(--glo-filter);
+  background-color:var(--glo-bg);
+  border:var(--glo-border);
+  color:var(--glo-col);
+  overflow:hidden;
+  position:relative;
+}
+
+.pimg{
+  width:48px;
+}
+.pblur{
+  filter:blur(25px);
+  scale:1;
+  z-index:-1;
+  position:absolute;
+  left:0px;
+  right:0px;
+  width:306px;
+  scale:1.4;
+  opacity:.15;
+  /* display:none; */
+}
+
+.ptitle{
+  font-family:inter;
+  margin:0px;
+  font-size:20px;
+  display:flex;
+  flex-direction: column;
+}
+
+.pdesc{
+  grid-column: span 3;
+  margin:0px;
+  font-family: Inter;
+}
+.pbutton{
+  background:transparent;
+  width:100%;
+  display:flex;
+  gap:10px;
+  padding:5px 10px;
+  border-radius:1000px;
+  backdrop-filter: var(--glo-filter);
+  -webkit-backdrop-filter: var(--glo-filter);
+  background-color:var(--glo-bg);
+  border:var(--glo-border);
+  color:var(--glo-col);
+  cursor:pointer;
+  font-size:15px;
+  justify-content: center;
+  text-decoration: none;
+  box-sizing:border-box;
+  font-family:Inter;
+  align-items:center;
+}
+
+projgrid{
+  display:flex;
+  flex-wrap:wrap;
+  align-items: center;
+  justify-content: center;
+  max-width:1000px;
+  margin:auto;
+  width:calc(100vw - 50px);
+  gap:10px;
+}
+
+.psub{
+  opacity:.5;
+  font-size:10px;
+  text-transform: uppercase;
+  margin:0px;
+}
+
+h1{
+  color:white;
+}

@@ -1,0 +1,114 @@
+page#home{
+  height:100vh;
+  width:calc(100vw - 25px);
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  padding:12.5px;
+  margin-top:0px;
+}
+#homecontent{
+  align-items: center;
+  display:flex;
+  flex-direction: column;
+}
+#bt,#bts{
+  font-family:var(--fb);
+  color:white;
+  text-align: center;
+}
+
+
+#bt{
+  font-weight:700;
+  font-size:50px;
+  margin:0px;
+}
+
+#bts{
+  font-weight:500;
+  font-size:27px;
+  margin:0px;
+  margin-top:-5px;
+}
+
+#btb{
+  border-radius:1000px;
+  font-size:17.5px;
+  padding:7.5px 15px;
+  cursor:pointer;
+  backdrop-filter: var(--glo-filter);
+  -webkit-backdrop-filter: var(--glo-filter);
+  background-color:var(--glo-bg);
+  border:var(--glo-border);
+  color:var(--glo-col);
+  gap:10px;
+  justify-self: center;
+  margin-top:20px;
+  font-family:var(--fb);
+}
+#btb i{
+  transition:transform .3s ease-out;
+}
+#btb:hover i{
+  transform:translateX(5px);
+}
+/* .animatepage *{color:white !important} */
+#home.animatepage > #homecontent{
+  animation:glidein .5s ease-out;
+}
+
+@keyframes glidein{
+  0%{
+    transform:translateY(100px);
+    opacity:0;
+  }
+  100%{
+    transform:translateY(0px);
+    opacity:1;
+  }
+}
+
+#lefticons{
+  position:fixed;
+  bottom:0px;
+  left:0px;
+  scale:.7;
+}
+#lefticons > *{
+  position:absolute;
+  bottom:0px;
+  left:0px;
+}
+#righticons{
+  position:fixed;
+  bottom:0px;
+  right:0px;
+  scale:.7;
+}
+#righticons > *{
+  position:absolute;
+  bottom:0px;
+  right:0px;
+}
+
+#home.animatepage #lefticons > *{
+  animation: glidebottom .5s ease-out;
+}
+@keyframes glideleft {0% {transform: translateX(-112px);} 100% {transform: translateX(0px);}}
+@keyframes glidebottom {0% {transform: translateY(160px);} 100% {transform: translateY(0px);}}
+@keyframes glidebl {0% {transform: translate(-250px, 250px);} 100% {transform: translate(0px, 0px);}}
+@keyframes glideright {0% {transform: translateX(120px);} 100% {transform: translateX(0px);}}
+@keyframes glidebr {0% {transform: translate(210px, 210px);} 100% {transform: translate(0px, 0px);}}
+:root{
+  --iat:.5s;
+}
+#home.animatepage #il1{animation: glidebl var(--iat) ease-out !important;}
+#home.animatepage #il2{animation: glidebottom var(--iat) ease-out !important;}
+#home.animatepage #il3{animation: glideleft var(--iat) ease-out !important;}
+
+#home.animatepage #ir1{animation: glidebr var(--iat) ease-out !important;}
+#home.animatepage #ir2{animation: glidebottom var(--iat) ease-out !important;}
+#home.animatepage #ir3{animation: glideright var(--iat) ease-out !important;}

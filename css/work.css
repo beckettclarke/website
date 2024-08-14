@@ -1,0 +1,21 @@
+#worktitle{
+  text-align: center;
+  font-family:var(--fb);
+  font-size:40px;
+}
+
+#work{
+  padding-top:10px;
+}
+#work h2,#work span{
+  color:white;
+  text-align: center;
+  font-family:var(--fb);
+}
+
+#webplaceh{
+  text-align: center;
+  width:100%;
+  display:block;
+  opacity:.75;
+}

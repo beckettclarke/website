@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/body.css">
+    <link rel="stylesheet" href="css/projects.css">
+    <link rel="stylesheet" href="css/contact.css">
+    <link rel="stylesheet" href="css/work.css">
+    <link rel="stylesheet" href="css/about.css">
+    <link rel="stylesheet" href="https://itsfoxdev.github.io/resources/fonts/satoshi/import.css?cache=400">
+    <!-- <script src="scripts.js" defer></script> -->
+    <script defer src="clickevents.js" defer></script>
+    <script src="globalfuncs.js" defer></script>
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,100..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ItsFoxDev/fa-turbo/css/all.min.css" />
+
+
+    <title>Beckett Clarke</title>
+    <link rel="icon" href="icon.png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="title" content="Beckett - Projects, Socials, and more" />
+    <meta name="description" content="Hi, I'm Beckett. I'm a front-end developer, and I like making websites." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://itsfoxdev.github.io/" />
+    <meta property="og:title" content="FoxDev - Projects, Socials, and more" />
+    <meta property="og:description" content="Hi, I'm FoxDev! I'm a front-end developer, and I like making websites." />
+    <meta property="og:image" content="https://itsfoxdev.github.io/resources/assets/preview.png" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://itsfoxdev.github.io/" />
+    <meta property="twitter:title" content="FoxDev - Projects, Socials, and more" />
+    <meta property="twitter:description" content="Hi, I'm FoxDev! I'm a front-end developer, and I like making websites." />
+    <meta property="twitter:image" content="https://itsfoxdev.github.io/resources/assets/preview.png" />
+  </head>
+  <body>
+    <header>
+      <div id="hsel"></div>
+      <button b="home" class="active" id="homebutton"><img src="./logo.svg" id="headerimg"></button>
+      <sep></sep>
+      <button b="about" class="active" id="aboutbutton">About</button>
+      <button b="projects" id="projectsbutton">Projects</button>
+      <button b="work" id="workbutton">Work</button>
+      <button b="contact" id="contactbutton">Contact</button>
+    </header>
+    <page id="home">
+      <div id="homecontent">
+        <h1 id="bt">Hi, I'm Beckett.</h1>
+        <h2 id="bts">I make websites</h2>
+        <button id="btb" onclick="document.getElementById('projectsbutton').click();">My Projects <i class="fas fa-right"></i></button>
+      </div>
+      <div id="lefticons">
+        <img src="icons/home/l1.png" id="il1">
+        <img src="icons/home/l2.png" id="il2">
+        <img src="icons/home/l3.png" id="il3">
+      </div>
+      <div id="righticons">
+        <img src="icons/home/r1.png" id="ir1">
+        <img src="icons/home/r2.png" id="ir2">
+        <img src="icons/home/r3.png" id="ir3">
+      </div>
+    </page>
+    <page id="about">
+      <div id="aboutcontent">
+        <h1 id="ah" class="mt">I'm Beckett</h1>
+        <h2 id="as" class="mt">I like rowing, skiing, photography, and graphic design.</h2>
+
+        <h3 id="ast" class="mt">Find me on:</h3>
+        <div id="socials">
+          <a class="social" href="https://github.com/ItsFoxDev">
+            <img class="blur" src="/icons/socials/github.png">
+            <img src="/icons/socials/github.png">
+            <span class="stitle"><b>GitHub</b>Where I host my projects</span>
+          </a>
+          <a class="social" href="https://codepen.io/ItsFoxDev">
+            <img class="blur" src="/icons/socials/codepen.png">
+            <img src="/icons/socials/codepen.png">
+            <span class="stitle"><b>Codepen</b>Where I test random ideas</span>
+          </a>
+          <a class="social" href="https://scratch.mit.edu/users/ItsFoxDev">
+            <img class="blur" src="/icons/socials/scratch.png">
+            <img src="/icons/socials/scratch.png">
+            <span class="stitle"><b>Scratch</b>Sometimes make stuff here</span>
+          </a>
+          <a class="social" href="https://steamcommunity.com/id/itsfoxdev/">
+            <img class="blur" src="/icons/socials/steam.png">
+            <img src="/icons/socials/steam.png">
+            <span class="stitle"><b>Steam</b>Video games I play</span>
+          </a>
+          <a class="social" href="https://youtube.com/@imfoxdev">
+            <img class="blur" src="/icons/socials/youtube.png">
+            <img src="/icons/socials/youtube.png">
+            <span class="stitle"><b>YouTube</b>Don't really post anymore</span>
+          </a>
+          <a class="social" href="https://macosicons.com/#/u/foxdev">
+            <img class="blur" src="/icons/socials/macosicons.png">
+            <img src="/icons/socials/macosicons.png">
+            <span class="stitle"><b>MacOS Icons</b>Some cool icons I made</span>
+          </a>
+          <a class="social" href="mailto:beckettpublic@gmail.com">
+            <img class="blur" src="/icons/socials/email.png">
+            <img src="/icons/socials/email.png">
+            <span class="stitle"><b>Email</b>For general inquiries</span>
+          </a>
+          <a class="social" href="https://sky.shiiyu.moe/stats/_pvpfox/Papaya">
+            <img class="blur" src="/icons/socials/skycrypt.png">
+            <img src="/icons/socials/skycrypt.png">
+            <span class="stitle"><b>SkyCrypt</b>My Hypixel Skyblock stats</span>
+          </a>
+          <a class="social" href="https://sky.shiiyu.moe/stats/_pvpfox/Papaya">
+            <img class="blur" src="/icons/socials/concept2.png">
+            <img src="/icons/socials/concept2.png">
+            <span class="stitle"><b>Concept2</b>Erg stats (Rowing)</span>
+          </a>
+        </div>
+      </div>
+    </page>
+    <page id="projects">
+      <h1 id="projtitle" style="--ad:.1s;">Websites</h1>
+      <projgrid id="websites">
+        <project>
+          <img src="icons/imagesnap.png" class="pblur">
+          <img src="icons/imagesnap.png" class="pimg">
+          <h1 class="ptitle">Imagesnap<br>
+          <span class="psub">COMING SOON </span></h1>
+          <button class="pbutton">Coming <i class="far fa-clock"></i></button>
+          <p class="pdesc">A speedy image converter website</p>
+        </project>
+        <project>
+          <img src="icons/pastezone.png" class="pblur">
+          <img src="icons/pastezone.png" class="pimg">
+          <h1 class="ptitle">Pastezone<br>
+          <span class="psub">WEBSITE</span></h1>
+          <a href="https://itsfoxdev.github.io/pastezone" class="pbutton">Launch <i class="fas fa-arrow-up-right"></i></a>
+          <p class="pdesc">A basic temporary text editor</p>
+        </project>
+        <project>
+          <img src="icons/separator.png" class="pblur">
+          <img src="icons/separator.png" class="pimg">
+          <h1 class="ptitle">Separator<br>
+          <span class="psub">Website</span></h1>
+          <a href="https://itsfoxdev.github.io/separator" class="pbutton">Get it <i class="fas fa-arrow-up-right"></i></a>
+          <p class="pdesc">Get separators for your bookmark bar</p>
+        </project>
+      </projgrid>
+      <h1 id="projtitle">Scripts</h1>
+      <projgrid id="userscripts">
+        <project>
+          <img src="icons/dash.png" class="pblur">
+          <img src="icons/dash.png" class="pimg">
+          <h1 class="ptitle">dash.<br>
+          <span class="psub">BOOKMARKLET</span></h1>
+          <button class="pbutton">Install <i class="fas fa-arrow-down-to-line"></i></button>
+          <p class="pdesc">The only web tool you'll ever need          </p>
+        </project>
+        <project>
+          <img src="icons/rickstopper.png" class="pblur">
+          <img src="icons/rickstopper.png" class="pimg">
+          <h1 class="ptitle">Rickstopper<br>
+          <span class="psub">USERSCRIPT</span></h1>
+          <button class="pbutton">Install <i class="fas fa-arrow-down-to-line"></i></button>
+          <p class="pdesc">An automatic rickroll blocker</p>
+        </project>
+        <project>
+          <img src="icons/qlbypass.png" class="pblur">
+          <img src="icons/qlbypass.png" class="pimg">
+          <h1 class="ptitle">QLBypass<br>
+          <span class="psub">USERSCRIPT</span></h1>
+          <button class="pbutton">Install <i class="fas fa-arrow-down-to-line"></i></button>
+          <p class="pdesc">A simple bypass for the Quora login</p>
+        </project>
+      </projgrid>
+      <h1 id="projtitle">Minisites</h1>
+      <projgrid id="randomstuff">
+        <project>
+          <img src="icons/bakesquadindex.png" class="pblur">
+          <img src="icons/bakesquadindex.png" class="pimg">
+          </div>
+          <h1 class="ptitle">Bake Squad<br>
+          <span class="psub">WEBSITE</span></h1>
+          <button class="pbutton">Launch <i class="fas fa-arrow-up-right"></i></button>
+          <p class="pdesc">A "Bake Squad" show creation list</p>
+        </project>
+        <project>
+          <img src="icons/screentest.png" class="pblur">
+          <img src="icons/screentest.png" class="pimg">
+          <h1 class="ptitle">Screentest<br>
+          <span class="psub">Website</span></h1>
+          <a href="https://itsfoxdev.github.io/projects/screentest" class="pbutton">Launch <i class="fas fa-arrow-up-right"></i></a>
+          <p class="pdesc">A very simple screen testing website</p>
+        </project>
+      </projgrid>
+    </page>
+    <page id="work">
+      <h1 id="worktitle">My Work</h1>
+      <h2 id="wwebtitle"><i class="far fa-globe"></i> Websites</h2>
+      <span id="webplaceh">Nothing here yet...</span>
+      <h2 id="wlogotitle"><i class="far fa-image"></i> Logos</h2>
+    </page>
+    <page id="contact">
+      <h1 id="contacttitle">Contact Me</h1>
+      <div id="formarea">
+        
+       <!-- <select id="dropdown">
+          <option value="🪲 Bug report">Report a bug</option>
+          <option value="option2">Get a website</option>
+          <option value="option3">Option 3</option>
+        </select> -->
+      </div>
+    
+    </page>
+
+    <script defer>setTimeout(function(){document.getElementById('workbutton').click();},100)</script>
+  </body>
+</html>

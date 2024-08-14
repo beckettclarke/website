@@ -1,0 +1,113 @@
+/* ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-button{width:6px;height:6px}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.3);border-radius:23px}::-webkit-scrollbar-track{background:transparent;border-radius:50%}::-webkit-scrollbar-corner{background:0 0}@media (prefers-color-scheme:dark){::-webkit-scrollbar-thumb{background:rgba(255,255,255,.3)}} */
+:root{
+  --glo-bg:#ababab26;
+  --glo-col:white;
+  --glo-border:1px solid #ffffff38;
+  --glo-filter:blur(10px);
+  --fb:"Satoshi";
+}
+body{
+  background:radial-gradient(#1F1F1F,#101010);
+  background-repeat: none;
+  width:100vw;
+  min-height:100vh;
+  margin:0px;
+}
+
+header{
+  backdrop-filter: var(--glo-filter);
+  -webkit-backdrop-filter: var(--glo-filter);
+  background-color:var(--glo-bg);
+  border:var(--glo-border);
+  color:var(--glo-col);
+  width:auto;
+  height:20px;
+  border-radius:100px;
+  padding:7.5px 11px 7.5px 0px;
+  text-align:center;
+  position:fixed;
+  top:10px;
+  margin:auto;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  align-items: center;
+  gap:10px;
+  z-index:10000
+}
+
+#headerimg{
+  height:20px;
+}
+
+header > sep{
+  height:20px;
+  border-right:1px solid #ffffff38;
+}
+
+header > button{
+  padding:5px;
+  font-size:18px;
+  background:none;
+  color:white;
+  border:none;
+  font-family: Inter;
+  font-weight:400;
+  cursor:pointer;
+  transition:font-weight .3s ease;
+}
+
+#hsel{
+  background:#161616;
+  height:30px;
+  left:0px;
+  width:0px;
+  border-radius:100px;
+  position:absolute;
+  transition:left .2s cubic-bezier(.36,0,.34,1.01),width .2s cubic-bezier(.36,0,.34,1.01);
+  z-index:-1;
+}
+
+page{
+  opacity:0 !important;
+  width:100vw;
+  min-height:calc(100vh-75px);
+  margin-top:50px;
+  height:calc(100vh - 75px);
+  padding-bottom:25px;
+}
+page.active{
+  opacity:1 !important;
+  position:fixed;
+  top:0px;
+}
+page:not(.active){
+  transition:opacity .3s ease;
+  opacity:0 !important;
+  position:fixed;
+}
+
+page:not(.active) *,page:not(.active){
+  pointer-events: none !important;
+  -webkit-touch-callout: none !important;
+  -webkit-user-select: none !important;
+  -khtml-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important;
+}
+
+page:not(.active) *{
+  pointer-events: none !important;
+}
+
+#homebutton{
+  padding:0px 6px;
+  margin: 0px 10px;
+  margin-right:0px;
+}
+
+.mt{
+  color:white;
+  font-family:var(--fb);
+}
