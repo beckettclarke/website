@@ -28,4 +28,8 @@ function switchtab(){
 
 }
 ace('header > button', switchtab);
-switchtab(document.getElementById('homebutton'));
+// switchtab(document.getElementById('homebutton'));
+ace('#csemail',sendEmail)
+ace('#csubmit',sendHook)
+ace('#btb',projtab);
+ace('#newmsg',newmsg);

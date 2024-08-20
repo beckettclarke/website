@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="css/about.css">
     <link rel="stylesheet" href="https://itsfoxdev.github.io/resources/fonts/satoshi/import.css?cache=400">
     <!-- <script src="scripts.js" defer></script> -->
-    <script defer src="clickevents.js" defer></script>
     <script src="globalfuncs.js" defer></script>
 
 
@@ -52,7 +51,7 @@
       <div id="homecontent">
         <h1 id="bt">Hi, I'm Beckett.</h1>
         <h2 id="bts">I make websites</h2>
-        <button id="btb" onclick="document.getElementById('projectsbutton').click();">My Projects <i class='bx bx-right-arrow-alt' ></i></button>
+        <button id="btb">My Projects <i class='bx bx-right-arrow-alt' ></i></button>
       </div>
       <div id="lefticons">
         <img src="icons/home/l1.png" id="il1">
@@ -216,9 +215,27 @@
     <page id="contact">
       <h1 id="contacttitle">Contact Me</h1>
       <div id="formarea">
+        <div class="inputcontainer">
+          <span class="inicon">👤</span>
+          <input id="cname" class="sinput" placeholder="Name/Business" type="text" maxlength="100" />
+        </div>
+        <div class="inputcontainer">
+          <span class="inicon">📧</span>
+          <input id="cemail" class="sinput" placeholder="Email" type="text" maxlength="100"></input>
+        </div>
+        <textarea id="ccontent" placeholder="Write a message here" maxlength="1500"></textarea>
+        <button id="csemail">Send as email <i class='bx bx-envelope' ></i></button>
+        <button id="csubmit" class="cprim">Direct send <i class='bx bx-send' ></i></button>
+        <button id="csl" style="display:none;" class="cprim">Sending <i class='bx bx-time' ></i></button>
+        <button id="cse" style="display:none;" class="cprim">Error, try sending as email <i class='bx bx-error' ></i></button>
+      </div>
+      <div id="sentpage" style="display:none">
+        <h1>✅ Your message has been sent</h1>
+        <button id="newmsg">Send another message</button>
       </div>
     </page>
 
-    <script defer>setTimeout(function(){document.getElementById('workbutton').click();},100)</script>
+    <script defer>setTimeout(function(){document.getElementById('contactbutton').click();},100)</script>
+    <script defer src="clickevents.js" defer></script>
   </body>
 </html>

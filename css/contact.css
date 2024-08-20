@@ -4,3 +4,106 @@
   font-weight:700;
   font-size:45px;
 }
+
+#formarea{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:10px;
+  margin:auto;
+  width:clamp(1px, calc(100vw - 50px),500px);
+}
+
+/* #formarea input{
+  backdrop-filter: var(--glo-filter);
+  -webkit-backdrop-filter: var(--glo-filter);
+  background-color:var(--glo-bg);
+  border:var(--glo-border);
+  color:var(--glo-col);
+  padding:5px 7px;
+  font-family:var(--fb);
+  outline:none;
+  border-radius:5px;
+  transition:border .1s ease;
+} */
+
+.inputcontainer:has(input:focus){
+  border:1px solid #ffffff;
+}
+
+#bname::before{
+  content:"👤"
+
+}
+
+
+.inputcontainer{
+  backdrop-filter: var(--glo-filter);
+  -webkit-backdrop-filter: var(--glo-filter);
+  background-color:var(--glo-bg);
+  border:var(--glo-border);
+  color:var(--glo-col);
+  padding:5px 7px;
+  font-family:var(--fb);
+  outline:none;
+  border-radius:5px;
+  transition:border .1s ease;
+  /* width:250px; */
+}
+
+.sinput{
+  background:transparent;
+  border:none;
+  outline:none;
+  color:white;
+  font-family:Inter;
+  width:calc(100% - 30px);
+}
+
+#ccontent{
+  backdrop-filter: var(--glo-filter);
+  -webkit-backdrop-filter: var(--glo-filter);
+  background-color:var(--glo-bg);
+  border:var(--glo-border);
+  color:var(--glo-col);
+  padding:5px 7px;
+  font-family:Inter;
+  outline:none;
+  border-radius:5px;
+  resize: none;
+  grid-column: span 2;
+  height:250px;
+}
+#ccontent:focus{
+  border:1px solid white;
+}
+#formarea > button,#sentpage > button{
+  cursor:pointer;
+  backdrop-filter: var(--glo-filter);
+  -webkit-backdrop-filter: var(--glo-filter);
+  background-color:var(--glo-bg);
+  border:var(--glo-border);
+  color:var(--glo-col);
+  display:flex;
+  align-items: center;
+  gap:5px;
+  justify-content: center;
+  padding:5px 20px;
+  border-radius:5px;
+  font-weight:bold;
+  font-family: var(--fb);
+}
+#formarea > button > i{
+  font-size:15px;
+}
+.cprim{
+  background:white !important;
+  color:black !important;
+}
+
+#sentpage > h1{
+  text-align: center;
+  font-family:var(--fb)
+}
+#sentpage > button{
+  margin:auto
+}
