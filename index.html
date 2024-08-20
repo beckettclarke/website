@@ -230,12 +230,13 @@
         <button id="cse" style="display:none;" class="cprim">Error, try sending as email <i class='bx bx-error' ></i></button>
       </div>
       <div id="sentpage" style="display:none">
-        <h1>✅ Your message has been sent</h1>
-        <button id="newmsg">Send another message</button>
+        <h1>✅ Sent!</h1>
+        <span class="sentdesc">Thank you for your message.</span>
+        <button style="display:none;" id="newmsg">Send another message</button>
       </div>
     </page>
 
-    <script defer>setTimeout(function(){document.getElementById('contactbutton').click();},100)</script>
+    <script defer>setTimeout(function(){document.getElementById('homebutton').click();},10)</script>
     <script defer src="clickevents.js" defer></script>
   </body>
 </html>

@@ -99,6 +99,13 @@
   background:white !important;
   color:black !important;
 }
+#sentpage{
+  height:clamp(1px, calc(100vh - 400px), 500px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
 
 #sentpage > h1{
   text-align: center;
@@ -106,4 +113,12 @@
 }
 #sentpage > button{
   margin:auto
+}
+
+.sentdesc{
+  color:white;
+  text-align: center;
+  width:100%;
+  display:block;
+  font-family:var(--fb)
 }

@@ -58,7 +58,7 @@ function sendHook(){
       if (xhr.status >= 200 && xhr.status < 300) {
         console.log('✅ Message sent successfully');
         document.querySelector('#formarea').style.display='none';
-        document.querySelector('#sentpage').style.display='block';
+        document.querySelector('#sentpage').style.display='flex';
       } else if (xhr.status === 204) {
         console.log('Message sent successfully (No Content)');
       } else {

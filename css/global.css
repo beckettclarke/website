@@ -58,7 +58,8 @@ header > button{
 }
 
 #hsel{
-  background:#161616;
+  background:#6d6d6d;
+  /* background:#161616; */
   height:30px;
   left:0px;
   width:0px;
