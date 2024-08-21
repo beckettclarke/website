@@ -12,6 +12,7 @@ body{
   width:100vw;
   min-height:100vh;
   margin:0px;
+  overflow-y:hidden;
 }
 
 header{
@@ -75,7 +76,7 @@ page{
   min-height:calc(100vh-75px);
   margin-top:50px;
   height:calc(100vh - 75px);
-  padding-bottom:25px;
+  padding-bottom:50px;
 }
 page.active{
   opacity:1 !important;
