@@ -115,7 +115,9 @@ page:not(.active) *{
   font-family:var(--fb);
 }
 
-
+button{
+  user-select:none;
+}
 
 @media screen and (max-width: 550px) {
   #contact input,#contact textarea{
@@ -124,4 +126,36 @@ page:not(.active) *{
   .inputcontainer{
     grid-column:span 2 !important;
   }
+}
+
+#banner.enabled{
+  display:flex !important;
+}
+#banner{
+  display:none;
+  user-select:none;
+  position:fixed;
+  bottom:25px;
+  /* width:clamp(250px,calc(100vw - 50px),450px); */
+  width:250px;
+  left:50%;
+  transform: translateX(-50%);
+  background:linear-gradient(90deg,#911e1e94 0% ,rgba(39, 39, 39, 0.576) 15%);
+  background-size:106%;
+  backdrop-filter:var(--glo-filter);
+  border:var(--glo-border);
+  padding:5px 0px;
+  color:white;
+  font-family:var(--fb);
+  font-weight:bold;
+  border-radius:7.5px;
+  gap:10px;
+  align-items: center;
+}
+#bannerdot{
+  background:linear-gradient(#ff2a2a,rgb(255, 118, 87));
+  width:10px;
+  height:10px;
+  border-radius:1000px;
+  margin-left:10px;
 }
