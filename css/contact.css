@@ -42,6 +42,7 @@
   outline:none;
   border-radius:5px;
   transition:border .1s ease;
+  width:auto;
   /* width:250px; */
 }
 
@@ -119,8 +120,11 @@
   font-family:var(--fb)
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 600px) {
   #contact input,#contact textarea{
     font-size:16px !important;
+  }
+  .inputcontainer{
+    grid-column:span 2;
   }
 }
