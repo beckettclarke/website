@@ -37,7 +37,7 @@
     <meta property="twitter:description" content="Hi, I'm FoxDev! I'm a front-end developer, and I like making websites." />
     <meta property="twitter:image" content="https://itsfoxdev.github.io/resources/assets/preview.png" />
   </head>
-  <body>
+  <body class="verbose">
     <header>
       <div id="hsel"></div>
       <button b="home" class="active" id="homebutton"><img src="./logo.svg" id="headerimg"></button>
@@ -154,15 +154,15 @@
           <img src="icons/dash.png" class="pimg">
           <h1 class="ptitle">dash.<br>
           <span class="psub">BOOKMARKLET</span></h1>
-          <button class="pbutton">Install <i class='bx bx-down-arrow-alt' ></i></button>
-          <p class="pdesc">The only web tool you'll ever need          </p>
+          <a href="https://itsfoxdev.github.io/dash/" class="pbutton">Install <i class='bx bx-down-arrow-alt' ></i></a>
+          <p class="pdesc">The only web tool you'll ever need</p>
         </project>
         <project>
           <img src="icons/rickstopper.png" class="pblur">
           <img src="icons/rickstopper.png" class="pimg">
           <h1 class="ptitle">Rickstopper<br>
           <span class="psub">USERSCRIPT</span></h1>
-          <button class="pbutton">Install <i class='bx bx-down-arrow-alt' ></i></button>
+          <a href="https://itsfoxdev.github.io/projects/js/rickstopper/install/" class="pbutton">Install <i class='bx bx-down-arrow-alt' ></i></a>
           <p class="pdesc">An automatic rickroll blocker</p>
         </project>
         <project>
@@ -170,7 +170,7 @@
           <img src="icons/qlbypass.png" class="pimg">
           <h1 class="ptitle">QLBypass<br>
           <span class="psub">USERSCRIPT</span></h1>
-          <button class="pbutton">Install <i class='bx bx-down-arrow-alt' ></i></button>
+          <a href="https://itsfoxdev.github.io/projects/js/qlbypass/" class="pbutton">Install <i class='bx bx-down-arrow-alt' ></i></a>
           <p class="pdesc">A simple bypass for the Quora login</p>
         </project>
       </projgrid>
@@ -182,7 +182,7 @@
           </div>
           <h1 class="ptitle">Bake Squad<br>
           <span class="psub">WEBSITE</span></h1>
-          <button class="pbutton">Launch <i class='bx bx-link-external' ></i></button>
+          <a href="https://itsfoxdev.github.io/BakeSquad/" class="pbutton">Launch <i class='bx bx-link-external' ></i></a>
           <p class="pdesc">A "Bake Squad" show creation list</p>
         </project>
         <project>
@@ -236,7 +236,7 @@
       </div>
     </page>
 
-    <script defer>setTimeout(function(){document.getElementById('homebutton').click();},10)</script>
-    <script defer src="clickevents.js" defer></script>
+    <script defer>setTimeout(function(){document.getElementById('homebutton').click();},50)</script>
+    <script defer src="scripts.js" defer></script>
   </body>
 </html>

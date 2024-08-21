@@ -28,7 +28,7 @@ page#home{
 }
 
 #bts{
-  font-weight:500;
+  font-weight:5x00;
   font-size:27px;
   margin:0px;
   margin-top:-5px;
@@ -95,7 +95,7 @@ page#home{
 }
 
 #home.animatepage #lefticons > *{
-  animation: glidebottom .5s ease-out;
+  animation: glidebottom .5s var(--iease);
 }
 @keyframes glideleft {0% {transform: translateX(-112px);} 100% {transform: translateX(0px);}}
 @keyframes glidebottom {0% {transform: translateY(160px);} 100% {transform: translateY(0px);}}
@@ -104,11 +104,12 @@ page#home{
 @keyframes glidebr {0% {transform: translate(210px, 210px);} 100% {transform: translate(0px, 0px);}}
 :root{
   --iat:.5s;
+  --iease: cubic-bezier(0,.63,.54,1);
 }
-#home.animatepage #il1{animation: glidebl var(--iat) ease-out !important;}
-#home.animatepage #il2{animation: glidebottom var(--iat) ease-out !important;}
-#home.animatepage #il3{animation: glideleft var(--iat) ease-out !important;}
+#home.animatepage #il1{animation: glidebl var(--iat) var(--iease) !important;}
+#home.animatepage #il2{animation: glidebottom var(--iat) var(--iease) !important;}
+#home.animatepage #il3{animation: glideleft var(--iat) var(--iease) !important;}
 
-#home.animatepage #ir1{animation: glidebr var(--iat) ease-out !important;}
-#home.animatepage #ir2{animation: glidebottom var(--iat) ease-out !important;}
-#home.animatepage #ir3{animation: glideright var(--iat) ease-out !important;}
+#home.animatepage #ir1{animation: glidebr var(--iat) var(--iease) !important;}
+#home.animatepage #ir2{animation: glidebottom var(--iat) var(--iease) !important;}
+#home.animatepage #ir3{animation: glideright var(--iat) var(--iease) !important;}

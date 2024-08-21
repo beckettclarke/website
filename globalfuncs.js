@@ -1,3 +1,4 @@
+clog('Loaded script globalfuncs.js','#0066ff','Script');  
 function switchtab(e){
   console.log(e);
 }
@@ -84,4 +85,53 @@ function newmsg(){
   document.querySelector('#csubmit').style.display='flex';
   document.querySelector('#formarea').style.display='grid';
   document.querySelector('#sentpage').style.display='none';
+}
+
+function ace(o, e) {
+  document.querySelectorAll(o).forEach(function(i) {
+    // console.log(i);
+    vlog('Adding clickevent to element',i);
+    i.addEventListener('click', e);
+  });
+}
+function switchtab(){
+  var e = this;
+  document.querySelectorAll('header > button.active').forEach(function(p){p.classList.remove('active');})
+  e.classList.add('active');
+  var re = e.getBoundingClientRect();
+  var rh = document.querySelector('header').getBoundingClientRect();
+  var el = re.left - rh.left - 7.5;
+  // console.log(document.getElementById('hsel'))
+  clog('Switching tab to '+this.getAttribute('b').toProperCase(),'purple','Event');
+  var hs = document.getElementById('hsel');
+  hs.style.left=el+"px";
+  var rw = re.width + 15
+  hs.style.width=rw+"px";
+  document.querySelectorAll('.active').forEach(function(i){i.classList.remove('active');});
+  document.querySelectorAll('.animatepage').forEach(function(y){y.classList.remove('animatepage');});
+  var b = this.getAttribute('b');
+  document.getElementById(b).classList.add('active');
+  document.getElementById(b).classList.add('animatepage');
+  let s = { id: "100" }; 
+  // window.history.replaceState(s, this.getAttribute('b'),'/'+b);
+  // document.title='Beckett Clarke - '+b.toProperCase();
+
+}
+function clog(m,c,t,a){
+  if (document.body.classList.contains('verbose')){
+    if (a) {
+      console.log("%c"+t,"color: white; background: "+c+"; padding: 2px 6px; border-radius: 3px; margin-right: 5px;",m,a);
+    } else {
+      console.log("%c"+t,"color: white; background: "+c+"; padding: 2px 6px; border-radius: 3px; margin-right: 5px;",m);
+    }
+  }
+}
+function vlog(m,a){
+  if (document.body.classList.contains('verbose')){
+    clog(m,'green','Verbose',a);
+  }
+}
+vlog('Loaded all functions')
+function err(e,a){
+  clog(e,'red','Error',a);
 }
