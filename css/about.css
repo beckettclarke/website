@@ -56,6 +56,10 @@ page#about{
 .social > img{
   width:48px;
   margin-right:5px;
+  transition:scale .3s ease-out;
+}
+.social:hover > img{
+  scale:1.1;
 }
 .social > span{
   width:100%;
@@ -81,4 +85,8 @@ page#about{
   filter:blur(10px);
   z-index:-3;
   opacity:.3;
+  transition: scale .3s ease-out;
+}
+.social:hover > .blur{
+  scale:7;
 }
