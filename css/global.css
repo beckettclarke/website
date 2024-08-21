@@ -1,11 +1,10 @@
-/* ::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-button{width:6px;height:6px}::-webkit-scrollbar-thumb{background:rgba(0,0,0,.3);border-radius:23px}::-webkit-scrollbar-track{background:transparent;border-radius:50%}::-webkit-scrollbar-corner{background:0 0}@media (prefers-color-scheme:dark){::-webkit-scrollbar-thumb{background:rgba(255,255,255,.3)}} */
 :root{
   --glo-bg:#ababab26;
   --glo-col:white;
   --glo-border:1px solid #ffffff38;
   --glo-filter:blur(10px);
   --fb:"Satoshi";
-  --mt: 550px;
+  --mt: 650px;
 }
 body{
   background:radial-gradient(#1F1F1F,#101010);
@@ -113,4 +112,15 @@ page:not(.active) *{
 .mt{
   color:white;
   font-family:var(--fb);
+}
+
+
+
+@media screen and (max-width: 550px) {
+  #contact input,#contact textarea{
+    font-size:16px !important;
+  }
+  .inputcontainer{
+    grid-column:span 2;
+  }
 }
