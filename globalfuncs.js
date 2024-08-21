@@ -1,7 +1,5 @@
 clog('Loaded script globalfuncs.js','#0066ff','Script');  
-function switchtab(e){
-  console.log(e);
-}
+
 String.prototype.toProperCase = function () {
   return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
 };
@@ -110,9 +108,13 @@ function switchtab(){
   document.querySelectorAll('.active').forEach(function(i){i.classList.remove('active');});
   document.querySelectorAll('.animatepage').forEach(function(y){y.classList.remove('animatepage');});
   var b = this.getAttribute('b');
-  document.getElementById(b).classList.add('active');
-  document.getElementById(b).classList.add('animatepage');
-  let s = { id: "100" }; 
+  var p = document.getElementById(b);
+  p.classList.add('active');
+  p.classList.add('animatepage');
+  document.querySelectorAll('page').forEach(e => {vlog('Disable tabbing for element: ',e);disableTabbing(e);})
+  vlog('Enable tabbing for element: ',p);
+  enableTabbing(p);
+  // let s = { id: "100" }; 
   // window.history.replaceState(s, this.getAttribute('b'),'/'+b);
   // document.title='Beckett Clarke - '+b.toProperCase();
 
@@ -131,7 +133,27 @@ function vlog(m,a){
     clog(m,'green','Verbose',a);
   }
 }
-vlog('Loaded all functions')
+function disableTabbing(e) {
+  e.setAttribute('tabindex', '-1');
+  const f = e.querySelectorAll('button, a, input, textarea, select, [tabindex]');
+  
+  f.forEach(a => {
+      a.setAttribute('tabindex', '-1');
+  });
+}
+function enableTabbing(e) {
+  e.removeAttribute('tabindex');
+  const f = e.querySelectorAll('button, a, input, textarea, select, [tabindex]');
+  f.forEach(a => {
+      a.removeAttribute('tabindex');
+  });
+}
+
+
 function err(e,a){
   clog(e,'red','Error',a);
 }
+
+
+
+vlog('Loaded all functions')

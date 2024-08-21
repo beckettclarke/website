@@ -5,6 +5,7 @@
   --glo-border:1px solid #ffffff38;
   --glo-filter:blur(10px);
   --fb:"Satoshi";
+  --mt: 550px;
 }
 body{
   background:radial-gradient(#1F1F1F,#101010);
@@ -91,12 +92,12 @@ page:not(.active){
 
 page:not(.active) *,page:not(.active){
   pointer-events: none !important;
-  -webkit-touch-callout: none !important;
-  -webkit-user-select: none !important;
-  -khtml-user-select: none !important;
-  -moz-user-select: none !important;
-  -ms-user-select: none !important;
-  user-select: none !important;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 page:not(.active) *{
