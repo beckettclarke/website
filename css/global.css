@@ -121,6 +121,6 @@ page:not(.active) *{
     font-size:16px !important;
   }
   .inputcontainer{
-    grid-column:span 2;
+    grid-column:span 2 !important;
   }
 }
