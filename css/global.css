@@ -38,7 +38,8 @@ header{
   display:flex;
   align-items: center;
   gap:10px;
-  z-index:10000
+  z-index:10000;
+  transition:transform .3s ease;
 }
 
 #headerimg{
@@ -131,6 +132,12 @@ button{
   .inputcontainer{
     grid-column:span 2 !important;
   }
+  #lefticons,#righticons{
+    scale:.5 !important;
+  }
+  header *{
+    font-size:15px !important;
+  }
 }
 
 #banner.enabled{
@@ -156,6 +163,7 @@ button{
   border-radius:7.5px;
   gap:10px;
   align-items: center;
+  z-index:91029307;
 }
 #bannerdot{
   background:linear-gradient(#ff2a2a,rgb(255, 118, 87));

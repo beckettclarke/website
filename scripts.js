@@ -26,3 +26,14 @@ onload = (event) => {
   clog('Page fully loaded','green','Page');
   // switchtab(document.getElementById('homebutton'));
 };
+
+
+let wa = window.innerWidth > 550;
+
+window.addEventListener('resize', () => {
+    const ia = window.innerWidth > 550;
+    if (ia !== wa) {
+        wa = ia;
+        wcu();
+    }
+});

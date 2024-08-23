@@ -93,6 +93,9 @@ page#home{
   bottom:0px;
   right:0px;
 }
+#lefticons,#righticons{
+  transition:scale .3s ease !important;
+}
 
 #home.animatepage #lefticons > *{
   animation: glidebottom .5s var(--iease);

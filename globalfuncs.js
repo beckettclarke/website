@@ -92,19 +92,16 @@ function ace(o, e) {
     i.addEventListener('click', e);
   });
 }
+var csels;
 function switchtab(){
   var e = this;
+  var csels = e;
   document.querySelectorAll('header > button.active').forEach(function(p){p.classList.remove('active');})
   e.classList.add('active');
-  var re = e.getBoundingClientRect();
-  var rh = document.querySelector('header').getBoundingClientRect();
-  var el = re.left - rh.left - 7.5;
+  
   // console.log(document.getElementById('hsel'))
   clog('Switching tab to '+this.getAttribute('b').toProperCase(),'purple','Event');
-  var hs = document.getElementById('hsel');
-  hs.style.left=el+"px";
-  var rw = re.width + 15
-  hs.style.width=rw+"px";
+  updheader(this);
   document.querySelectorAll('.active').forEach(function(i){i.classList.remove('active');});
   document.querySelectorAll('.animatepage').forEach(function(y){y.classList.remove('animatepage');});
   var b = this.getAttribute('b');
@@ -154,6 +151,18 @@ function err(e,a){
   clog(e,'red','Error',a);
 }
 
+function wcu(){
+  updheader(csels);
+}
+function updheader(e){
+  var re = e.getBoundingClientRect();
+  var rh = document.querySelector('header').getBoundingClientRect();
+  var el = re.left - rh.left - 7.5;
+  var hs = document.getElementById('hsel');
+  hs.style.left=el+"px";
+  var rw = re.width + 15
+  hs.style.width=rw+"px";
+}
 
 
 vlog('Loaded all functions')
