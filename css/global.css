@@ -6,13 +6,17 @@
   --fb:"Satoshi";
   --mt: 650px;
 }
+html{
+  background:#101010;
+}
 body{
   background:radial-gradient(#1F1F1F,#101010);
   background-repeat: none;
   width:100vw;
-  min-height:100vh;
+  height:100vh;
   margin:0px;
-  overflow-y:hidden;
+  overflow:scroll;
+  z-index:-5;
 }
 
 header{
@@ -73,16 +77,17 @@ header > button{
 page{
   opacity:0 !important;
   width:100vw;
-  min-height:calc(100vh-75px);
-  margin-top:50px;
-  height:calc(100vh - 75px);
-  padding-bottom:50px;
-  background:#ffffff01;
+  display:block;
+  /* min-height:calc(100vh-75px); */
+  padding:75px 0px;
+  /* height:calc(100vh - 75px); */
+  /* padding-bottom:50px; */
+  /* background:#ffffff01; */
 }
 page.active{
   opacity:1 !important;
-  position:fixed;
-  top:0px;
+  /* position:fixed; */
+  /* top:0px; */
 }
 page:not(.active){
   transition:opacity .3s ease;
