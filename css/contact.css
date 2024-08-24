@@ -119,7 +119,7 @@
   display:block;
   font-family:var(--fb)
 }
-
+/* 
 @media screen and (max-width: var(--mt)) {
   #contact input,#contact textarea{
     font-size:16px !important;
@@ -127,4 +127,8 @@
   .inputcontainer{
     grid-column:span 2;
   }
+} */
+
+header *{
+  transition:font-size .3s ease !important;
 }

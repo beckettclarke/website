@@ -129,9 +129,10 @@ button{
   #contact input,#contact textarea{
     font-size:16px !important;
   }
-  .inputcontainer{
+  .inputcontainer,button{
     grid-column:span 2 !important;
   }
+  
   #lefticons,#righticons{
     scale:.5 !important;
   }
