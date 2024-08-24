@@ -129,6 +129,6 @@
   }
 } */
 
-header *{
+header button{
   transition:font-size .3s ease !important;
 }
