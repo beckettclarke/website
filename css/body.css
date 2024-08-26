@@ -95,6 +95,8 @@ page#home{
 }
 #lefticons,#righticons{
   transition:scale .3s ease !important;
+  user-select:none;
+  pointer-events: none
 }
 
 #home.animatepage #lefticons > *{

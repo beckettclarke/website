@@ -7,11 +7,14 @@
 #work{
   padding-top:50px;
 }
-#work h2,#work span{
+#work h1,#work span{
   color:white;
   text-align: center;
   font-family:var(--fb);
   /* display: flex; */
+}
+#work h1 i{
+  transform:translateY(2px);
 }
 
 #webplaceh{

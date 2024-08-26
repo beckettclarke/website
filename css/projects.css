@@ -2,10 +2,21 @@
   overflow-y:scroll;
 }
 
-#projects.animatepage{
-  animation:gbo .5s ease-out;
+page:not(#home).animatepage{
+  animation:gbo .5s cubic-bezier(0,.63,.54,1);
 }
-@keyframes gbo {0% {transform: translateY(160px);opacity:0;} 100% {transform: translateY(0px);opacity:1;}}
+@keyframes gbo {
+  0% {
+    transform: translateY(160px);
+    opacity:0 !important;
+    filter:blur(10px) opacity(0);
+  } 
+  to {
+    transform: translateY(0px);
+    opacity:1 !important;
+    filter:blur(0px) opacity(1);
+  }
+}
 
 #projtitle{
   text-align: center;
@@ -108,4 +119,8 @@ projgrid{
 
 h1{
   color:white;
+}
+
+#projects h1 i{
+  transform:translateY(2px);
 }
