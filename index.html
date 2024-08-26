@@ -16,12 +16,12 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;800;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,100..700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ItsFoxDev/fa-turbo/css/all.min.css" />
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ItsFoxDev/fa-turbo/css/all.min.css" /> -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
 
     <title>Beckett Clarke</title>
-    <link rel="icon" href="icon.png">
+    <link rel="icon" href="icons/favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
     <meta name="title" content="Beckett - Projects, Socials, and more" />
@@ -38,9 +38,10 @@
     <meta property="twitter:image" content="https://itsfoxdev.github.io/resources/assets/preview.png" />
   </head>
   <body class="verbose" tabindex="-1">
+    <div id="background"></div>
     <header>
       <div id="hsel"></div>
-      <button b="home" class="active" id="homebutton"><img src="./logo.svg" id="headerimg"></button>
+      <button b="home" class="active" id="homebutton"><img src="./icons/logo.svg" id="headerimg"></button>
       <sep></sep>
       <button b="about" class="active" id="aboutbutton">About</button>
       <button b="projects" id="projectsbutton">Projects</button>
@@ -203,11 +204,18 @@
       <div id="logos">
         <div class="logo">
           <a class="logos">
-            <img src="parallax/bg/opportunitynorth.png" class="bg">
-            <img src="parallax/fg/opportunitynorth.png" class="fg">
+            <img src="./icons/parallax/bg/opportunitynorth.png" class="bg">
+            <img src="./icons/parallax/fg/opportunitynorth.png" class="fg">
           </a>
-          <img src="parallax/bg/opportunitynorth.png" class="blur">
+          <img src="./icons/parallax/bg/opportunitynorth.png" class="blur">
           <span class="title">Opportunity North</span>
+        </div><div class="logo">
+          <a class="logos">
+            <img src="./icons/parallax/bg/marcel.png" class="bg">
+            <img src="./icons/parallax/fg/marcel.png" class="fg">
+          </a>
+          <img src="./icons/parallax/bg/marcel.png" class="blur">
+          <span class="title">Marcel</span>
         </div>
         
       </div>
@@ -237,9 +245,9 @@
     </page>
     <a id="banner" class="enabled">
       <div id="bannerdot"></div>
-      <span id="bannertext">This site is in beta | v0.71a</span>
+      <span id="bannertext">This site is in beta | v0.8a</span>
     </a>
-    <script defer>setTimeout(function(){document.getElementById('homebutton').click();},50)</script>
+    <script defer>setTimeout(function(){document.getElementById('homebutton').click();},100)</script>
     <script defer src="scripts.js" defer></script>
   </body>
 </html>

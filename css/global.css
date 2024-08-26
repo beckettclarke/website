@@ -10,15 +10,21 @@ html{
   background:#101010;
 }
 body{
-  background:radial-gradient(#1F1F1F,#101010);
-  background-repeat: none;
   width:100vw;
   height:100vh;
   margin:0px;
   overflow:scroll;
   z-index:-5;
 }
-
+#background{
+  background:radial-gradient(#1F1F1F,#101010);
+  position:fixed;
+  width:100vw;
+  height:100vh;
+  z-index:-400;
+  background-repeat: none;
+  background-position: center;
+}
 header{
   backdrop-filter: var(--glo-filter);
   -webkit-backdrop-filter: var(--glo-filter);
@@ -129,7 +135,7 @@ button{
   #contact input,#contact textarea{
     font-size:16px !important;
   }
-  .inputcontainer,button{
+  .inputcontainer,#formarea > button{
     grid-column:span 2 !important;
   }
   

@@ -95,7 +95,7 @@ function ace(o, e) {
 var csels;
 function switchtab(){
   var e = this;
-  var csels = e;
+  csels = e;
   document.querySelectorAll('header > button.active').forEach(function(p){p.classList.remove('active');})
   e.classList.add('active');
   
@@ -152,9 +152,12 @@ function err(e,a){
 }
 
 function wcu(){
-  updheader(csels);
+  vlog('Window resize between 550px threshold detected')
+  // setTimeout(function(){updheader(csels)},200);
+  rf200();
 }
 function updheader(e){
+  vlog('Updating header selection position')
   var re = e.getBoundingClientRect();
   var rh = document.querySelector('header').getBoundingClientRect();
   var el = re.left - rh.left - 7.5;
@@ -162,6 +165,18 @@ function updheader(e){
   hs.style.left=el+"px";
   var rw = re.width + 15
   hs.style.width=rw+"px";
+}
+function rf200() {
+  let s = Date.now();
+
+  const i = setInterval(() => {
+      updheader(csels);
+
+      // Check if 200ms have passed
+      if (Date.now() - s >= 250) {
+          clearInterval(i);
+      }
+  }, 0); // Set interval to 0ms for no delay
 }
 
 

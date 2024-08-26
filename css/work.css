@@ -48,15 +48,25 @@
   width:128px;
   position: absolute;
   transition:scale .3s ease;
+  z-index:4;
 }
 .logo .blur{
   width:128px;
   position: absolute;
-  z-index:-10;
+  z-index:2;
   filter:blur(20px);
   opacity:.4;
   border-radius:10px;
   transition:opacity .3s ease-out;
+}
+
+@keyframes fontpreload{
+  0%{
+    font-weight:bold;
+  }
+  100%{
+    font-size:normal;
+  }
 }
 
 .logo:hover .bg{scale:1.2;}
@@ -71,4 +81,5 @@
   text-align: center;
   width:128px;
   transition:font-weight .3s ease;
+  animation: fontpreload 1s ease-out once;
 }
