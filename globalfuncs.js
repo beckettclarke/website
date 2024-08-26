@@ -117,12 +117,10 @@ function switchtab(){
 
 }
 function clog(m,c,t,a){
-  if (document.body.classList.contains('verbose')){
-    if (a) {
-      console.log("%c"+t,"color: white; background: "+c+"; padding: 2px 6px; border-radius: 3px; margin-right: 5px;",m,a);
-    } else {
-      console.log("%c"+t,"color: white; background: "+c+"; padding: 2px 6px; border-radius: 3px; margin-right: 5px;",m);
-    }
+  if (a) {
+    console.log("%c"+t,"color: white; background: "+c+"; padding: 2px 6px; border-radius: 3px; margin-right: 5px;",m,a);
+  } else {
+    console.log("%c"+t,"color: white; background: "+c+"; padding: 2px 6px; border-radius: 3px; margin-right: 5px;",m);
   }
 }
 function vlog(m,a){
