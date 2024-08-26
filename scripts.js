@@ -24,6 +24,8 @@ switch (document.readyState) {
 
 onload = (event) => {
   clog('Page fully loaded','green','Page');
+  document.getElementById('homebutton').click();
+  vlog('Switching to home via completion script');
   // switchtab(document.getElementById('homebutton'));
 };
 
