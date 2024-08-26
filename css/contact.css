@@ -5,6 +5,14 @@
   font-size:45px;
 }
 
+page#contact{
+  top:0px;
+}
+
+.inicon{
+  user-select:none !important;
+}
+
 #formarea{
   display:grid;
   grid-template-columns: 1fr 1fr;
