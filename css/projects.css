@@ -21,6 +21,7 @@ page:not(#home).animatepage{
 #projtitle{
   text-align: center;
   font-family:var(--fb);
+  user-select:none;
 }
 
 /* #projects.animatepage > *{
@@ -51,6 +52,7 @@ project{
 
 .pimg{
   width:48px;
+  user-select: none;
 }
 .pblur{
   filter:blur(25px);
@@ -63,6 +65,8 @@ project{
   scale:1.4;
   opacity:.15;
   /* display:none; */
+  user-select: none;
+  pointer-events: none;
 }
 
 .ptitle{
@@ -97,6 +101,7 @@ project{
   box-sizing:border-box;
   font-family:Inter;
   align-items:center;
+  user-select: none;
 }
 
 projgrid{
@@ -104,7 +109,7 @@ projgrid{
   flex-wrap:wrap;
   align-items: center;
   justify-content: center;
-  max-width:1000px;
+  max-width:1250px;
   margin:auto;
   width:calc(100vw - 50px);
   gap:10px;
@@ -115,6 +120,7 @@ projgrid{
   font-size:10px;
   text-transform: uppercase;
   margin:0px;
+  user-select:none;
 }
 
 h1{

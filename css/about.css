@@ -21,6 +21,7 @@ page#about{
 #ast{
   margin-top:50px;
   text-align: center;
+  user-select: none;
 }
 #socials{
   width:calc(100vw - 50px);
@@ -58,6 +59,7 @@ page#about{
   margin-right:5px;
   transition:scale .3s ease-out;
   z-index:5;
+  user-select: none;
 }
 .social:hover > img{
   scale:1.1;
@@ -88,6 +90,8 @@ page#about{
   z-index:1;
   opacity:.3;
   transition: scale .3s ease-out;
+  user-select: none;
+  pointer-events: none;
 }
 .social:hover > .blur{
   scale:7;
