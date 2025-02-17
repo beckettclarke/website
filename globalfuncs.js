@@ -12,7 +12,7 @@ function sendEmail(){
   var subject = 'Request from ' + name + ' | #CF' + Math.floor(Math.random() * 1000000000);
   var body = '👤 Name: ' + name + '\n📧 Email: ' + email + '\n📄 Message:\n\n' + message;
   console.log(subject);
-  var mte='mailto:beckettpublic@gmail.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+  var mte='mailto:contact@beckettclarke.ca?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
   window.open(mte, '_blank').focus();
 
   
