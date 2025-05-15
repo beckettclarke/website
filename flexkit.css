@@ -1,0 +1,17 @@
+/* ===[ 👁️ DISPLAYS ]================== */
+*[block]{display:block;}
+*[inline]{display:inline}
+*[inline][block]{display:inline-block;}
+flex,*[flex]{display:flex;}
+vflex,*[vflex]{display:flex;flex-direction:column;}
+grid,*[grid]{display:grid;}
+*[hide]{display:none;}
+
+/* ===[ 📐 SIZES ]====================== */
+*[maxwidth]{width:100%;}
+*[maxheight]{height:100%;}
+*[screenwidth]{width:100vw;}
+*[screenheight]{height:100vh;}
+
+*[center]{align-items:center;align-content:center;justify-content:center;text-align:center;}
+
