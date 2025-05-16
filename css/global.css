@@ -137,3 +137,21 @@ content{
   0% { opacity:0; transform:translateY(25px) rotateX(-10deg); }
   100% { opacity:1; transform:translateY(0) rotateX(0deg); }
 }
+
+@font-face {
+  font-family: 'Font Awesome 6';
+  font-style: normal;
+  font-weight: 900;
+  src: url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/webfonts/fa-solid-900.woff2') format('woff2'),
+       url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/webfonts/fa-solid-900.woff') format('woff');
+}
+
+span.fas {
+  font-family: 'Font Awesome 6', sans-serif !important;
+  font-weight: 900;
+}
+.half{
+  opacity:.4;
+  position:absolute;
+  right:15px;
+}

@@ -53,6 +53,7 @@ header  button:hover, header a:hover,header button.active,header a.active{
   perspective:2000px;
   transform:translateX(-85px) translateY(5px);
 }
+
 .dropdown-content{
   position:fixed;
   border:1px solid var(--border);
@@ -79,4 +80,11 @@ header  button:hover, header a:hover,header button.active,header a.active{
 .hic{
   border-radius:5px;
   scale:.84;
+}
+
+#clientdropdown{
+  transform:translateX(-115px) translateY(5px);
+}
+#clientdropdown .dropdown-content{
+  width:300px;
 }
