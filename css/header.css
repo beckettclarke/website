@@ -2,20 +2,21 @@
   box-shadow:0 0px 0px 1px rgba(0,0,0,.06),0 1px 1px -0.5px rgba(0,0,0,.06),0 3px 3px -1.5px rgba(0,0,0,.06),0 6px 6px -3px rgba(0,0,0,.06),0 12px 12px -6px rgba(0,0,0,.04),0 24px 24px -12px rgba(0,0,0,.04),0 24px 24px 2px rgba(0,0,0,.1)
 }
 header{
-  display: flex;
-  align-items: center;
-  gap:15px;
-  padding: 15px 20px;
+  z-index:100;
   background-color: var(--overlay);
-  backdrop-filter:blur(10px);
+  backdrop-filter:blur(20px);
   box-shadow: var(--shadow);
   position: fixed;
   top:0px;
   width:100vw;
-}
-header{
   border-bottom: 1px solid transparent;
   transition:border 0.2 ease;
+}
+header > div{
+display: flex;
+  align-items: center;
+  gap:15px;
+  padding: 15px 20px;
 }
 
 body.scrolled header {
@@ -45,7 +46,7 @@ header a{
 header a img{
   width:25px;
 }
-header > button:hover, header a:hover{
+header  button:hover, header a:hover,header button.active,header a.active{
   background-color: var(--border);
 }
 .dropdown{

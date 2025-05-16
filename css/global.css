@@ -1,34 +1,139 @@
-body{
-  margin:0px;
+body {
+  margin: 0px;
+  background: var(--background);
+  width: 100vw;
+  padding-top: 75px;
+}
+html{
   background:var(--background);
-  width:100vw;
-  padding-top:75px;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root{
-    --background: rgb(24,24,25);
+  :root {
+    --background: #181819;
     --overlay: rgba(24, 24, 25, 0.796);
-    --foreground:#181819;
+    --foreground: #1e1e20;
     --border: rgba(255, 255, 255, 0.1);
     --text-color: #fff;
   }
 }
 
 @media (prefers-color-scheme: light) {
-  :root{
-  --background: #FAFAFA;
-  --overlay: #FAFAFA80;
-  --foreground:#fff;
-  --border: rgba(0, 0, 0, 0.1);
-  --text-color: #000;
+  :root {
+    --background: #FAFAFA;
+    --overlay: #FAFAFA80;
+    --foreground: #fff;
+    --border: rgba(0, 0, 0, 0.1);
+    --text-color: #000;
   }
-  .lightinvert{
+
+  .lightinvert {
     filter: invert(1);
   }
 }
 
-*{
-  color:var(--text-color);
+* {
+  color: var(--text-color);
   font-family: 'Inter', sans-serif;
+}
+
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+  background:var(--background);
+}
+
+::-webkit-scrollbar-button {
+  width: 6px;
+  height: 6px
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, .3);
+  border-radius: 23px
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 50px
+}
+
+::-webkit-scrollbar-corner {
+  /* background: 0 0 */
+  background:var(--background);
+}
+
+@media (prefers-color-scheme:dark) {
+  ::-webkit-scrollbar-thumb {
+    /* background: rgba(255, 255, 255, .3) */
+    background:var(--border);
+  }
+}
+
+content{
+  display:flex;
+  flex-direction:column;
+  padding:0px 25px;
+}
+
+.mw{
+  max-width:800px;
+  margin:0 auto;
+}
+
+.pageimage{
+  width: 100%;
+  height: auto;
+}
+
+.round{
+  border-radius: 10px;
+}
+
+.spin{
+  animation: spin .5s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.loader{
+  width:50px;
+}
+.fakeload{
+  position: relative;
+  overflow:hidden;
+}
+.fakeload .overlay{
+
+  animation:reveal 1s ease forwards;
+}
+@keyframes reveal {
+  0% { opacity:1;backdrop-filter:blur(20px); }
+  80% { opacity:1;backdrop-filter:blur(20px); }
+  100% { opacity: 0; backdrop-filter: blur(0px); }
+}
+.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(20px);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap:10px;
+  justify-content: center;
+}
+
+.anim{
+  animation: fadein 0.5s ease forwards;
+}
+@keyframes fadein {
+  0% { opacity:0; transform:translateY(25px) rotateX(-10deg); }
+  100% { opacity:1; transform:translateY(0) rotateX(0deg); }
 }
