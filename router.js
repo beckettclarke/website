@@ -26,32 +26,12 @@ async function loadpage(page){
   log(`Loading page: ${normalizedPage}`, '#00cc88', '🔁 Page');
   const contentElement = document.getElementsByTagName('content')[0];
   contentElement.classList.remove('anim');
-  setTimeout(function(){contentElement.classList.add('anim')},1);
   if (contentElement) {
-    const html = await fetch(`pages/${normalizedPage}.html`).then(response => {
-      if (!response.ok) {
-        log(`Page not found: ${normalizedPage}`, '#ff0000', '🚫 Error');
-      }
-      return response.text();
-    });
-    contentElement.innerHTML = html;
-
-    // Wait for all images in the new content to load
-    const images = Array.from(contentElement.querySelectorAll('img'));
-    if (images.length > 0) {
-      await Promise.all(images.map(img => {
-        if (img.complete) return Promise.resolve();
-        return new Promise(resolve => {
-          img.onload = img.onerror = resolve;
-        });
-      }));
-    }
-
-    contentElement.classList.add('anim');
     contentElement.innerHTML = await fetch(`pages/${normalizedPage}.html`).then(response => {
       if (!response.ok) {
         log(`Page not found: ${normalizedPage}`, '#ff0000', '🚫 Error');
       }
+      contentElement.classList.add('anim');
       return response.text();
     });
   } else {
