@@ -1,5 +1,5 @@
 #hero{
-  height:calc(100vh - 75px);
+  height:calc(60vh - 75px);
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -32,4 +32,8 @@
 }
 .social img{
   height:35px;
+}
+
+#maintitle{
+  margin-top:0px;
 }

@@ -1,24 +1,35 @@
 log('Loaded script router.js', '#0066ff', '📜 Script');
 
 const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
-// const useHashRouting = !isLiveSite; // clean URLs only on real domain
+// const useHashRouting = !isLiveSite; // clean urls only on real domain but not real right now
 
 log(`Routing mode: ${isLocal ? 'Hash' : 'Clean'}`, '#00cc88', '🔁 Mode');
 
 // === ROUTER ===
 function checkpage(){
-  if (location.pathname=="/"){
+  if (location.pathname=="/" || location.pathname=="/index.html") {
     if (location.hash && isLocal && location.hash !== "#/") {
+      console.log('Hash detected in local mode:', location.hash);
       loadpage(location.hash.replace('#', ''));
     } else if (location.hash && location.hash !== "#/") {
+      console.log('Hash detected:', location.hash);
       loadpage(location.hash.replace('#', ''));
       // Remove the hash from the URL without reloading
       const newPath = location.hash.replace(/^#/, '');
       history.replaceState(null, '', newPath.startsWith('/') ? newPath : '/' + newPath);
     } else {
+      // No hash path found, fallback to home page
       loadpage('home');
     }
   }
+}
+
+function parsePage(){
+  log('Parsing page...', 'darkblue', '🔍 Parse');
+  get.queryAll('img[largeview]').forEach(e => {
+    e.addEventListener('click', function() {largeview(e.getAttribute('src'));});
+  });
+  log('Page parsed successfully', 'darkgreen', '🔍 Parse');
 }
 
 async function loadpage(page){
@@ -32,6 +43,9 @@ async function loadpage(page){
         log(`Page not found: ${normalizedPage}`, '#ff0000', '🚫 Error');
       }
       contentElement.classList.add('anim');
+      setTimeout(() => {
+        parsePage();
+      }, 100);
       return response.text();
     });
   } else {
@@ -40,8 +54,9 @@ async function loadpage(page){
 }
 
 setTimeout(() => {
+  console.log('Loadtime check');
   checkpage();
-},10)
+},100);
 
 function linkClick(e){
   if (isLocal){
@@ -66,3 +81,4 @@ document.addEventListener('click', function(e) {
     linkClick(anchor); // Run this instead of normal href behavior
   }
 });
+
