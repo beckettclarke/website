@@ -1,5 +1,6 @@
 #hero{
-  height:calc(60vh - 75px);
+  height:calc(100vh - 450px);
+  /* min-height:400px; */
   display:flex;
   flex-direction:column;
   justify-content:center;
@@ -37,3 +38,7 @@
 #maintitle{
   margin-top:0px;
 }
+#glowlogo{
+  margin-bottom:-15%;
+}
+

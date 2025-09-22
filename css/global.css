@@ -36,10 +36,27 @@ html{
     filter: invert(1);
   }
 }
-
+@media (max-width: 550px) {
+  :root {
+    --fsm: 1;
+    --maxwidth:450px;
+  }
+}
+@media (min-width: 551px) and (max-width: 900px) {
+  :root {
+    --fsm: 1.3;
+    --maxwidth:500px;
+  }
+}
+@media (min-width: 901px) {
+  :root {
+    --fsm: 1.6;
+    --maxwidth:800px;
+  }
+}
 * {
   color: var(--text-color);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Satoshi', sans-serif;
 }
 
 
@@ -83,7 +100,7 @@ content{
 }
 
 .mw{
-  max-width:800px;
+  max-width:var(--maxwidth);
   margin:0 auto;
 }
 
@@ -290,3 +307,15 @@ height:100%;
   scale:1;
 
 }
+
+
+    canvas {
+      display: block;
+    }
+
+    .vflex{
+      display:flex;
+      align-items:center;
+      /* justify-content:center; */
+      gap:10px;
+    }
