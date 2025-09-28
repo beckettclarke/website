@@ -43,6 +43,7 @@ async function loadpage(page){
         log(`Page not found: ${normalizedPage}`, '#ff0000', '🚫 Error');
       }
       contentElement.classList.add('anim');
+      window.scrollTo(0,0);
       setTimeout(() => {
         parsePage();
       }, 100);
