@@ -2,7 +2,18 @@ log('Loaded scripts.js','#0066ff','📜 Script');
 (async function() {
 	get.id('header').innerHTML = await fetch('header.html').then(response => response.text());
 })();
+(async function() {
+	get.id('footer').innerHTML = await fetch('footer.html').then(response => response.text());
+})();
 
+
+/// TEMP CODE
+
+// setTimeout(() => {
+//   window.scrollTo(0, document.body.scrollHeight);
+// }, 300);
+
+/// END TEMP CODE
 
 window.addEventListener('scroll', () => {
   if (window.scrollY > 0) {

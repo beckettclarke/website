@@ -88,3 +88,25 @@ header  button:hover, header a:hover,header button.active,header a.active{
 #clientdropdown .dropdown-content{
   width:300px;
 }
+
+/* ===[ Footer ]================= */
+footer{
+  padding:30px;
+  background:linear-gradient(transparent, rgba(255, 166, 0, 0.185));
+  z-index: 10;
+  position: absolute;
+  width: 100vw;
+}
+
+.flex{
+  display:flex;
+}
+footer{
+  display:grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap:20px;
+}
+footer h1{
+  /* font-size:24px; */
+  margin:0;
+}
