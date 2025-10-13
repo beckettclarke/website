@@ -131,3 +131,37 @@
   padding:0px !important;
   gap:10px;
 }
+#socialsgrid{
+  display:grid;
+  grid-template-columns: repeat(4, 25%);
+  gap:10px;
+  width:100%;
+  overflow:hidden;
+}
+.sociallink{
+  display:flex;
+  max-width: 100%;
+  width:100%;
+  height:100%;
+  font-size:16px;
+  align-items:center;
+  /* justify-content:center; */
+  gap:10px;
+  text-decoration: none;
+  border-radius:10px;
+  padding:10px 8px;
+  box-sizing:border-box;
+  text-decoration: none;
+  cursor:pointer;
+  border:1px solid transparent;
+  box-sizing:border-box;
+  transition:all .1s ease-out;
+}
+.sociallink:hover{
+  filter:brightness(1.2);
+  background:var(--foreground);
+  border:1px solid var(--border);
+}
+.sociallink i{
+  font-size:23px;
+}
