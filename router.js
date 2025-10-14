@@ -40,7 +40,9 @@ async function loadpage(page){
   const contentElement = document.getElementsByTagName('content')[0];
   contentElement.classList.remove('anim');
   if (contentElement) {
-    contentElement.innerHTML = await fetch(`pages/${normalizedPage}.html`).then(response => {
+    // Use an absolute path so the request is always made to the site's /pages/ folder
+    // (avoids resolving "pages/..." relative to a subpath like /clients/)
+    contentElement.innerHTML = await fetch(`/pages/${normalizedPage}.html`).then(response => {
       if (!response.ok) {
         log(`Page not found: ${normalizedPage}`, '#ff0000', '🚫 Error');
       }
