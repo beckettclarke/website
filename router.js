@@ -71,6 +71,7 @@ function linkClick(e){
   } else {
     history.pushState(null, null, location.origin+e.getAttribute('href'));
     log(`Routing ${location.origin}${e.getAttribute('href')}`, '#00cc88', '🔁 Clean');
+    loadpage(e.getAttribute('href'));
   }
   checkpage();
 }
