@@ -34,6 +34,7 @@ function parsePage(){
 }
 
 async function loadpage(page){
+  log(`Requested page: ${page}`, '#00cc88', '🔁 Page');
   const normalizedPage = page.replace(/\//g, '_').replace(/^_+|_+$/g, '');
   log(`Loading page: ${normalizedPage}`, '#00cc88', '🔁 Page');
   const contentElement = document.getElementsByTagName('content')[0];
@@ -45,6 +46,7 @@ async function loadpage(page){
       }
       contentElement.classList.add('anim');
       window.scrollTo(0,0);
+      log(`Page loaded: ${normalizedPage}`, 'darkgreen', '✅ Loaded');
       setTimeout(() => {
         parsePage();
       }, 100);
