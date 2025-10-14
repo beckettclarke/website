@@ -35,7 +35,10 @@ function parsePage(){
 
 async function loadpage(page){
   log(`Requested page: ${page}`, '#00cc88', '🔁 Page');
-  const normalizedPage = page.replace(/\//g, '_').replace(/^_+|_+$/g, '');
+  // Normalize page: remove leading/trailing slashes, convert inner slashes to underscores
+  // If the result is empty, default to 'home' to avoid fetching `/pages/.html`.
+  const pageStr = String(page || '');
+  const normalizedPage = pageStr.replace(/^\/+/g, '').replace(/\/+$/g, '').replace(/\//g, '_') || 'home';
   log(`Loading page: ${normalizedPage}`, '#00cc88', '🔁 Page');
   const contentElement = document.getElementsByTagName('content')[0];
   contentElement.classList.remove('anim');
@@ -69,13 +72,19 @@ window.addEventListener('popstate', () => {
 });
 
 function linkClick(e){
+  const hrefValue = e.getAttribute('href') || '';
+  const dest = new URL(hrefValue, location.origin);
+  const destPath = dest.pathname || '/';
   if (isLocal){
-    history.pushState(null, null, location.origin+"#"+e.getAttribute('href'));
-    log(`Routing ${location.origin}#${e.getAttribute('href')}`, '#00cc88', '🔁 Hash');
+    // Use hash routing for local mode
+    history.pushState(null, null, location.origin + '#' + hrefValue);
+    log(`Routing ${location.origin}#${hrefValue}`, '#00cc88', '🔁 Hash');
   } else {
-    history.pushState(null, null, location.origin+e.getAttribute('href'));
-    log(`Routing ${location.origin}${e.getAttribute('href')}`, '#00cc88', '🔁 Clean');
-    loadpage(e.getAttribute('href'));
+    // Push only the pathname (browser will resolve with the same origin)
+    history.pushState(null, null, destPath + (dest.search || '') + (dest.hash || ''));
+    log(`Routing ${location.origin}${destPath}`, '#00cc88', '🔁 Clean');
+    // Call loadpage with the pathname so it normalizes correctly
+    loadpage(destPath);
   }
   checkpage();
 }
