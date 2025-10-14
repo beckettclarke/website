@@ -96,6 +96,7 @@ footer{
   background:linear-gradient(transparent, rgba(255, 166, 0, 0.185));
   z-index: 10;
   position: absolute;
+  padding:30px max(40px, calc(100vw - 1000px) / 2 + 30px);
   width: 100vw;
 }
 
@@ -126,4 +127,11 @@ footer h1{
   height:1px;
   background:var(--border);
   margin-bottom:20px;
+}
+
+#subfooter{
+  text-align: center;
+  grid-column: span 3;
+  opacity:.4;
+  font-weight:bold;
 }

@@ -280,6 +280,9 @@ height:100%;
   scale:1.2;
 }
 
+img[largeview]{
+  cursor:pointer;
+}
 
 #largeview{
   position:fixed;
@@ -331,8 +334,9 @@ height:100%;
 
 
 .maxwidthresize{
-  width:100%;
-  height:250px;
+  /* width:100%;
+  height:250px; */
+  min-height:300px;
   object-fit:cover;
 }
 .ci {
@@ -342,4 +346,15 @@ height:100%;
 
 .hide{
   display:none;
+}
+
+span.fas.half{
+  width:fit-content;
+}
+
+*[nodrag], *[nodrag] * {
+  user-select: none;
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+
 }
