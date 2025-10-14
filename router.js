@@ -59,6 +59,10 @@ setTimeout(() => {
   console.log('Loadtime check');
   checkpage();
 },100);
+// Listen for history changes (back/forward navigation)
+window.addEventListener('popstate', () => {
+  checkpage();
+});
 
 function linkClick(e){
   if (isLocal){
