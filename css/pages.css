@@ -1,10 +1,21 @@
 #hero{
-  height:calc(100vh - 450px);
+  height:calc(100vh - 550px);
   /* min-height:400px; */
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
+}
+#glowlogo{
+  /* max-width:800px; */
+  object-fit:contain;
+  max-height:400px;
+  /* margin:0 auto; */
+}
+@media (max-width: 600px) {
+  #hero{
+    height:calc(100vh - 450px);
+  }
 }
 #maintitle{
   font-size: 50px;
@@ -12,6 +23,16 @@
   color: var(--text-color);
   text-align: center;
   margin-bottom: 10px;
+}
+#subtitle{
+  margin:0px;
+}
+@media (max-width: 600px) {
+  #maintitle{
+    font-size: 37px;
+  }
+  #hero{
+  height:calc(100vh - 400px);}
 }
 #socialsgrid{
   display:flex;

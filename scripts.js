@@ -9,9 +9,9 @@ log('Loaded scripts.js','#0066ff','📜 Script');
 
 /// TEMP CODE
 
-setTimeout(() => {
-  window.scrollTo(0, document.body.scrollHeight);
-}, 300);
+// setTimeout(() => {
+//   window.scrollTo(0, document.body.scrollHeight);
+// }, 300);
 
 /// END TEMP CODE
 

@@ -1,6 +1,7 @@
 log('Loaded script router.js', '#0066ff', '📜 Script');
 
-const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
+// const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
+const isLocal = true;
 // const useHashRouting = !isLiveSite; // clean urls only on real domain but not real right now
 
 log(`Routing mode: ${isLocal ? 'Hash' : 'Clean'}`, '#00cc88', '🔁 Mode');
