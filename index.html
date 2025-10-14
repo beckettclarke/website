@@ -1,17 +1,20 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/body.css">
-    <link rel="stylesheet" href="css/projects.css">
-    <link rel="stylesheet" href="css/contact.css">
-    <link rel="stylesheet" href="css/work.css">
-    <link rel="stylesheet" href="css/about.css">
     <link rel="stylesheet" href="https://beckettclarke.github.io/resources/fonts/satoshi/import.css">
     <!-- <script src="scripts.js" defer></script> -->
     <script src="globalfuncs.js" defer></script>
-
-
+    <script src="flexkit.js" defer></script>
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/pages.css">
+    <link rel="stylesheet" href="css/bento.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.0.0/css/all.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.0.0/css/sharp-solid.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.0.0/css/sharp-regular.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.0.0/css/sharp-light.css">
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v7.0.0/css/duotone.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;800;900&display=swap" rel="stylesheet">
@@ -19,6 +22,14 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ItsFoxDev/fa-turbo/css/all.min.css" /> -->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 
+    <script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ie Ts Ms Ee Es Rs capture Ge calculateEventProperties Os register register_once register_for_session unregister unregister_for_session js getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ds Fs createPersonProfile Ls Ps opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Cs debug I As getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init('phc_r0npcFJURhQDqmuHut0uUifgFbigkTfH3j2NM7bGhFT', {
+          api_host: 'https://us.i.posthog.com',
+          defaults: '2025-05-24',
+          person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+      })
+    </script>
 
     <title>Beckett Clarke</title>
     <link rel="icon" href="icons/favicon.png">
@@ -39,223 +50,21 @@
   </head>
   <body class="" tabindex="-1">
     <div id="background"></div>
-    <header>
-      <div id="hsel"></div>
-      <button b="home" class="active" id="homebutton"><img src="./icons/logo.svg" id="headerimg"></button>
-      <sep></sep>
-      <button b="about" class="active" id="aboutbutton">About</button>
-      <button b="projects" id="projectsbutton">Projects</button>
-      <button b="work" id="workbutton">Work</button>
-      <button b="contact" id="contactbutton">Contact</button>
-    </header>
-    <page id="home">
-      <div id="homecontent">
-        <h1 id="bt">Hi, I'm Beckett.</h1>
-        <h2 id="bts">I make websites</h2>
-        <button id="btb">My Projects <i class='bx bx-right-arrow-alt' ></i></button>
-      </div>
-      <div id="lefticons">
-        <img src="icons/home/l1.png" id="il1">
-        <img src="icons/home/l2.png" id="il2">
-        <img src="icons/home/l3.png" id="il3">
-      </div>
-      <div id="righticons">
-        <img src="icons/home/r1.png" id="ir1">
-        <img src="icons/home/r2.png" id="ir2">
-        <img src="icons/home/r3.png" id="ir3">
-      </div>
-    </page>
-    <page id="about">
-      <div id="aboutcontent">
-        <h1 id="ah" class="mt">I'm Beckett</h1>
-        <h2 id="as" class="mt">I'm a high school student who likes rowing, skiing, photography, and graphic design.</h2>
-        <!-- <p id="ad" class="mt">I'm a high school student in Toronto who likes to make websites, .</p> -->
-        <h3 id="ast" class="mt">Find me on:</h3>
-        <div id="socials">
-          <a class="social" href="https://github.com/beckettclarke">
-            <img class="blur" src="./icons/socials/github.png">
-            <img src="./icons/socials/github.png">
-            <span class="stitle"><b>GitHub</b>Where I host my projects</span>
-          </a>
-          <a class="social" href="https://codepen.io/ItsFoxDev">
-            <img class="blur" src="./icons/socials/codepen.png">
-            <img src="./icons/socials/codepen.png">
-            <span class="stitle"><b>Codepen</b>Where I test random ideas</span>
-          </a>
-          <a class="social" href="https://scratch.mit.edu/users/ItsFoxDev">
-            <img class="blur" src="./icons/socials/scratch.png">
-            <img src="./icons/socials/scratch.png">
-            <span class="stitle"><b>Scratch</b>Sometimes make stuff here</span>
-          </a>
-          <a class="social" href="https://steamcommunity.com/id/itsfoxdev/">
-            <img class="blur" src="./icons/socials/steam.png">
-            <img src="./icons/socials/steam.png">
-            <span class="stitle"><b>Steam</b>Video games I play</span>
-          </a>
-          <a class="social" href="https://youtube.com/@imfoxdev">
-            <img class="blur" src="./icons/socials/youtube.png">
-            <img src="./icons/socials/youtube.png">
-            <span class="stitle"><b>YouTube</b>Don't really post anymore</span>
-          </a>
-          <a class="social" href="https://macosicons.com/#/u/foxdev">
-            <img class="blur" src="./icons/socials/macosicons.png">
-            <img src="./icons/socials/macosicons.png">
-            <span class="stitle"><b>MacOS Icons</b>Some cool icons I made</span>
-          </a>
-          <a class="social" href="mailto:beckettpublic@gmail.com">
-            <img class="blur" src="./icons/socials/email.png">
-            <img src="./icons/socials/email.png">
-            <span class="stitle"><b>Email</b>For general inquiries</span>
-          </a>
-          <a class="social" href="https://sky.shiiyu.moe/stats/_pvpfox/Papaya">
-            <img class="blur" src="./icons/socials/skycrypt.png">
-            <img src="./icons/socials/skycrypt.png">
-            <span class="stitle"><b>SkyCrypt</b>My Hypixel Skyblock stats</span>
-          </a>
-          <a class="social" href="https://sky.shiiyu.moe/stats/_pvpfox/Papaya">
-            <img class="blur" src="./icons/socials/concept2.png">
-            <img src="./icons/socials/concept2.png">
-            <span class="stitle"><b>Concept2</b>Erg stats (Rowing)</span>
-          </a>
-        </div>
-      </div>
-    </page>
-    <page id="projects">
-      <h1 id="projtitle" style="--ad:.1s;"><i class='bx bx-globe'></i> Websites</h1>
-      <projgrid id="websites">
-        <project>
-          <img src="icons/imagesnap.png" class="pblur">
-          <img src="icons/imagesnap.png" class="pimg">
-          <h1 class="ptitle">Imagesnap<br>
-          <span class="psub">Website </span></h1>
-          <a href="https://beckettclarke.github.io/imagesnap" class="pbutton">Launch <i class='bx bx-link-external' ></i></a>
-          <p class="pdesc">A speedy image converter website</p>
-        </project>
-        <project>
-          <img src="icons/pastezone.png" class="pblur">
-          <img src="icons/pastezone.png" class="pimg">
-          <h1 class="ptitle">Pastezone<br>
-          <span class="psub">WEBSITE</span></h1>
-          <a href="https://beckettclarke.github.io/pastezone" class="pbutton">Launch <i class='bx bx-link-external' ></i></a>
-          <p class="pdesc">A basic temporary text editor</p>
-        </project>
-        <project>
-          <img src="icons/separator.png" class="pblur">
-          <img src="icons/separator.png" class="pimg">
-          <h1 class="ptitle">Separator<br>
-          <span class="psub">Website</span></h1>
-          <a href="https://beckettclarke.github.io/separator" class="pbutton">Get it <i class='bx bx-link-external' ></i></a>
-          <p class="pdesc">Get separators for your bookmark bar</p>
-        </project>
-      </projgrid>
-      <h1 id="projtitle"><i class='bx bx-code-alt' ></i> Scripts</h1>
-      <projgrid id="userscripts">
-        <project>
-          <img src="icons/dash.png" class="pblur">
-          <img src="icons/dash.png" class="pimg">
-          <h1 class="ptitle">dash.<br>
-          <span class="psub">BOOKMARKLET</span></h1>
-          <a href="https://beckettclarke.github.io/dash/" class="pbutton">Install <i class='bx bx-down-arrow-alt' ></i></a>
-          <p class="pdesc">The only web tool you'll ever need</p>
-        </project>
-        <project>
-          <img src="icons/rickstopper.png" class="pblur">
-          <img src="icons/rickstopper.png" class="pimg">
-          <h1 class="ptitle">Rickstopper<br>
-          <span class="psub">USERSCRIPT</span></h1>
-          <a href="https://beckettclarke.github.io/projects/js/rickstopper/install/" class="pbutton">Install <i class='bx bx-down-arrow-alt' ></i></a>
-          <p class="pdesc">An automatic rickroll blocker</p>
-        </project>
-        <project>
-          <img src="icons/qlbypass.png" class="pblur">
-          <img src="icons/qlbypass.png" class="pimg">
-          <h1 class="ptitle">QLBypass<br>
-          <span class="psub">USERSCRIPT</span></h1>
-          <a href="https://beckettclarke.github.io/projects/js/qlbypass/" class="pbutton">Install <i class='bx bx-down-arrow-alt' ></i></a>
-          <p class="pdesc">A simple bypass for the Quora login</p>
-        </project>
-      </projgrid>
-      <h1 id="projtitle"><i class='bx bx-pointer' ></i> Minisites</h1>
-      <projgrid id="randomstuff">
-        <project>
-          <img src="icons/bakesquadindex.png" class="pblur">
-          <img src="icons/bakesquadindex.png" class="pimg">
-          </div>
-          <h1 class="ptitle">Bake Squad<br>
-          <span class="psub">WEBSITE</span></h1>
-          <a href="https://beckettclarke.github.io/BakeSquad/" class="pbutton">Launch <i class='bx bx-link-external' ></i></a>
-          <p class="pdesc">A "Bake Squad" show creation list</p>
-        </project>
-        <project>
-          <img src="icons/screentest.png" class="pblur">
-          <img src="icons/screentest.png" class="pimg">
-          <h1 class="ptitle">Screentest<br>
-          <span class="psub">Website</span></h1>
-          <a href="https://beckettclarke.github.io/projects/screentest" class="pbutton">Launch <i class='bx bx-link-external' ></i></a>
-          <p class="pdesc">A very simple screen testing website</p>
-        </project>
-      </projgrid>
-    </page>
-    <page id="work">
-      <h1 id="worktitle">My Work</h1>
-      <h1 id="wwebtitle"><i class='bx bx-globe' ></i> Websites</h1>
-      <span id="webplaceh">Coming soon...</span>
-      <h1 id="wlogotitle"><i class='bx bx-image' ></i> Logos</h1>
-      <div id="logos">
-        <div class="logo">
-          <a class="logos">
-            <img src="./icons/parallax/bg/opportunitynorth.png" class="bg">
-            <img src="./icons/parallax/fg/opportunitynorth.png" class="fg">
-          </a>
-          <img src="./icons/parallax/bg/opportunitynorth.png" class="blur">
-          <span class="title">Opportunity North</span>
-        </div>
-        <div class="logo">
-          <a class="logos">
-            <img src="./icons/parallax/bg/marcel.png" class="bg">
-            <img src="./icons/parallax/fg/marcel.png" class="fg">
-          </a>
-          <img src="./icons/parallax/bg/marcel.png" class="blur">
-          <span class="title">Marcel</span>
-        </div>
-        <div class="logo">
-          <a class="logos">
-            <img src="./icons/parallax/bg/apollo.png" class="bg">
-            <img src="./icons/parallax/fg/apollo.png" class="fg">
-          </a>
-          <img src="./icons/parallax/bg/apollo.png" class="blur">
-          <span class="title">Apollo Zhang</span>
-        </div>
-      </div>
-    </page>
-    <page id="contact">
-      <h1 id="contacttitle">Contact Me</h1>
-      <div id="formarea">
-        <div class="inputcontainer">
-          <span class="inicon">👤</span>
-          <input id="cname" class="sinput" placeholder="Name/Business" type="text" maxlength="100" />
-        </div>
-        <div class="inputcontainer">
-          <span class="inicon">📧</span>
-          <input id="cemail" class="sinput" placeholder="Email" type="text" maxlength="100"></input>
-        </div>
-        <textarea id="ccontent" placeholder="Write a message here" maxlength="1500"></textarea>
-        <button id="csemail">Send as email <i class='bx bx-envelope' ></i></button>
-        <button id="csubmit" class="cprim">Direct send <i class='bx bx-send' ></i></button>
-        <button id="csl" style="display:none;" class="cprim">Sending <i class='bx bx-time' ></i></button>
-        <button id="cse" style="display:none;" class="cprim">Error, try sending as email <i class='bx bx-error' ></i></button>
-      </div>
-      <div id="sentpage" style="display:none">
-        <h1>✅ Sent!</h1>
-        <span class="sentdesc">Thank you for your message.</span>
-        <button style="display:none;" id="newmsg">Send another message</button>
-      </div>
-    </page>
-    <a id="banner" class="enabled">
-      <div id="bannerdot"></div>
-      <span id="bannertext">This site is in beta | v0.82a</span>
-    </a>
-    <!-- <script defer>setTimeout(function(){document.getElementById('homebutton').click();vlog('Switching to home via inline script')},100)</script> -->
+    <div nodrag id="largeview" onclick="closelargeview()">
+      <!-- <button onclick="closelargeview()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg></button> -->
+      <img id="largeviewimg" src="">
+    </div>
+    <div id="bgc" style="--c:#00ff00;">
+      <div id="bgcleft"></div>
+      <div id="bgcright"></div>
+    </div>
+    <header nodrag id="header"></header>
+
+    <content class="mw">
+
+    </content>
+    <footer id="footer"></footer>
     <script defer src="scripts.js" defer></script>
+    <script defer src="router.js"></script>
   </body>
 </html>

@@ -1,41 +1,40 @@
-clog('Loaded script scripts.js','#0066ff','Script');  
-ace('header > button', switchtab);
-// switchtab(document.getElementById('homebutton'));
-ace('#csemail',sendEmail)
-ace('#csubmit',sendHook)
-ace('#btb',projtab);
-ace('#newmsg',newmsg);
-clog('Applied Clickevents','orange','Document');
-switch (document.readyState) {
-  case "loading":
-    clog('Page is now loading','green','Page');
-    break;
-  case "interactive": {
-    // Can interact
-   clog('Page reached interactive state','green','Page');
-    break;
+log('Loaded scripts.js','#0066ff','📜 Script');  
+(async function() {
+	get.id('header').innerHTML = await fetch('header.html').then(response => response.text());
+})();
+(async function() {
+	get.id('footer').innerHTML = await fetch('footer.html').then(response => response.text());
+})();
+
+
+/// TEMP CODE
+
+// setTimeout(() => {
+//   window.scrollTo(0, document.body.scrollHeight);
+// }, 300);
+
+/// END TEMP CODE
+
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 0) {
+    document.body.classList.add('scrolled');
+  } else {
+    document.body.classList.remove('scrolled');
   }
-  case "complete":{
-   // Fully loaded
-   clog('Page fully loaded','green','Page');
-  break;
-  }
+});
+
+function largeview(url){
+  log(`Opening large view for: ${url}`, '#00cc88', '🔍 Large View');
+  var lv = get.id('largeview');
+  var lvi = get.id('largeviewimg');
+  lvi.src = url;
+  lv.classList.add('active');
+  lvi.onload = function() {
+    lvi.classList.add('loaded');
+  };
+  lvi.classList.remove('loaded');
 }
 
-onload = (event) => {
-  clog('Page fully loaded','green','Page');
-  document.getElementById('homebutton').click();
-  vlog('Switching to home via completion script');
-  // switchtab(document.getElementById('homebutton'));
-};
-
-
-let wa = window.innerWidth > 550;
-
-window.addEventListener('resize', () => {
-    const ia = window.innerWidth > 550;
-    if (ia !== wa) {
-        wa = ia;
-        wcu();
-    }
-});
+function closelargeview(){
+  get.id('largeview').classList.remove('active');
+}
