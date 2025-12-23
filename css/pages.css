@@ -66,3 +66,67 @@
 .blurcta{
   text-decoration:none;
 }
+
+#miherobg{
+  filter:blur(8px) brightness(0.4);
+  scale:1.1;
+  /* background:red; */
+  /* background:url("/res/maciconbentoanim.png");
+  background-size:cover;
+  /* background-position-x: center; */
+  animation:bgscroll 1000s linear infinite;
+}
+@keyframes bgscroll{
+  0%{background-position: 0% 0%;}
+  to{background-position: 10000% 10000%;}
+}
+#mihero{
+  max-height:250px;
+}
+
+.macicon{
+  border:3px dashed transparent;
+  transition:background-color .3s ease, border .3s ease;
+  border-radius:10px;
+  width:100px;
+  height:120px;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-weight:600;
+  cursor:pointer !important;
+  color:#ffffffc8;
+  font-size:14px;
+}
+.macicon:hover{
+  background:#ffffff08;
+  border:3px dashed #ffffff24;
+  user-select: none;
+  -webkit-user-drag: none;
+  cursor:pointer !important;
+}
+.macicon > img{
+  width:calc(100% - 15px);
+  -webkit-user-drag: none;
+  cursor:pointer !important;
+}
+
+.icongrid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  justify-content: center;
+}
+
+#mibanner{
+  font-weight:bold;
+  width:100%;
+  text-align: center;
+  padding:10px 0px;
+  margin-top:10px;
+  background:#ffffff08;
+  border:1px solid #ffffff24;
+  border-radius:10px;
+}

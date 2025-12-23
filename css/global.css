@@ -229,7 +229,21 @@ span.fas {
   margin-top:10px;
   margin-bottom:10px;
 }
-.grid3 > *{
+
+.grid2{
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  box-sizing:border-box;
+  gap:10px;
+  margin-top:10px;
+  margin-bottom:10px;
+}
+@media (max-width: 650px){
+  .grid2{
+    grid-template-columns: 1fr;
+  }
+}
+.grid3 > *, .grid2 > *{
   width:100%;
   border-radius:10px;
 }

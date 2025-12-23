@@ -38,3 +38,16 @@ function largeview(url){
 function closelargeview(){
   get.id('largeview').classList.remove('active');
 }
+
+function mi(e){
+  const img = e.querySelector('img');
+  if (!img) return;
+  var imgSrc = img.src;
+  var a = document.createElement('a');
+  a.href = imgSrc;
+  const filename = imgSrc.split('/').pop();
+  a.download = filename || 'image.png';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
