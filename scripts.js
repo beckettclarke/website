@@ -27,6 +27,12 @@ function largeview(url){
   log(`Opening large view for: ${url}`, '#00cc88', '🔍 Large View');
   var lv = get.id('largeview');
   var lvi = get.id('largeviewimg');
+  
+  // Remove "-preview" from the URL if it exists
+  if (url.includes('-preview')) {
+    url = url.replace('-preview', '');
+  }
+  
   lvi.src = url;
   lv.classList.add('active');
   lvi.onload = function() {

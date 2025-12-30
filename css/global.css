@@ -66,6 +66,16 @@ html{
     --gr:4;
   }
 }
+
+@media(max-width:500px){:root{
+  --gc:2;
+}}
+@media(min-width:501px) and (max-width:800px){:root{
+  --gc:3;
+}}
+@media(min-width:801px){:root{
+  --gc:4;
+}}
 * {
   color: var(--text-color);
   font-family: 'Satoshi', sans-serif;
@@ -371,4 +381,34 @@ span.fas.half{
   -webkit-user-drag: none;
   -moz-user-drag: none;
 
+}
+
+#totop{
+  width:48px;
+  height:48px;
+  box-sizing: border-box;
+  position:fixed;
+  right:10px;
+  bottom:10px;
+  z-index:1000;
+  background:var(--background);
+  border:1px solid var(--border);
+  border-radius:1000px;
+  color:rgba(255, 255, 255, 0.732);
+  font-size:15px;
+  text-align: center;
+  transform:translateY(60px);
+  transition:transform ease-in-out .3s;
+  cursor:pointer;
+
+}
+body.scrolled > #totop{
+  transform:translateY(0px);
+}
+#totop > i{
+  transition:transform ease-out .3s;
+  transform:translateY(0px);
+}
+#totop:hover > i{
+  transform:translateY(-5px);
 }
