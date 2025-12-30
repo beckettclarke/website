@@ -94,6 +94,25 @@ document.addEventListener('click', function(e) {
   if (!anchor) return;
   const href = anchor.getAttribute('href');
   if (!href || href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:') || anchor.target === '_blank') return;
+  
+  // Handle anchor links (e.g., href="#info")
+  if (href.startsWith('#') && !href.includes('/')) {
+    // It's a simple anchor link, not a route
+    const targetId = href.substring(1);
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      e.preventDefault();
+      const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+      const offsetPosition = elementPosition - 100;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+      log(`Scrolled to anchor: #${targetId}`, '#00cc88', '⚓ Anchor');
+    }
+    return; // Don't process as a route
+  }
+  
   // Only intercept links that are on the same origin
   const url = new URL(href, location.origin);
   if (url.origin === location.origin) {
