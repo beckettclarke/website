@@ -30,10 +30,8 @@
 }
 
 #bento-610{
-  aspect-ratio: 2 / 1;
   /* background:linear-gradient(#176A4E, #0f4c3e); */
   background:radial-gradient(circle at top left, #176a4e72, #0000005b);
-  grid-column: span 2;
   overflow:hidden;
 }
 #bento-610 > div{
@@ -130,7 +128,7 @@
   100% { background-position: 2000% center; }
 }
 
-.bento-2-1{aspect-ratio: 2 / 1;}
+.bento-2-1{aspect-ratio: 2 / 1;grid-column: span 2;}
 .bento-1-1{aspect-ratio: 1 / 1;}
 
 .bentodouble{
