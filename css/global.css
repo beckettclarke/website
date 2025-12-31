@@ -329,7 +329,6 @@ img[largeview]{
   opacity:1;
   backdrop-filter:blur(5px);
 }
-
 #largeview img{
   user-select:none;
   max-width:90%;
@@ -337,24 +336,39 @@ img[largeview]{
   border-radius:10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   scale:.9;
-  transition:scale .3s ease;
+  opacity:0;
+  transition:scale .3s ease,opacity .3s ease;
 }
-#largeview.active img{
+#largeview img.loaded{
   scale:1;
-
+  opacity:1;
+}
+#largeviewload{
+  color:white;
+  position:absolute;
+  z-index:999;
+}
+#largeview:not(.active) #largeviewload{
+  display:none;
+}
+#largeview:has(img.loaded) #largeviewload{
+  display:none;
+  transition:display 1s linear;
+}
+#largeviewload > i{
+  font-size:32px;
 }
 
+canvas {
+  display: block;
+}
 
-    canvas {
-      display: block;
-    }
-
-    .vflex{
-      display:flex;
-      align-items:center;
-      /* justify-content:center; */
-      gap:10px;
-    }
+.vflex{
+  display:flex;
+  align-items:center;
+  /* justify-content:center; */
+  gap:10px;
+}
 
 
 .maxwidthresize{

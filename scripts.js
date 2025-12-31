@@ -35,14 +35,19 @@ function largeview(url){
   
   lvi.src = url;
   lv.classList.add('active');
-  lvi.onload = function() {
-    lvi.classList.add('loaded');
-  };
   lvi.classList.remove('loaded');
+  lvi.onload = function() {
+    setTimeout(() => {
+      lvi.classList.add('loaded');
+      log(`Image loaded: ${url}`, '#00cc88', '🖼️ Image');
+    }, 300);
+  };
+  
 }
 
 function closelargeview(){
   get.id('largeview').classList.remove('active');
+  get.id('largeviewimg').classList.remove('loaded');
 }
 
 function mi(e){
