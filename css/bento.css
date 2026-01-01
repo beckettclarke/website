@@ -139,14 +139,14 @@
 }
 #socialsgrid{
   display:grid;
-  grid-template-columns: repeat(4, 23%);
+  grid-template-columns: repeat(var(--gc), 1fr);
   gap:10px;
   width:100%;
   overflow:hidden;
 }
 @media (max-width: 600px) {
   #socialsgrid{
-    grid-template-columns: repeat(2, 49%);
+    /* grid-template-columns: repeat(2, 49%); */
     gap:3px;
   }
   .sociallink{
