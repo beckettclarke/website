@@ -105,15 +105,15 @@ footer{
 }
 footer{
   display:grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(var(--gc), 1fr) !important;
   gap:20px;
   box-sizing:border-box
 }
-@media (max-width: 600px) {
+/* @media (max-width: 600px) {
   footer{
     grid-template-columns: 1fr !important;
   }
-}
+} */
 footer h1{
   /* font-size:24px; */
   margin:0;
@@ -131,7 +131,7 @@ footer h1{
 
 #subfooter{
   text-align: center;
-  grid-column: span 3;
+  grid-column: span var(--gc);
   opacity:.4;
   font-weight:bold;
 }
