@@ -1,4 +1,4 @@
-log('Loaded script router.js', '#0066ff', '📜 Script');
+log('Loaded script router.js v4', '#0066ff', '📜 Script');
 
 const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
 // const isLocal = true;
@@ -8,21 +8,25 @@ log(`Routing mode: ${isLocal ? 'Hash' : 'Clean'}`, '#00cc88', '🔁 Mode');
 
 // === ROUTER ===
 function checkpage(){
-  if (location.pathname=="/" || location.pathname=="/index.html") {
-    if (location.hash && isLocal && location.hash !== "#/") {
+  let route = 'home';
+
+  if (isLocal) {
+    if (location.hash && location.hash !== '#/') {
       console.log('Hash detected in local mode:', location.hash);
-      loadpage(location.hash.replace('#', ''));
-    } else if (location.hash && location.hash !== "#/") {
+      route = location.hash.replace(/^#/, '');
+    }
+  } else {
+    if (location.hash && location.hash !== '#/') {
       console.log('Hash detected:', location.hash);
-      loadpage(location.hash.replace('#', ''));
-      // Remove the hash from the URL without reloading
       const newPath = location.hash.replace(/^#/, '');
+      route = newPath;
       history.replaceState(null, '', newPath.startsWith('/') ? newPath : '/' + newPath);
-    } else {
-      // No hash path found, fallback to home page
-      loadpage('home');
+    } else if (location.pathname !== '/' && location.pathname !== '/index.html') {
+      route = location.pathname;
     }
   }
+
+  loadpage(route);
 }
 
 function parsePage(){
@@ -83,8 +87,6 @@ function linkClick(e){
     // Push only the pathname (browser will resolve with the same origin)
     history.pushState(null, null, destPath + (dest.search || '') + (dest.hash || ''));
     log(`Routing ${location.origin}${destPath}`, '#00cc88', '🔁 Clean');
-    // Call loadpage with the pathname so it normalizes correctly
-    loadpage(destPath);
   }
   checkpage();
 }
