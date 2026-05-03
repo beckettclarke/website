@@ -171,6 +171,8 @@
   border:1px solid transparent;
   box-sizing:border-box;
   transition:all .1s ease-out;
+  position:relative;
+  overflow:hidden;
 }
 .sociallink:hover{
   filter:brightness(1.2);
