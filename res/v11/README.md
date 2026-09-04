@@ -1,38 +1,28 @@
-# v11 card artwork
+# v11 assets
 
-Four images are all the redesign needs. Everything else on the home page is
-either an existing asset or built in CSS.
+Sourced from `v11-temp/` and renamed:
 
-Drop each file at the exact path below and it appears with no code changes —
-the cards read them through a `--art` custom property and fall back to their
-tint gradient until the file exists, so nothing looks broken in the meantime.
+| Original | Now | Used by |
+|---|---|---|
+| `610-pile.png`         | `res/v11/work/610-pile.png`        | Team 610 card artwork |
+| `ON-website.png`       | `res/v11/work/on-site.png`         | Opportunity North card artwork |
+| `AZscenes-outline.png` | `res/v11/work/az-mark.png`         | AZ Scenes watermark |
+| `Docket-ss1/2/3.png`   | `res/v11/projects/docket-1/2/3.png`| Docket phone fan |
+| `imagesnap-image.png`  | `res/v11/imagesnap/thumb.png`      | Imagesnap source file |
+| `imagesnap-cursor.png` | `res/v11/imagesnap/cursor.png`     | Imagesnap cursor |
+| `610logo.png`          | `icons/v11/610.png`                | Card label icon |
+| `ON-logo.png`          | `icons/v11/on.png`                 | Card label icon |
+| `AZscenes-outline.png` | `icons/v11/az.png`                 | Card label icon |
+| `Docketlogo.svg`       | `icons/v11/docket.svg`             | Card label icon |
+| `imagesnaplogo.svg`    | `icons/v11/imagesnap.svg`          | Card label icon |
 
-| Path | Card | Ratio | Recommended size | Notes |
-|---|---|---|---|---|
-| `res/v11/work/opportunity-north.png` | Opportunity North | 2:1 | 1400 × 700 | Site screenshot floating on the purple ground. |
-| `res/v11/work/az-scenes.png`         | AZ Scenes         | 2:1 | 1400 × 700 | Photo / still on the orange ground. |
-| `res/v11/work/team610.png`           | Team 610 Robotics | 1:1 | 1200 × 1200 | Merch + app mockup on the green ground. |
-| `res/v11/projects/docket.png`        | Docket            | 1:1 | 1200 × 1200 | Phone renders on the magenta ground, anchored to the bottom. |
+Placement is tuned per card in `css/bento.css` (`.shot-610`, `.shot-on`,
+`.azmark`, `.docket-shots`, `.isnap-*`). Swapping an image for one with a
+different crop usually just means nudging those offsets.
 
-## Rules for the artwork
+## Photography card
 
-- **No baked-in text.** The card name, headline and "Coming soon" badge are all
-  live HTML now, so a title inside the image will collide with them.
-- **Leave the bottom ~70px clear** — that band carries a dark scrim and the label.
-- Images are cropped with `object-fit: cover`, so keep the subject centred.
-  Per-card framing can be nudged with `--art-pos` in `css/bento.css`.
-- The card already paints a gradient underneath, so a transparent PNG that only
-  carries the subject works well and keeps the tint consistent.
-- Export at 2x for retina; keep each file under ~400 KB (WebP is fine too —
-  just update the URL in `pages/home.html`).
-
-## Built in CSS, no image needed
-
-- **Imagesnap** — animated format chips (png / jpg / avif / b64) with a moving
-  cursor. See `.isnap*` in `css/bento.css`.
-- **Pastezone** — mini editor window with a toolbar, mono text and a blinking
-  caret, plus the scrolling tagline strip.
-- **Photography** — three photo rows drifting at different speeds, reusing
-  `res/bento/photos/photo1–3.png`. Replace those strips to change the shots;
-  they are horizontal tiles 200px tall. If you change their widths, update the
-  matching `@keyframes pscroll1/2/3` distances in `css/bento.css`.
+Pulls 16 existing `-preview.webp` files straight from `/cdn` — listed in
+`pages/home.html`. They load only once the card comes within 400px of the
+viewport, then each column is duplicated in JS so the vertical scroll loops
+seamlessly. To change the shots, edit the `data-src` list; keep 4 per column.

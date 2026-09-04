@@ -129,10 +129,16 @@ content {
    header offset, a max width and side gutters, and stop nested .mw
    wrappers from doubling the padding. */
 body:not([data-route="/"]) content {
+  /* Column flex, as on v10 — the inner pages rely on it to stretch bare
+     <img> and centre stray inline content. */
+  display: flex;
+  flex-direction: column;
   max-width: var(--widthcap);
   margin: 0 auto;
   padding: calc(var(--header-h) + 40px) var(--gutter) 76px;
 }
+body:not([data-route="/"]) content img,
+body:not([data-route="/"]) content video { max-width: 100%; }
 body:not([data-route="/"]) content .mw { max-width: none; padding: 0; }
 
 body:not([data-route="/"]) content h1 {
@@ -165,21 +171,19 @@ content.leaving {
 
 [data-reveal] {
   opacity: 0;
-  transform: translateY(22px);
+  transform: translateY(14px);
   transition:
-    opacity .7s var(--ease) var(--reveal-delay, 0s),
-    transform .7s var(--ease) var(--reveal-delay, 0s),
-    filter .7s var(--ease) var(--reveal-delay, 0s);
-  filter: blur(6px);
-  will-change: opacity, transform;
+    opacity .55s var(--ease-soft) var(--reveal-delay, 0s),
+    transform .55s var(--ease) var(--reveal-delay, 0s);
 }
-[data-reveal].in {
-  opacity: 1;
-  transform: none;
-  filter: blur(0);
-}
+[data-reveal].in { opacity: 1; transform: none; }
+
+/* Anything already on screen at first paint is simply shown — no
+   animation to catch the eye, and nothing to "flash" while scrolling. */
+[data-reveal].shown { opacity: 1; transform: none; transition: none; }
+
 @media (prefers-reduced-motion: reduce) {
-  [data-reveal] { opacity: 1; transform: none; filter: none; }
+  [data-reveal] { opacity: 1; transform: none; transition: none; }
 }
 
 /* ===[ Utilities carried over from v10 ]===================== */
@@ -353,7 +357,17 @@ body.scrolled #totop { opacity: 1; transform: none; pointer-events: auto; }
 #totop > i { transition: transform var(--t-med) var(--ease); }
 #totop:hover > i { transform: translateY(-3px); }
 
-/* Legacy background layer — no longer painted, kept so old pages
-   that set --bgc do not blow up. */
-#background { display: none; }
+/* ===[ Per-page background tint ]============================ */
+/* Client pages set `--bgc` in an inline <style>; the layer sits behind
+   everything and fades in when a page provides a colour. */
+
+#background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: linear-gradient(transparent 55%, var(--bgc, transparent) 100%);
+  background-attachment: fixed;
+  transition: background var(--t-slow) var(--ease-soft);
+}
 #bgc { display: none; }

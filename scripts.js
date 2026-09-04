@@ -51,18 +51,27 @@
     const toggle = document.getElementById('navtoggle');
 
     if (toggle) {
-      toggle.addEventListener('click', () => {
-        const open = document.body.classList.toggle('nav-open');
+      const setOpen = open => {
+        document.body.classList.toggle('nav-open', open);
         toggle.setAttribute('aria-expanded', String(open));
         toggle.innerHTML = `<i class="fas fa-${open ? 'xmark' : 'bars'}"></i>`;
-      });
+      };
+
+      toggle.addEventListener('click', () =>
+        setOpen(!document.body.classList.contains('nav-open')));
+
+      // Tapping a link, the scrim, or Escape closes the sheet.
       document.addEventListener('click', e => {
         if (!document.body.classList.contains('nav-open')) return;
-        if (e.target.closest('#nav') && !e.target.closest('a')) return;
         if (e.target.closest('#navtoggle')) return;
-        document.body.classList.remove('nav-open');
-        toggle.setAttribute('aria-expanded', 'false');
-        toggle.innerHTML = '<i class="fas fa-bars"></i>';
+        if (e.target.closest('#nav') && !e.target.closest('a')) return;
+        setOpen(false);
+      });
+      document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') setOpen(false);
+      });
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 860) setOpen(false);
       });
     }
 
@@ -112,16 +121,23 @@
           entry.target.classList.add('in');
           revealObserver.unobserve(entry.target);
         });
-      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      }, { rootMargin: '0px 0px 6% 0px', threshold: 0 });
     }
 
-    // Stagger siblings inside the same grid / section.
+    const vh = window.innerHeight;
     const groups = new Map();
+
     items.forEach(el => {
+      // Already in view on first paint: show it outright. Animating these
+      // is what made things flash as the page settled.
+      if (el.getBoundingClientRect().top < vh * 0.9) {
+        el.classList.add('shown', 'in');
+        return;
+      }
       const key = el.parentElement;
       const n = groups.get(key) || 0;
       groups.set(key, n + 1);
-      el.style.setProperty('--reveal-delay', `${Math.min(n, 6) * 0.07}s`);
+      el.style.setProperty('--reveal-delay', `${Math.min(n, 3) * 0.06}s`);
       revealObserver.observe(el);
     });
   }
@@ -165,6 +181,38 @@
 
   /* ---- Marquees ------------------------------------------- */
 
+  /* The photo wall is ~16 images. Hold them back until the card is close
+     to the viewport, then load and duplicate each column so the vertical
+     scroll loops seamlessly at -50%. */
+  function initPhotoWall(root) {
+    const wall = root.querySelector('.photowall');
+    if (!wall || wall.dataset.ready) return;
+
+    const build = () => {
+      if (wall.dataset.ready) return;
+      wall.dataset.ready = '1';
+      wall.querySelectorAll('img[data-src]').forEach(img => {
+        img.src = img.dataset.src;
+        img.removeAttribute('data-src');
+      });
+      wall.querySelectorAll('[data-loop]').forEach(col => {
+        [...col.children].forEach(node => {
+          const copy = node.cloneNode(true);
+          copy.setAttribute('aria-hidden', 'true');
+          col.appendChild(copy);
+        });
+      });
+    };
+
+    if (!('IntersectionObserver' in window)) { build(); return; }
+    const io = new IntersectionObserver(entries => {
+      if (!entries.some(e => e.isIntersecting)) return;
+      io.disconnect();
+      build();
+    }, { rootMargin: '400px 0px' });
+    io.observe(wall.closest('.card') || wall);
+  }
+
   function initMarquees(root) {
     root.querySelectorAll('[data-marquee]').forEach(track => {
       if (track.dataset.cloned) return;
@@ -181,17 +229,14 @@
     const stack = root.querySelector('[data-isnap-chips]');
     if (!stack || reduced) return;
 
-    const chips = [...stack.children];
+    const chips = [...stack.querySelectorAll('.isnap-chip')];
+    if (!chips.length) return;
     const cursor = root.querySelector('[data-isnap-cursor]');
     let i = 0;
 
     const step = () => {
       chips.forEach((c, n) => c.classList.toggle('on', n === i));
-      if (cursor) {
-        const c = chips[i].getBoundingClientRect();
-        const p = cursor.offsetParent?.getBoundingClientRect();
-        if (p) cursor.style.top = `${c.top - p.top + c.height * 0.55}px`;
-      }
+      if (cursor) cursor.style.top = `${chips[i].offsetTop + chips[i].offsetHeight * 0.45}px`;
       i = (i + 1) % chips.length;
     };
 
@@ -245,6 +290,7 @@
     if (nfPath) nfPath.textContent = document.body.dataset.route || location.pathname || '/';
 
     splitTitle(root);
+    initPhotoWall(root);
     initMarquees(root);
     initReveal(root);
     initCards(root);

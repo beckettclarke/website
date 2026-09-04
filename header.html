@@ -6,38 +6,47 @@
   <div class="nav" id="nav">
     <span class="navpill" aria-hidden="true"></span>
 
-    <a href="/" class="navitem" data-route="/">Home</a>
+    <div class="navsection">
+      <a href="/" class="navitem" data-route="/">Home</a>
+    </div>
 
-    <button class="navitem" type="button" aria-haspopup="true">
-      Projects <i class="fas fa-chevron-down chev"></i>
-      <span class="dropdown">
-        <span class="dropdown-content">
-          <a href="https://beckettclarke.github.io/imagesnap/"><img src="/icons/imagesnap.png" alt=""> Imagesnap</a>
-          <a href="https://pastezone.beckettclarke.ca"><img src="/icons/pastezone.png" alt=""> Pastezone</a>
-          <a href="/#projects"><img src="/icons/dash.png" alt=""> Docket <span class="tags">SOON</span></a>
-          <span class="dropdown-sep"></span>
-          <a href="/macicons/"><img src="/icons/socials/macosicons.png" alt=""> macOS Icons</a>
+    <div class="navsection">
+      <button class="navitem" type="button" aria-haspopup="true">
+        Projects <i class="fas fa-chevron-down chev"></i>
+        <span class="dropdown">
+          <span class="dropdown-content">
+            <a href="https://beckettclarke.github.io/imagesnap/"><img src="/icons/imagesnap.png" alt=""> Imagesnap</a>
+            <a href="https://pastezone.beckettclarke.ca"><img src="/icons/pastezone.png" alt=""> Pastezone</a>
+            <a href="/#projects"><img src="/icons/dash.png" alt=""> Docket <span class="tags">SOON</span></a>
+            <span class="dropdown-sep"></span>
+            <a href="/macicons/"><img src="/icons/socials/macosicons.png" alt=""> macOS Icons</a>
+          </span>
         </span>
-      </span>
-    </button>
+      </button>
+    </div>
 
-    <button class="navitem" type="button" aria-haspopup="true">
-      Work <i class="fas fa-chevron-down chev"></i>
-      <span class="dropdown" id="clientdropdown">
-        <span class="dropdown-content">
-          <a href="/clients/team610/"><img src="/icons/team610.png" alt=""> Team 610 <span class="tags">&#xf0ac; &#xf02d;</span></a>
-          <a href="/clients/opportunitynorth/"><img src="/icons/opportunitynorth.png" alt=""> Opportunity North <span class="tags">&#xf03e; &#xf0ac;</span></a>
-          <a href="/clients/csoutreach/"><img src="/icons/csoutreach.png" alt=""> Crescent Outreach <span class="tags">&#xf03e;</span></a>
-          <a href="/clients/apollozhang/"><img src="/icons/apollozhang.png" alt=""> AZ Scenes <span class="tags">&#xf03e;</span></a>
-          <span class="dropdown-sep"></span>
-          <a href="/photography"><img src="/icons/socials/instagram.png" alt=""> Photography</a>
+    <div class="navsection">
+      <button class="navitem" type="button" aria-haspopup="true">
+        Work <i class="fas fa-chevron-down chev"></i>
+        <span class="dropdown" id="clientdropdown">
+          <span class="dropdown-content">
+            <a href="/clients/team610/"><img src="/icons/team610.png" alt=""> Team 610 <span class="fas tags">&#xf0ac; &#xf02d;</span></a>
+            <a href="/clients/opportunitynorth/"><img src="/icons/opportunitynorth.png" alt=""> Opportunity North <span class="fas tags">&#xf03e; &#xf0ac;</span></a>
+            <a href="/clients/csoutreach/"><img src="/icons/csoutreach.png" alt=""> Crescent Outreach <span class="fas tags">&#xf03e;</span></a>
+            <a href="/clients/apollozhang/"><img src="/icons/apollozhang.png" alt=""> AZ Scenes <span class="fas tags">&#xf03e;</span></a>
+            <span class="dropdown-sep"></span>
+            <a href="/photography"><img src="/icons/socials/instagram.png" alt=""> Photography</a>
+          </span>
         </span>
-      </span>
-    </button>
+      </button>
+    </div>
+
+    <a class="navsheet-cta" href="mailto:hi@beckettclarke.ca">Get in touch <i class="fas fa-arrow-right"></i></a>
   </div>
 
   <a class="navcta" href="mailto:hi@beckettclarke.ca">Get in touch <i class="fas fa-arrow-right"></i></a>
   <button class="navtoggle" id="navtoggle" type="button" aria-label="Menu" aria-expanded="false">
     <i class="fas fa-bars"></i>
   </button>
+  <div class="navscrim" id="navscrim" aria-hidden="true"></div>
 </nav>
