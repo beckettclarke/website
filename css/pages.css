@@ -3,39 +3,60 @@
    Hero + page-level styles
    ============================================================ */
 
-/* ===[ Hero ]================================================ */
+/* ===[ Page glow ]===========================================
+   One warm bloom for the whole site, centred on the header. Pages
+   recolour it by setting --glow in their own <style> block.
+   ========================================================== */
+
+/* Registered so a page changing --glow cross-fades instead of snapping. */
+@property --glow {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(255, 122, 26, 0.30);
+}
+:root { transition: --glow .7s var(--ease-soft); }
+
+#topglow {
+  position: absolute;
+  top: calc(var(--header-h) / 2);
+  left: 50%;
+  z-index: -1;
+  width: min(1250px, 145vw);
+  aspect-ratio: 1 / 1;
+  translate: -50% -50%;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at 50% 50%,
+    var(--glow, rgba(255, 122, 26, .30)) 0%,
+    color-mix(in srgb, var(--glow, rgba(255, 122, 26, .30)) 42%, transparent) 26%,
+    transparent 62%
+  );
+  animation: bloom 11s var(--ease-soft) infinite alternate;
+}
+@keyframes bloom {
+  from { opacity: .8;  transform: scale(1); }
+  to   { opacity: 1;   transform: scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) { /* Registered so a page changing --glow cross-fades instead of snapping. */
+@property --glow {
+  syntax: '<color>';
+  inherits: true;
+  initial-value: rgba(255, 122, 26, 0.30);
+}
+:root { transition: --glow .7s var(--ease-soft); }
+
+#topglow { animation: none; } }
+
+/* ===[ Home hero ]=========================================== */
 
 .homehero {
   position: relative;
   display: flex;
   align-items: flex-end;
-  min-height: min(760px, 82vh);
-  padding: calc(var(--header-h) + 40px) 0 clamp(70px, 16vh, 150px);
+  min-height: min(720px, 78vh);
+  padding: calc(var(--header-h) + 40px) 0 clamp(70px, 15vh, 140px);
   overflow: hidden;
   border-bottom: 1px solid var(--line);
-}
-
-/* warm bloom behind the header */
-.homehero .hero-glow, .nf .hero-glow {
-  position: absolute;
-  top: -34%;
-  left: 50%;
-  width: min(1200px, 130vw);
-  aspect-ratio: 1 / 1;
-  transform: translateX(-50%);
-  background: radial-gradient(
-    circle at 50% 50%,
-    rgba(255, 122, 26, .30) 0%,
-    rgba(255, 92, 20, .13) 26%,
-    rgba(255, 80, 20, .04) 44%,
-    transparent 62%
-  );
-  pointer-events: none;
-  animation: bloom 11s var(--ease-soft) infinite alternate;
-}
-@keyframes bloom {
-  from { opacity: .78; transform: translateX(-50%) scale(1); }
-  to   { opacity: 1;   transform: translateX(-50%) scale(1.09); }
 }
 
 /* perspective grid */
@@ -51,9 +72,7 @@
   -webkit-mask-image: radial-gradient(78% 62% at 50% 8%, #000 0%, transparent 74%);
   animation: gridfloat 26s linear infinite;
 }
-@keyframes gridfloat {
-  to { background-position: 74px 74px, 74px 74px; }
-}
+@keyframes gridfloat { to { background-position: 74px 74px, 74px 74px; } }
 
 /* vignette to settle the top into the page */
 .homehero::after {
@@ -84,9 +103,7 @@
   animation: wordin .95s var(--ease) forwards;
   animation-delay: var(--d, 0s);
 }
-@keyframes wordin {
-  to { opacity: 1; transform: none; filter: blur(0); }
-}
+@keyframes wordin { to { opacity: 1; transform: none; filter: blur(0); } }
 @media (prefers-reduced-motion: reduce) {
   #maintitle .w { opacity: 1; transform: none; filter: none; animation: none; }
 }
@@ -130,41 +147,10 @@
               border-color var(--t-fast) var(--ease), box-shadow var(--t-med) var(--ease);
 }
 .btn:hover { transform: translateY(-2px); background: rgba(255, 255, 255, .08); border-color: rgba(255, 255, 255, .26); }
-.btn-primary {
-  background: #fff;
-  color: #0a0a0b;
-  border-color: transparent;
-}
+.btn-primary { background: #fff; color: #0a0a0b; border-color: transparent; }
 .btn-primary:hover { background: #fff; box-shadow: 0 8px 26px rgba(255, 255, 255, .16); }
 .btn i { font-size: 12px; transition: transform var(--t-med) var(--ease); }
 .btn:hover i { transform: translateX(2px); }
-
-/* scroll cue */
-.homehero .hero-cue {
-  position: absolute;
-  right: max(var(--gutter), calc((100vw - var(--widthcap)) / 2 + var(--gutter)));
-  bottom: clamp(70px, 16vh, 150px);
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 10px;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--text-faint);
-  opacity: 0;
-  animation: fadeup .8s var(--ease) 1s forwards;
-}
-.homehero .hero-cue .line {
-  display: block;
-  width: 44px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--text-faint));
-  animation: cue 2.6s var(--ease) infinite;
-}
-@keyframes cue { 50% { transform: scaleX(.5); transform-origin: right; } }
-@media (max-width: 900px) { .homehero .hero-cue { display: none; } }
 
 /* ============================================================
    Legacy inner-page styles (photography, clients, macicons)

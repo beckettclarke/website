@@ -11,18 +11,23 @@ header#header {
   left: 0;
   width: 100%;
   z-index: 500;
-  border-bottom: 1px solid transparent;
   background: transparent;
-  transition: background var(--t-med) var(--ease),
-              backdrop-filter var(--t-med) var(--ease),
-              border-color var(--t-med) var(--ease);
 }
 
-body.scrolled header#header {
+/* The bar's blur lives here, not on <header>, so the dropdowns keep
+   their own backdrop-filter once the header goes solid. */
+header#header::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
   background: var(--overlay);
   backdrop-filter: blur(20px) saturate(160%);
-  border-bottom-color: var(--line);
+  border-bottom: 1px solid var(--line);
+  opacity: 0;
+  transition: opacity var(--t-med) var(--ease);
 }
+body.scrolled header#header::before { opacity: 1; }
 
 .navbar {
   position: relative;
@@ -83,6 +88,7 @@ body.scrolled header#header {
   transition: color var(--t-fast) var(--ease);
 }
 .navitem:hover,
+.navitem.open,
 .navitem.active { color: var(--text); }
 
 .navitem .chev {
@@ -90,7 +96,7 @@ body.scrolled header#header {
   opacity: .55;
   transition: transform var(--t-med) var(--ease), opacity var(--t-fast) var(--ease);
 }
-.navitem:hover .chev { transform: rotate(180deg); opacity: .9; }
+.navitem.open .chev { transform: rotate(180deg); opacity: .9; }
 
 /* Sliding pill that tracks the hovered nav item */
 .navpill {
@@ -122,8 +128,7 @@ body.scrolled header#header {
   pointer-events: none;
   transform: translateX(-50%);
 }
-.navitem:hover .dropdown,
-.navitem:focus-within .dropdown { opacity: 1; pointer-events: auto; }
+.navitem.open .dropdown { opacity: 1; pointer-events: auto; }
 
 .dropdown-content {
   display: flex;
@@ -141,8 +146,7 @@ body.scrolled header#header {
   transition: transform var(--t-med) var(--ease), opacity var(--t-med) var(--ease);
   opacity: 0;
 }
-.navitem:hover .dropdown-content,
-.navitem:focus-within .dropdown-content {
+.navitem.open .dropdown-content {
   transform: none;
   opacity: 1;
 }
@@ -167,11 +171,31 @@ body.scrolled header#header {
   object-fit: cover;
   flex: 0 0 auto;
 }
+.dropdown-content a .ddicon {
+  width: 22px;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  font-size: 15px;
+  opacity: .8;
+}
+.dropdown-content .dd-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 .dropdown-content .tags {
-  margin-left: auto;
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: 10px;
   font-size: 11px;
+  line-height: 1;
   opacity: .38;
-  letter-spacing: .06em;
+  white-space: nowrap;
 }
 .dropdown-sep {
   height: 1px;
@@ -309,7 +333,8 @@ body.scrolled header#header {
 
   .navsection { margin-bottom: 18px; }
 
-  .dropdown {
+  .dropdown,
+  .navitem.open .dropdown {
     position: static;
     transform: none;
     padding-top: 0;
@@ -317,7 +342,8 @@ body.scrolled header#header {
     pointer-events: auto;
     perspective: none;
   }
-  .dropdown-content {
+  .dropdown-content,
+  .navitem.open .dropdown-content {
     width: 100%;
     gap: 4px;
     padding: 0;

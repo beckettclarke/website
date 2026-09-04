@@ -75,8 +75,11 @@
       });
     }
 
+    if (!nav) return;
+    initDropdowns(nav);
+
     // Pill that slides behind whichever nav item is hovered.
-    if (!nav || !fine) return;
+    if (!fine) return;
     const pill = nav.querySelector('.navpill');
     if (!pill) return;
 
@@ -90,6 +93,60 @@
       nav.classList.add('pill-on');
     });
     nav.addEventListener('pointerleave', () => nav.classList.remove('pill-on'));
+  }
+
+  /* Dropdowns are state, not :hover — so only one is ever open, clicking
+     the same trigger closes it, and moving away actually dismisses it. */
+  function initDropdowns(nav) {
+    const items = [...nav.querySelectorAll('.navitem[aria-haspopup]')];
+    if (!items.length) return;
+    let closeTimer = null;
+
+    const isSheet = () => window.innerWidth <= 860;
+
+    const open = item => {
+      clearTimeout(closeTimer);
+      items.forEach(el => {
+        const on = el === item;
+        el.classList.toggle('open', on);
+        el.setAttribute('aria-expanded', String(on));
+      });
+    };
+    const closeAll = () => {
+      items.forEach(el => {
+        el.classList.remove('open');
+        el.setAttribute('aria-expanded', 'false');
+      });
+    };
+
+    items.forEach(item => {
+      item.addEventListener('click', e => {
+        if (isSheet()) return;              // the sheet shows every group at once
+        if (e.target.closest('a')) return;  // let links through
+        e.preventDefault();
+        e.stopPropagation();
+        item.classList.contains('open') ? closeAll() : open(item);
+      });
+
+      if (fine) {
+        item.addEventListener('pointerenter', () => { if (!isSheet()) open(item); });
+      }
+    });
+
+    if (fine) {
+      nav.addEventListener('pointerleave', () => {
+        if (isSheet()) return;
+        clearTimeout(closeTimer);
+        closeTimer = setTimeout(closeAll, 140);
+      });
+      nav.addEventListener('pointerenter', () => clearTimeout(closeTimer));
+    }
+
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.navitem[aria-haspopup]')) closeAll();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeAll(); });
+    window.addEventListener('resize', closeAll);
   }
 
   /* ---- Split the hero title into animated words ----------- */
@@ -151,30 +208,15 @@
       if (card.dataset.fx) return;
       card.dataset.fx = '1';
 
-      const tilt = card.hasAttribute('data-tilt');
       let frame = null;
-
       card.addEventListener('pointermove', e => {
         if (frame) return;
         frame = requestAnimationFrame(() => {
           frame = null;
           const r = card.getBoundingClientRect();
-          const px = (e.clientX - r.left) / r.width;
-          const py = (e.clientY - r.top) / r.height;
-          card.style.setProperty('--mx', `${px * 100}%`);
-          card.style.setProperty('--my', `${py * 100}%`);
-          if (tilt) {
-            card.style.setProperty('--ry', `${(px - 0.5) * 4}deg`);
-            card.style.setProperty('--rx', `${(0.5 - py) * 3}deg`);
-          }
+          card.style.setProperty('--mx', `${((e.clientX - r.left) / r.width) * 100}%`);
+          card.style.setProperty('--my', `${((e.clientY - r.top) / r.height) * 100}%`);
         });
-      });
-
-      card.addEventListener('pointerenter', () => card.classList.add('tilting'));
-      card.addEventListener('pointerleave', () => {
-        card.classList.remove('tilting');
-        card.style.removeProperty('--rx');
-        card.style.removeProperty('--ry');
       });
     });
   }
@@ -213,11 +255,26 @@
     io.observe(wall.closest('.card') || wall);
   }
 
+  /* Repeat the list until one pass is wider than the card, then mirror the
+     whole thing so translateX(-50%) lands exactly on a repeat. Without the
+     first step a short list scrolls off and leaves a hole before it wraps. */
   function initMarquees(root) {
     root.querySelectorAll('[data-marquee]').forEach(track => {
       if (track.dataset.cloned) return;
       track.dataset.cloned = '1';
-      track.innerHTML += track.innerHTML;   // exact 2x for a seamless -50% loop
+
+      const frame = track.parentElement;
+      const base = track.innerHTML;
+      let guard = 0;
+      while (track.scrollWidth < frame.offsetWidth * 1.15 && guard++ < 16) {
+        track.insertAdjacentHTML('beforeend', base);
+      }
+
+      const setWidth = track.scrollWidth;
+      track.innerHTML += track.innerHTML;
+
+      // Constant speed regardless of how many repeats it took.
+      track.style.setProperty('--marquee-dur', `${Math.max(14, setWidth / 26)}s`);
     });
   }
 

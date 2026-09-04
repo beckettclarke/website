@@ -3,6 +3,14 @@
    Sections + bento card system
    ============================================================ */
 
+/* Custom properties used inside transform must be registered, otherwise
+   the browser can only step between values and the hover lift snaps. */
+@property --lift {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+
 /* ===[ Section shell ]======================================= */
 
 .section {
@@ -12,12 +20,7 @@
 }
 .section:nth-of-type(even) { background: var(--surface); }
 
-.section-head {
-  display: flex;
-  align-items: baseline;
-  gap: 14px;
-  margin-bottom: 26px;
-}
+.section-head { margin-bottom: 26px; }
 .section-title {
   display: flex;
   align-items: center;
@@ -31,63 +34,52 @@
   font-weight: 700;
   letter-spacing: -.06em;
 }
-.section-sub {
-  font-size: 14px;
-  color: var(--text-faint);
-  margin-left: auto;
-}
 
 @media (max-width: 600px) {
   .section { padding: 56px 0; }
-  .section-sub { display: none; }
   .section-head { margin-bottom: 18px; }
 }
 
-/* ===[ Bento grids ]========================================= */
+/* ===[ Bento grids ]=========================================
+   The big card is 7:6 of a column; a small card is exactly half
+   its height less the gap. Locking the grid's aspect ratio makes
+   that hold at every width.
+   ========================================================== */
 
 .bento {
   display: grid;
-  gap: 14px;
   grid-template-columns: 1fr 1fr;
-  grid-auto-rows: 152px;
-  perspective: 1600px;
+  gap: 14px;
 }
 
-/* Work: photography tall-left, AZ under it, ON top-right, 610 tall-right */
-.bento-work .b-photography { grid-column: 1; grid-row: 1 / span 2; }
-.bento-work .b-azscenes    { grid-column: 1; grid-row: 3; }
-.bento-work .b-oppnorth    { grid-column: 2; grid-row: 1; }
-.bento-work .b-team610     { grid-column: 2; grid-row: 2 / span 2; }
-
-/* Projects: docket tall-left, imagesnap + pastezone stacked right */
-.bento-projects .b-docket    { grid-column: 1; grid-row: 1 / span 2; }
-.bento-projects .b-imagesnap { grid-column: 2; grid-row: 1; }
-.bento-projects .b-pastezone { grid-column: 2; grid-row: 2; }
-
-/* --- Tablet: keep two columns but shorter rows --- */
-@media (max-width: 900px) {
-  .bento { grid-auto-rows: 130px; gap: 12px; }
+.bento-work {
+  grid-template-rows: repeat(3, 1fr);
+  aspect-ratio: 1032 / 661;
 }
+.bento-work .b-photography { grid-area: 1 / 1 / span 2 / auto; }
+.bento-work .b-azscenes    { grid-area: 3 / 1 / auto / auto; }
+.bento-work .b-oppnorth    { grid-area: 1 / 2 / auto / auto; }
+.bento-work .b-team610     { grid-area: 2 / 2 / span 2 / auto; }
 
-/* --- Mobile: one column, each card gets its own honest height --- */
+.bento-projects {
+  grid-template-rows: repeat(2, 1fr);
+  aspect-ratio: 1032 / 436;
+}
+.bento-projects .b-docket    { grid-area: 1 / 1 / span 2 / auto; }
+.bento-projects .b-imagesnap { grid-area: 1 / 2 / auto / auto; }
+.bento-projects .b-pastezone { grid-area: 2 / 2 / auto / auto; }
+
+/* --- Mobile: one column, honest per-card ratios --- */
 @media (max-width: 720px) {
   .bento {
     grid-template-columns: 1fr;
-    grid-auto-rows: auto;
+    grid-template-rows: none;
+    aspect-ratio: auto;
     gap: 12px;
-    perspective: none;
   }
-  .bento > .card {
-    grid-column: 1 !important;
-    grid-row: auto !important;
-  }
-  .b-photography { height: 300px; }
-  .b-oppnorth    { height: 190px; }
-  .b-azscenes    { height: 150px; }
-  .b-team610     { height: 250px; }
-  .b-docket      { height: 300px; }
-  .b-imagesnap   { height: 165px; }
-  .b-pastezone   { height: 185px; }
+  .bento > .card { grid-area: auto !important; }
+  .b-photography, .b-team610, .b-docket { aspect-ratio: 7 / 6; }
+  .b-oppnorth, .b-azscenes, .b-imagesnap, .b-pastezone { aspect-ratio: 2 / 1; }
 }
 
 /* ===[ Card ]================================================ */
@@ -98,47 +90,38 @@
   position: relative;
   display: block;
   overflow: hidden;
+  border: none;
   border-radius: var(--r-lg);
-  border: 1px solid var(--line-strong);
   background: linear-gradient(150deg, var(--tint) 0%, var(--tint-2) 100%);
   text-decoration: none;
   isolation: isolate;
-  transform-style: preserve-3d;
-  transform:
-    translate3d(0, var(--lift, 0px), 0)
-    rotateX(var(--rx, 0deg))
-    rotateY(var(--ry, 0deg));
+  transform: translate3d(0, var(--lift), 0);
   transition:
-    transform var(--t-med) var(--ease),
-    box-shadow var(--t-med) var(--ease),
-    border-color var(--t-med) var(--ease);
+    --lift var(--t-med) var(--ease),
+    box-shadow var(--t-med) var(--ease);
 }
 .card:hover {
-  --lift: -3px;
-  border-color: rgba(255, 255, 255, .22);
+  --lift: -4px;
   box-shadow:
-    0 10px 30px rgba(0, 0, 0, .45),
-    0 0 0 1px rgba(255, 255, 255, .04),
-    0 14px 60px -18px var(--tint);
+    0 12px 34px rgba(0, 0, 0, .42),
+    0 18px 64px -22px var(--tint);
 }
 .card:active { --lift: -1px; }
-.card.tilting { transition: box-shadow var(--t-med) var(--ease), border-color var(--t-med) var(--ease); }
 
 .card > * { pointer-events: none; }
 
-/* Cursor-tracked sheen */
+/* Cursor-tracked sheen — a hint of light, not a spotlight. */
 .card-sheen {
   position: absolute;
   inset: 0;
   z-index: 4;
   background: radial-gradient(
-    380px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(255, 255, 255, .13),
-    transparent 62%
+    260px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(255, 255, 255, .055),
+    transparent 68%
   );
   opacity: 0;
   transition: opacity var(--t-med) var(--ease);
-  mix-blend-mode: soft-light;
 }
 .card:hover .card-sheen { opacity: 1; }
 
@@ -148,8 +131,8 @@
   position: absolute;
   inset: auto 0 0 0;
   z-index: 5;
-  height: 48%;
-  background: linear-gradient(to top, rgba(0, 0, 0, .68), rgba(0, 0, 0, .28) 42%, transparent);
+  height: 42%;
+  background: linear-gradient(to top, rgba(0, 0, 0, .70), rgba(0, 0, 0, .26) 46%, transparent);
   pointer-events: none;
 }
 
@@ -158,50 +141,52 @@
   position: absolute;
   z-index: 2;
   object-fit: contain;
-  transform-origin: center bottom;
   transition: transform .9s var(--ease);
-  will-change: transform;
 }
 
 /* ===[ Card label ]========================================== */
 
 .card-label {
   position: absolute;
-  left: 16px;
-  bottom: 14px;
+  left: 20px;
+  bottom: 18px;
   z-index: 6;
   display: flex;
   align-items: center;
-  gap: 9px;
-  font-size: 16px;
+  gap: 11px;
+  font-size: 19px;
   font-weight: 650;
-  letter-spacing: -.015em;
+  letter-spacing: -.02em;
   color: #fff;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, .55);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, .55);
   transition: transform var(--t-med) var(--ease);
 }
 .card:hover .card-label { transform: translateX(2px); }
 
+/* height-driven so every mark keeps its own aspect ratio */
 .lbl-icon {
-  width: 22px;
-  height: 20px;
+  height: 24px;
+  width: auto;
+  max-width: 40px;
+  display: block;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 6px rgba(0, 0, 0, .5));
+}
+i.lbl-icon {
+  width: 24px;
   display: grid;
   place-items: center;
-  object-fit: contain;
-  object-position: left center;
-  font-size: 15px;
-  filter: drop-shadow(0 1px 6px rgba(0, 0, 0, .5));
+  font-size: 19px;
 }
 
 .card-badge {
   position: absolute;
-  right: 14px;
-  bottom: 15px;
+  right: 18px;
+  bottom: 20px;
   z-index: 6;
-  padding: 5px 11px;
+  padding: 6px 12px;
   border-radius: var(--r-pill);
-  background: rgba(255, 255, 255, .16);
-  border: 1px solid rgba(255, 255, 255, .28);
+  background: rgba(255, 255, 255, .18);
   backdrop-filter: blur(10px);
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 10px;
@@ -213,77 +198,74 @@
 
 .card-headline {
   position: absolute;
-  left: 16px;
-  top: 16px;
-  right: 16px;
+  left: 20px;
+  top: 20px;
+  right: 20px;
   z-index: 6;
-  font-size: clamp(15px, 2vw, 19px);
+  font-size: clamp(17px, 2.1vw, 23px);
   font-weight: 700;
-  letter-spacing: -.02em;
-  line-height: 1.18;
+  letter-spacing: -.025em;
+  line-height: 1.15;
   color: #fff;
-  max-width: 70%;
-  text-shadow: 0 1px 14px rgba(0, 0, 0, .45);
+  max-width: 74%;
+  text-shadow: 0 1px 16px rgba(0, 0, 0, .45);
 }
 
 /* ===[ Marquee strip ]======================================= */
 
 .card-marquee {
   position: absolute;
-  top: 13px;
+  top: 20px;
   left: 0;
   right: 0;
   z-index: 3;
   overflow: hidden;
-  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 9%, #000 91%, transparent);
 }
 .card-marquee ul {
   display: flex;
-  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
   width: max-content;
-  animation: marquee 26s linear infinite;
+  animation: marquee var(--marquee-dur, 26s) linear infinite;
 }
 .card:hover .card-marquee ul { animation-play-state: paused; }
 .card-marquee li {
-  padding-right: 18px;
-  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: .01em;
-  color: rgba(255, 255, 255, .30);
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, .34);
   white-space: nowrap;
 }
-.card-marquee li::after { content: " |"; opacity: .45; }
+/* Even air on both sides of the divider. */
+.card-marquee li::after {
+  content: "|";
+  margin: 0 16px;
+  opacity: .42;
+}
 @keyframes marquee { to { transform: translateX(-50%); } }
 
 /* ============================================================
-   Card: Photography — full-bleed angled wall of preview shots
+   Card: Photography — full-bleed angled wall, natural crops
    ============================================================ */
 
 .b-photography { --tint: #232326; --tint-2: #111113; }
 
 .photowall {
   position: absolute;
-  /* Oversized and rotated, so the tilted grid still covers the card. */
-  top: -42%;
-  left: -18%;
-  width: 136%;
-  height: 184%;
+  top: -30%;
+  left: -16%;
+  width: 132%;
+  height: 160%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 10px;
   transform: rotate(-13deg);
-  mask-image:
-    linear-gradient(to top, transparent 4%, rgba(0,0,0,.55) 14%, #000 26%),
-    radial-gradient(135% 105% at 50% 45%, #000 58%, transparent 96%);
-  -webkit-mask-image:
-    linear-gradient(to top, transparent 4%, rgba(0,0,0,.55) 14%, #000 26%),
-    radial-gradient(135% 105% at 50% 45%, #000 58%, transparent 96%);
-  mask-composite: intersect;
-  -webkit-mask-composite: source-in;
   transition: transform 1.2s var(--ease);
 }
 .b-photography:hover .photowall { transform: rotate(-13deg) scale(1.04); }
@@ -293,25 +275,36 @@
   flex-direction: column;
   gap: 10px;
   animation: colscroll var(--dur, 60s) linear infinite var(--dir, normal);
-  will-change: transform;
 }
 .b-photography:hover .photocol { animation-play-state: paused; }
 
+/* No forced ratio — every shot keeps the crop it was taken at. */
 .photocol img {
   width: 100%;
-  aspect-ratio: 3 / 4;
-  object-fit: cover;
-  border-radius: 9px;
+  height: auto;
   display: block;
+  border-radius: 9px;
   background: #1c1c1f;
 }
 @keyframes colscroll {
-  /* The track is duplicated in JS, so -50% is one full set. */
+  /* The track is duplicated in JS, so -50% is exactly one set. */
   to { transform: translateY(-50%); }
 }
 
+/* Gradient box over the wall: darkens the edges, sinks the bottom
+   into the label, keeps the middle bright. */
+.photoveil {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background:
+    linear-gradient(to top, rgba(10, 10, 11, .96) 2%, rgba(10, 10, 11, .55) 20%, transparent 46%),
+    linear-gradient(to bottom, rgba(10, 10, 11, .70), transparent 34%),
+    radial-gradient(130% 110% at 50% 45%, transparent 34%, rgba(10, 10, 11, .82) 92%);
+}
+
 @media (max-width: 720px) {
-  .photowall { top: -34%; left: -14%; width: 128%; height: 168%; gap: 8px; }
+  .photowall { top: -26%; left: -14%; width: 128%; height: 152%; gap: 8px; }
   .photocol { gap: 8px; }
 }
 
@@ -328,16 +321,12 @@
 }
 .shot-on {
   right: -4%;
-  top: 44%;
-  width: 72%;
+  top: 42%;
+  width: 70%;
   translate: 0 -50%;
   filter: drop-shadow(0 18px 34px rgba(0, 0, 0, .42));
 }
 .b-oppnorth:hover .shot-on { transform: translateY(-4px) scale(1.035); }
-
-@media (max-width: 720px) {
-  .shot-on { width: 62%; right: -2%; }
-}
 
 /* ============================================================
    Card: AZ Scenes
@@ -349,7 +338,7 @@
   z-index: 2;
   right: -5%;
   top: 50%;
-  width: 60%;
+  width: 58%;
   translate: 0 -50%;
   transform: rotate(-6deg);
   opacity: .45;
@@ -368,35 +357,32 @@
   position: absolute;
   inset: 0 0 auto 0;
   z-index: 2;
-  height: 62px;
+  height: 74px;
   background: linear-gradient(to bottom, rgba(0, 0, 0, .34), transparent);
 }
+/* Sized so the pile's own reflection fade lands above the label
+   instead of being clipped by the bottom edge. */
 .shot-610 {
   left: 50%;
-  bottom: -6%;
-  width: 100%;
+  bottom: 14%;
+  width: 90%;
   translate: -50% 0;
-  filter: drop-shadow(0 16px 30px rgba(0, 0, 0, .38));
+  filter: drop-shadow(0 16px 30px rgba(0, 0, 0, .34));
 }
 .b-team610:hover .shot-610 { transform: translateY(-5px) scale(1.03); }
-
-@media (max-width: 720px) {
-  .shot-610 { width: 96%; bottom: -2%; }
-}
 
 /* ============================================================
    Card: Docket
    ============================================================ */
 
 .b-docket { --tint: #c724f5; --tint-2: #7a0fbd; }
-.b-docket .card-headline { max-width: 82%; font-size: clamp(16px, 2.3vw, 21px); }
 
 .docket-shots {
   position: absolute;
   z-index: 2;
   left: 50%;
-  bottom: -26%;
-  width: 118%;
+  bottom: -10%;
+  width: 112%;
   translate: -50% 0;
   display: flex;
   align-items: flex-end;
@@ -404,25 +390,38 @@
   transition: transform .9s var(--ease);
 }
 .docket-shots img {
-  width: 42%;
+  width: 46%;
   display: block;
   filter: drop-shadow(0 16px 30px rgba(0, 0, 0, .45));
 }
-.docket-shots img:nth-child(1) { transform: translate(20%, 5%) rotate(-5deg); }
-.docket-shots img:nth-child(2) { position: relative; z-index: 2; width: 46%; }
-.docket-shots img:nth-child(3) { transform: translate(-20%, 5%) rotate(5deg); }
-.b-docket:hover .docket-shots { transform: translate(-50%, -6px); }
-
-@media (max-width: 720px) {
-  .docket-shots { bottom: -22%; width: 104%; }
-}
+/* Tight overlap — a fanned stack, not three separate phones. */
+.docket-shots img:nth-child(1) { transform: translate(28%, 6%) rotate(-6deg); }
+.docket-shots img:nth-child(2) { position: relative; z-index: 2; width: 52%; }
+.docket-shots img:nth-child(3) { transform: translate(-28%, 6%) rotate(6deg); }
+/* translateY only — translate: -50% already handles the centring. */
+.b-docket:hover .docket-shots { transform: translateY(-8px); }
 
 /* ============================================================
    Card: Imagesnap
    ============================================================ */
 
 .b-imagesnap { --tint: #ff9333; --tint-2: #dd6600; }
-.b-imagesnap::after { opacity: .6; }
+.b-imagesnap::after { opacity: .55; }
+
+/* Oversized wordmark behind everything, as on the original banner */
+.isnap-word {
+  position: absolute;
+  z-index: 1;
+  top: 8%;
+  left: 50%;
+  translate: -50% 0;
+  font-size: clamp(46px, 8vw, 78px);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  color: rgba(255, 255, 255, .13);
+  white-space: nowrap;
+  line-height: 1;
+}
 
 .isnap {
   position: absolute;
@@ -431,78 +430,88 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 18px 20px 18px 18px;
+  gap: 14px;
+  padding: 22px 26px 22px 22px;
 }
 .isnap-copy {
-  align-self: flex-start;
-  font-size: clamp(15px, 1.8vw, 19px);
+  align-self: center;
+  font-size: clamp(17px, 2vw, 22px);
   font-weight: 700;
-  line-height: 1.16;
-  letter-spacing: -.02em;
+  line-height: 1.14;
+  letter-spacing: -.025em;
   color: #fff;
-  text-shadow: 0 1px 12px rgba(0, 0, 0, .25);
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .3);
 }
 
 .isnap-stage {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   flex: 0 0 auto;
 }
 
 .isnap-thumb {
-  width: 62px;
+  width: 84px;
   height: auto;
   display: block;
-  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, .3));
+  transform: rotate(-5deg);
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .34));
   transition: transform .8s var(--ease);
 }
-.b-imagesnap:hover .isnap-thumb { transform: rotate(-4deg) scale(1.05); }
+.b-imagesnap:hover .isnap-thumb { transform: rotate(-8deg) scale(1.06); }
 
+/* Angled stack, like the original artwork */
 .isnap-chips {
   position: relative;
   display: grid;
-  gap: 4px;
-  justify-items: stretch;
+  gap: 5px;
+  transform: rotate(-7deg);
 }
 .isnap-chip {
-  min-width: 54px;
-  padding: 3px 11px;
-  border-radius: 7px;
+  min-width: 66px;
+  padding: 4px 13px;
+  border-radius: 8px;
   background: #f2f2f3;
   color: #1a1a1c;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   text-align: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .22);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .26);
   transition: background .35s var(--ease), color .35s var(--ease), transform .35s var(--ease);
 }
+.isnap-chip:nth-child(1) { transform: translateX(-9px); }
+.isnap-chip:nth-child(2) { transform: translateX(-3px); }
+.isnap-chip:nth-child(3) { transform: translateX(3px); }
+.isnap-chip:nth-child(4) { transform: translateX(9px); }
 .isnap-chip.on {
   background: #ff7a1a;
   color: #fff;
-  transform: translateX(-7px) scale(1.05);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, .32);
+  box-shadow: 0 5px 16px rgba(0, 0, 0, .34);
 }
+.isnap-chip:nth-child(1).on { transform: translateX(-19px) scale(1.05); }
+.isnap-chip:nth-child(2).on { transform: translateX(-13px) scale(1.05); }
+.isnap-chip:nth-child(3).on { transform: translateX(-7px) scale(1.05); }
+.isnap-chip:nth-child(4).on { transform: translateX(-1px) scale(1.05); }
 
 .isnap-cursor {
   position: absolute;
   z-index: 3;
-  right: -6px;
+  right: -14px;
   top: 0;
-  width: 17px;
+  width: 20px;
   height: auto;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .5));
   transition: top .5s var(--ease);
 }
 
 @media (max-width: 720px) {
-  .isnap { padding: 16px; gap: 10px; }
-  .isnap-thumb { width: 52px; }
-  .isnap-chip { min-width: 46px; font-size: 11px; }
+  .isnap { padding: 18px; gap: 10px; }
+  .isnap-thumb { width: 66px; }
+  .isnap-chip { min-width: 56px; font-size: 12px; }
 }
-@media (max-width: 400px) {
+@media (max-width: 430px) {
   .isnap-thumb { display: none; }
 }
 
@@ -511,7 +520,7 @@
    ============================================================ */
 
 .b-pastezone { --tint: #1e4577; --tint-2: #0b1729; }
-.b-pastezone::after { z-index: 5; height: 58%; opacity: .95; }
+.b-pastezone::after { z-index: 5; height: 54%; opacity: .95; }
 .b-pastezone::before {
   content: "";
   position: absolute;
@@ -521,16 +530,16 @@
     radial-gradient(70% 90% at 90% 20%, rgba(30, 80, 190, .3), transparent 62%);
 }
 
+/* Fully inside the card — both top corners visible. */
 .pz-window {
   position: absolute;
   z-index: 2;
-  left: 16px;
-  right: -20px;
-  top: 42px;
-  bottom: -14px;
-  border-radius: 12px 0 0 0;
+  left: 20px;
+  right: 20px;
+  top: 52px;
+  bottom: -12px;
+  border-radius: 12px 12px 0 0;
   border: 1px solid rgba(255, 255, 255, .14);
-  border-right: none;
   border-bottom: none;
   background: rgba(14, 16, 22, .88);
   backdrop-filter: blur(8px);
@@ -545,27 +554,27 @@
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 9px 13px;
   border-bottom: 1px solid rgba(255, 255, 255, .08);
 }
 .pz-bar span {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  padding: 3px 8px;
+  padding: 3px 9px;
   border: 1px solid rgba(255, 255, 255, .14);
   border-radius: 6px;
-  font-size: 10px;
+  font-size: 10.5px;
   color: rgba(255, 255, 255, .62);
 }
 .pz-body {
-  padding: 10px 12px;
+  padding: 11px 13px;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 10.5px;
-  line-height: 1.65;
+  font-size: 11px;
+  line-height: 1.68;
   color: rgba(255, 255, 255, .5);
-  mask-image: linear-gradient(to bottom, #000 40%, transparent);
-  -webkit-mask-image: linear-gradient(to bottom, #000 40%, transparent);
+  mask-image: linear-gradient(to bottom, #000 44%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, #000 44%, transparent);
 }
 .pz-body .caret {
   display: inline-block;
