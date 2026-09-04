@@ -1,18 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta name="theme-color" content="#0a0a0b">
+
+    <title>Beckett Clarke</title>
+    <link rel="icon" href="/icons/favicon.png">
+
+    <meta name="title" content="Beckett Clarke — Work, Projects and Photography" />
+    <meta name="description" content="Front-end developer, designer and photographer." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://beckettclarke.ca/" />
+    <meta property="og:title" content="Beckett Clarke — Work, Projects and Photography" />
+    <meta property="og:description" content="Front-end developer, designer and photographer." />
+    <meta property="og:image" content="/icons/banner.png" />
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://beckettclarke.ca/" />
+    <meta property="twitter:title" content="Beckett Clarke — Work, Projects and Photography" />
+    <meta property="twitter:description" content="Front-end developer, designer and photographer." />
+    <meta property="twitter:image" content="/icons/banner.png" />
+
+    <link rel="preconnect" href="https://beckettclarke.github.io">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+
     <link rel="stylesheet" href="https://beckettclarke.github.io/resources/fonts/satoshi/import.css">
-    <script src="globalfuncs.js" defer></script>
-    <script src="flexkit.js" defer></script>
-    <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/pages.css">
-    <link rel="stylesheet" href="css/bento.css">
-    <link rel="stylesheet" href="css/header.css">
-    <link rel="stylesheet" href="./css/fontawesome.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;800;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Montagu+Slab:opsz,wght@16..144,100..700&display=swap" rel="stylesheet">
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="/css/global.css">
+    <link rel="stylesheet" href="/css/header.css">
+    <link rel="stylesheet" href="/css/bento.css">
+    <link rel="stylesheet" href="/css/pages.css">
+    <link rel="stylesheet" href="/css/fontawesome.css">
+
     <!-- Posthog Analytics -->
     <script>
       !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init Ie Ts Ms Ee Es Rs capture Ge calculateEventProperties Os register register_once register_for_session unregister unregister_for_session js getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty Ds Fs createPersonProfile Ls Ps opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing Cs debug I As getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
@@ -22,43 +41,26 @@
           person_profiles: 'always',
       })
     </script>
-
-    <title>Beckett Clarke</title>
-    <link rel="icon" href="icons/favicon.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width">
-    <meta name="title" content="Beckett Clarke - Projects, Socials, and more" />
-    <meta name="description" content="Hi, I'm Beckett. I'm a front-end developer, and I like making websites." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://itsfoxdev.github.io/" />
-    <meta property="og:title" content="Beckett Clarke - Projects, Socials, and more" />
-    <meta property="og:description" content="Hi, I'm Beckett! I'm a front-end developer, and I like making websites." />
-    <meta property="og:image" content="./icons/banner.png" />
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content="https://itsfoxdev.github.io/" />
-    <meta property="twitter:title" content="Beckett Clarke - Projects, Socials, and more" />
-    <meta property="twitter:description" content="Hi, I'm Beckett! I'm a front-end developer, and I like making websites." />
-    <meta property="twitter:image" content="./icons/banner.png" />
   </head>
-  <body class="" tabindex="-1">
-    <div id="background"></div>
-    <div nodrag id="largeview" onclick="closelargeview()">
-      <!-- <button onclick="closelargeview()"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"/></svg></button> -->
-      <img id="largeviewimg" src="">
-      <div id="largeviewload"><i class="fas fa-spinner-third fa-spin"></i></div>
-    </div>
-    <div id="bgc" style="--c:#00ff00;">
-      <div id="bgcleft"></div>
-      <div id="bgcright"></div>
-    </div>
+
+  <body tabindex="-1">
     <header nodrag id="header"></header>
 
-    <content class="mw">
+    <content></content>
 
-    </content>
-    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'});" id="totop"><i class="fas fa-arrow-up"></i></button>
     <footer id="footer"></footer>
-    <script defer src="scripts.js" defer></script>
-    <script defer src="router.js"></script>
+
+    <button id="totop" type="button" aria-label="Back to top"
+            onclick="window.scrollTo({top:0,behavior:'smooth'})">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <div nodrag id="largeview" onclick="closelargeview()">
+      <img id="largeviewimg" src="" alt="">
+      <div id="largeviewload"><i class="fas fa-spinner-third fa-spin"></i></div>
+    </div>
+
+    <script defer src="/scripts.js"></script>
+    <script defer src="/router.js"></script>
   </body>
 </html>

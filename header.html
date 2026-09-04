@@ -1,34 +1,43 @@
-<div nodrag class="mw">
-  <a href="/"><img class="lightinvert" src="/icons/logo.svg"></a>
-  <a href="/" class="ddbutton">Home</a>
-  <button class="ddbutton">Apps
-    <div class="dropdown">
-      <div class="dropdown-content shadowdi">
-        <a href="https://beckettclarke.github.io/imagesnap"><img src="/icons/imagesnap.png"> Imagesnap</a>
-        <a href="https://pastezone.beckettclarke.ca"><img src="/icons/pastezone.png"> Pastezone</a>
-        <a><img src="/icons/screentest.png"> Screentest</a>
-      </div>
-    </div>
+<nav nodrag class="navbar mw">
+  <a href="/" class="brand" aria-label="Beckett Clarke — home">
+    <img src="/icons/logo.svg" alt="">
+  </a>
+
+  <div class="nav" id="nav">
+    <span class="navpill" aria-hidden="true"></span>
+
+    <a href="/" class="navitem" data-route="/">Home</a>
+
+    <button class="navitem" type="button" aria-haspopup="true">
+      Projects <i class="fas fa-chevron-down chev"></i>
+      <span class="dropdown">
+        <span class="dropdown-content">
+          <a href="https://beckettclarke.github.io/imagesnap/"><img src="/icons/imagesnap.png" alt=""> Imagesnap</a>
+          <a href="https://pastezone.beckettclarke.ca"><img src="/icons/pastezone.png" alt=""> Pastezone</a>
+          <a href="/#projects"><img src="/icons/dash.png" alt=""> Docket <span class="tags">SOON</span></a>
+          <span class="dropdown-sep"></span>
+          <a href="/macicons/"><img src="/icons/socials/macosicons.png" alt=""> macOS Icons</a>
+        </span>
+      </span>
+    </button>
+
+    <button class="navitem" type="button" aria-haspopup="true">
+      Work <i class="fas fa-chevron-down chev"></i>
+      <span class="dropdown" id="clientdropdown">
+        <span class="dropdown-content">
+          <a href="/clients/team610/"><img src="/icons/team610.png" alt=""> Team 610 <span class="tags">&#xf0ac; &#xf02d;</span></a>
+          <a href="/clients/opportunitynorth/"><img src="/icons/opportunitynorth.png" alt=""> Opportunity North <span class="tags">&#xf03e; &#xf0ac;</span></a>
+          <a href="/clients/csoutreach/"><img src="/icons/csoutreach.png" alt=""> Crescent Outreach <span class="tags">&#xf03e;</span></a>
+          <a href="/clients/apollozhang/"><img src="/icons/apollozhang.png" alt=""> AZ Scenes <span class="tags">&#xf03e;</span></a>
+          <span class="dropdown-sep"></span>
+          <a href="/photography"><img src="/icons/socials/instagram.png" alt=""> Photography</a>
+        </span>
+      </span>
+    </button>
+  </div>
+
+  <a class="navcta" href="mailto:hi@beckettclarke.ca">Get in touch <i class="fas fa-arrow-right"></i></a>
+  <button class="navtoggle" id="navtoggle" type="button" aria-label="Menu" aria-expanded="false">
+    <i class="fas fa-bars"></i>
   </button>
-  <button class="ddbutton">Work
-    <div id="clientdropdown" class="dropdown">
-      <div class="dropdown-content shadowdi">
-        <a href="/clients/opportunitynorth/"><img class="hic" src="/icons/opportunitynorth.png"> Opportunity North <span class="fas half">&#xf03e; &#xf0ac;</span></a>
-        <a href="/clients/team610/"> <img class="hic" src="/icons/team610.png"> Team 610 <span class="fas half">&#xf0ac; &#xf02d;</span></a>
-        <a href="/clients/csoutreach/"><img class="hic" src="/icons/csoutreach.png"> Crescent Outreach <span class="fas half">&#xf03e;</span></a>
-        <a href="/clients/apollozhang/"><img class="hic" src="/icons/apollozhang.png"> Apollo Zhang <span class="fas half">&#xf03e;</span></a>
-      </div>
-    </div>
-  </button>
-  <!-- <button class="ddbutton">Socials
-    <div class="dropdown">
-      <div class="dropdown-content shadowdi">
-        <a href="https://github.com/beckettclarke"><img src="./icons/socials/github.png"> GitHub</a>
-        <a href="https://instagram.com/beckett_clarke" target="_blank"><img src="./icons/socials/instagram.png"> Instagram</a>
-        <a href="https://log.concept2.com/profile/2242336" target="_blank"><img src="./icons/socials/concept2.png"> Concept2</a>
-        <a href="https://log.concept2.com/profile/2242336" target="_blank"><img src="./icons/socials/steam.png"> Steam</a>
-      </div>
-    </div> -->
-  <!-- </button> -->
-  <a href="/photography" class="ddbutton">Photos</a>
-</div>
+</nav>

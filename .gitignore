@@ -9,3 +9,6 @@
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
 icons/.DS_Store
+
+# local dev
+.claude/launch.json
