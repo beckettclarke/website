@@ -117,7 +117,7 @@
   z-index: 4;
   background: radial-gradient(
     260px circle at var(--mx, 50%) var(--my, 50%),
-    rgba(255, 255, 255, .055),
+    rgba(255, 255, 255, .018),
     transparent 68%
   );
   opacity: 0;
@@ -178,6 +178,9 @@ i.lbl-icon {
   place-items: center;
   font-size: 19px;
 }
+
+.b-docket .lbl-icon,
+.b-imagesnap .lbl-icon { height: 20px; }
 
 .card-badge {
   position: absolute;
@@ -264,6 +267,9 @@ i.lbl-icon {
   height: 160%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
+  /* Columns must size to their own content — stretched to a shared row
+     height they report the wrong height and leave a blank tail. */
+  align-items: start;
   gap: 10px;
   transform: rotate(-13deg);
   transition: transform 1.2s var(--ease);
@@ -275,8 +281,10 @@ i.lbl-icon {
   flex-direction: column;
   gap: 10px;
   animation: colscroll var(--dur, 60s) linear infinite var(--dir, normal);
+  animation-play-state: paused;
 }
-.b-photography:hover .photocol { animation-play-state: paused; }
+.photowall.running .photocol { animation-play-state: running; }
+.card:hover .photowall.running .photocol { animation-play-state: paused; }
 
 /* No forced ratio — every shot keeps the crop it was taken at. */
 .photocol img {
@@ -364,8 +372,8 @@ i.lbl-icon {
    instead of being clipped by the bottom edge. */
 .shot-610 {
   left: 50%;
-  bottom: 14%;
-  width: 90%;
+  bottom: 12%;
+  width: 100%;
   translate: -50% 0;
   filter: drop-shadow(0 16px 30px rgba(0, 0, 0, .34));
 }
@@ -377,30 +385,18 @@ i.lbl-icon {
 
 .b-docket { --tint: #c724f5; --tint-2: #7a0fbd; }
 
-.docket-shots {
-  position: absolute;
-  z-index: 2;
-  left: 0;
-  right: 0;
-  bottom: -4%;
-  height: 80%;
-  transition: transform .9s var(--ease);
+/* Kept clear of the label and badge rather than bleeding past them. */
+.shot-docket {
+  left: 50%;
+  bottom: 62px;
+  width: 92%;
+  translate: -50% 0;
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, .42));
 }
-.docket-shots img {
-  position: absolute;
-  bottom: 0;
-  width: 50%;
-  display: block;
-  filter: drop-shadow(0 16px 30px rgba(0, 0, 0, .45));
-}
-/* Left and right tuck behind the middle by roughly a quarter of their width. */
-.docket-shots img:nth-child(1) { left: 0;   transform: rotate(-6deg) translateY(7%); }
-.docket-shots img:nth-child(2) { left: 50%; translate: -50% 0; width: 54%; z-index: 2; }
-.docket-shots img:nth-child(3) { right: 0;  transform: rotate(6deg) translateY(7%); }
-.b-docket:hover .docket-shots { transform: translateY(-8px); }
+.b-docket:hover .shot-docket { transform: translateY(-6px) scale(1.02); }
 
 @media (max-width: 720px) {
-  .docket-shots { height: 70%; bottom: -4%; }
+  .shot-docket { bottom: 56px; width: 96%; }
 }
 
 /* ============================================================
@@ -463,56 +459,27 @@ i.lbl-icon {
 }
 .b-imagesnap:hover .isnap-thumb { transform: rotate(-8deg) scale(1.06); }
 
-/* Cascading stack: each chip steps right and tilts a little further,
-   the way they sit on the original banner. */
-.isnap-chips {
-  position: relative;
-  display: grid;
-  gap: 5px;
-  padding-right: 22px;
+/* Export stack, cursor already in place on the artwork. */
+.isnap-stack {
+  height: 100px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 6px 16px rgba(0, 0, 0, .3));
+  transition: transform .8s var(--ease);
 }
-.isnap-chip {
-  min-width: 68px;
-  padding: 4px 13px;
-  border-radius: 9px;
-  background: #f2f2f3;
-  color: #1a1a1c;
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 14px;
-  font-weight: 700;
-  text-align: center;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, .26);
-  transform: translateX(var(--x)) rotate(var(--r));
-  transition: background .35s var(--ease), color .35s var(--ease), transform .35s var(--ease);
-}
-.isnap-chip:nth-child(1) { --x: -14px; --r: -3deg; }
-.isnap-chip:nth-child(2) { --x:  -2px; --r: -1deg; }
-.isnap-chip:nth-child(3) { --x:   8px; --r:  1deg; }
-.isnap-chip:nth-child(4) { --x:  18px; --r:  3deg; }
+.b-imagesnap:hover .isnap-stack { transform: translateY(-3px) scale(1.04); }
 
-.isnap-chip.on {
-  background: #ff7a1a;
-  color: #fff;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, .34);
-  transform: translateX(calc(var(--x) - 12px)) rotate(var(--r)) scale(1.06);
+/* 721-900px still runs two columns, so the card is at its narrowest here. */
+@media (min-width: 721px) and (max-width: 900px) {
+  .isnap { padding: 16px; gap: 8px; }
+  .isnap-copy { font-size: 15px; }
+  .isnap-thumb { width: 58px; }
+  .isnap-stack { height: 72px; }
 }
-
-/* Positioned from the chip's own box in JS, so it tracks the cascade. */
-.isnap-cursor {
-  position: absolute;
-  z-index: 3;
-  left: 0;
-  top: 0;
-  width: 20px;
-  height: auto;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .5));
-  transition: left .5s var(--ease), top .5s var(--ease);
-}
-
 @media (max-width: 720px) {
   .isnap { padding: 18px; gap: 10px; }
   .isnap-thumb { width: 66px; }
-  .isnap-chip { min-width: 56px; font-size: 12px; }
+  .isnap-stack { height: 84px; }
 }
 @media (max-width: 430px) {
   .isnap-thumb { display: none; }

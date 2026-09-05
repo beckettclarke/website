@@ -7,9 +7,9 @@ Sourced from `v11-temp/` and renamed:
 | `610-pile.png`         | `res/v11/work/610-pile.png`        | Team 610 card artwork |
 | `ON-website.png`       | `res/v11/work/on-site.png`         | Opportunity North card artwork |
 | `AZscenes-outline.png` | `res/v11/work/az-mark.png`         | AZ Scenes watermark |
-| `Docket-ss1/2/3.png`   | `res/v11/projects/docket-1/2/3.png`| Docket phone fan |
+| `Docket-phones.png`    | `res/v11/projects/docket-phones.png` | Docket phone fan (pre-composed) |
 | `imagesnap-image.png`  | `res/v11/imagesnap/thumb.png`      | Imagesnap source file |
-| `imagesnap-cursor.png` | `res/v11/imagesnap/cursor.png`     | Imagesnap cursor |
+| `imagesnap-export-stack.png` | `res/v11/imagesnap/export-stack.png` | Imagesnap format chips + cursor |
 | `610logo.png`          | `icons/v11/610.png`                | Card label icon |
 | `ON-logo.png`          | `icons/v11/on.png`                 | Card label icon |
 | `AZscenes-outline.png` | `icons/v11/az.png`                 | Card label icon |

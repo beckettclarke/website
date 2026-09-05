@@ -223,27 +223,41 @@
 
   /* ---- Marquees ------------------------------------------- */
 
-  /* The photo wall is ~16 images. Hold them back until the card is close
-     to the viewport, then load and duplicate each column so the vertical
-     scroll loops seamlessly at -50%. */
+  /* The photo wall is ~16 images. Hold them back until the card is close to
+     the viewport, then load, fill and duplicate each column. Columns carry
+     different crops, so one can be much shorter than the others — filling
+     each past the wall height is what stops a blank band appearing. */
   function initPhotoWall(root) {
     const wall = root.querySelector('.photowall');
     if (!wall || wall.dataset.ready) return;
 
-    const build = () => {
+    const build = async () => {
       if (wall.dataset.ready) return;
       wall.dataset.ready = '1';
-      wall.querySelectorAll('img[data-src]').forEach(img => {
+
+      const imgs = [...wall.querySelectorAll('img[data-src]')];
+      imgs.forEach(img => {
         img.src = img.dataset.src;
         img.removeAttribute('data-src');
       });
+
+      // Column heights are only real once the files are in.
+      await Promise.all(imgs.map(img => img.complete
+        ? null
+        : new Promise(done => { img.onload = img.onerror = done; })));
+
+      const need = wall.offsetHeight * 1.15;   // the wall is rotated, so allow slack
       wall.querySelectorAll('[data-loop]').forEach(col => {
-        [...col.children].forEach(node => {
-          const copy = node.cloneNode(true);
-          copy.setAttribute('aria-hidden', 'true');
-          col.appendChild(copy);
-        });
+        const base = [...col.children];
+        let guard = 0;
+        while (col.offsetHeight < need && guard++ < 8) {
+          base.forEach(node => col.appendChild(node.cloneNode(true)));
+        }
+        // Mirror the finished set so translateY(-50%) lands on a repeat.
+        [...col.children].forEach(node => col.appendChild(node.cloneNode(true)));
       });
+
+      wall.classList.add('running');
     };
 
     if (!('IntersectionObserver' in window)) { build(); return; }
@@ -255,9 +269,6 @@
     io.observe(wall.closest('.card') || wall);
   }
 
-  /* Repeat the list until one pass is wider than the card, then mirror the
-     whole thing so translateX(-50%) lands exactly on a repeat. Without the
-     first step a short list scrolls off and leaves a hole before it wraps. */
   function initMarquees(root) {
     root.querySelectorAll('[data-marquee]').forEach(track => {
       if (track.dataset.cloned) return;
@@ -276,40 +287,6 @@
       // Constant speed regardless of how many repeats it took.
       track.style.setProperty('--marquee-dur', `${Math.max(14, setWidth / 26)}s`);
     });
-  }
-
-  /* ---- Imagesnap card ------------------------------------- */
-
-  let isnapTimer = null;
-  function initImagesnap(root) {
-    clearInterval(isnapTimer);
-    const stack = root.querySelector('[data-isnap-chips]');
-    if (!stack || reduced) return;
-
-    const chips = [...stack.querySelectorAll('.isnap-chip')];
-    if (!chips.length) return;
-    const cursor = root.querySelector('[data-isnap-cursor]');
-    let i = 0;
-
-    const step = () => {
-      const active = chips[i];
-      chips.forEach(c => c.classList.toggle('on', c === active));
-
-      if (cursor) {
-        // The chips are transformed, so read the real boxes rather than
-        // offsetTop — and only after the layout has settled.
-        requestAnimationFrame(() => {
-          const box = stack.getBoundingClientRect();
-          const chip = active.getBoundingClientRect();
-          cursor.style.left = `${chip.right - box.left - 5}px`;
-          cursor.style.top = `${chip.top - box.top + chip.height * 0.3}px`;
-        });
-      }
-      i = (i + 1) % chips.length;
-    };
-
-    step();
-    isnapTimer = setInterval(step, 1600);
   }
 
   /* ---- Lightbox ------------------------------------------- */
@@ -362,7 +339,6 @@
     initMarquees(root);
     initReveal(root);
     initCards(root);
-    initImagesnap(root);
   }
 
   document.addEventListener('bc:pageload', parsePage);
