@@ -133,6 +133,7 @@ body.scrolled header#header::before { opacity: 1; }
 .dropdown-content {
   display: flex;
   flex-direction: column;
+  text-align: left;
   gap: 2px;
   width: 268px;
   padding: 6px;
@@ -181,6 +182,7 @@ body.scrolled header#header::before { opacity: 1; }
 }
 .dropdown-content .dd-name {
   flex: 1 1 auto;
+  text-align: left;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;

@@ -77,7 +77,9 @@ body {
   margin: 0;
   padding: 0;
   min-height: 100vh;
-  background: var(--background);
+  /* No background here: html paints --background onto the canvas, which
+     keeps it behind #background (-2) and #topglow (-1). */
+  background: transparent;
   color: var(--text);
   overflow-x: hidden;
   font-family: 'Satoshi', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;

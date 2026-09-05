@@ -380,26 +380,28 @@ i.lbl-icon {
 .docket-shots {
   position: absolute;
   z-index: 2;
-  left: 50%;
-  bottom: -10%;
-  width: 112%;
-  translate: -50% 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
+  left: 0;
+  right: 0;
+  bottom: -4%;
+  height: 80%;
   transition: transform .9s var(--ease);
 }
 .docket-shots img {
-  width: 46%;
+  position: absolute;
+  bottom: 0;
+  width: 50%;
   display: block;
   filter: drop-shadow(0 16px 30px rgba(0, 0, 0, .45));
 }
-/* Tight overlap — a fanned stack, not three separate phones. */
-.docket-shots img:nth-child(1) { transform: translate(28%, 6%) rotate(-6deg); }
-.docket-shots img:nth-child(2) { position: relative; z-index: 2; width: 52%; }
-.docket-shots img:nth-child(3) { transform: translate(-28%, 6%) rotate(6deg); }
-/* translateY only — translate: -50% already handles the centring. */
+/* Left and right tuck behind the middle by roughly a quarter of their width. */
+.docket-shots img:nth-child(1) { left: 0;   transform: rotate(-6deg) translateY(7%); }
+.docket-shots img:nth-child(2) { left: 50%; translate: -50% 0; width: 54%; z-index: 2; }
+.docket-shots img:nth-child(3) { right: 0;  transform: rotate(6deg) translateY(7%); }
 .b-docket:hover .docket-shots { transform: translateY(-8px); }
+
+@media (max-width: 720px) {
+  .docket-shots { height: 70%; bottom: -4%; }
+}
 
 /* ============================================================
    Card: Imagesnap
@@ -461,17 +463,18 @@ i.lbl-icon {
 }
 .b-imagesnap:hover .isnap-thumb { transform: rotate(-8deg) scale(1.06); }
 
-/* Angled stack, like the original artwork */
+/* Cascading stack: each chip steps right and tilts a little further,
+   the way they sit on the original banner. */
 .isnap-chips {
   position: relative;
   display: grid;
   gap: 5px;
-  transform: rotate(-7deg);
+  padding-right: 22px;
 }
 .isnap-chip {
-  min-width: 66px;
+  min-width: 68px;
   padding: 4px 13px;
-  border-radius: 8px;
+  border-radius: 9px;
   background: #f2f2f3;
   color: #1a1a1c;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -479,31 +482,31 @@ i.lbl-icon {
   font-weight: 700;
   text-align: center;
   box-shadow: 0 3px 10px rgba(0, 0, 0, .26);
+  transform: translateX(var(--x)) rotate(var(--r));
   transition: background .35s var(--ease), color .35s var(--ease), transform .35s var(--ease);
 }
-.isnap-chip:nth-child(1) { transform: translateX(-9px); }
-.isnap-chip:nth-child(2) { transform: translateX(-3px); }
-.isnap-chip:nth-child(3) { transform: translateX(3px); }
-.isnap-chip:nth-child(4) { transform: translateX(9px); }
+.isnap-chip:nth-child(1) { --x: -14px; --r: -3deg; }
+.isnap-chip:nth-child(2) { --x:  -2px; --r: -1deg; }
+.isnap-chip:nth-child(3) { --x:   8px; --r:  1deg; }
+.isnap-chip:nth-child(4) { --x:  18px; --r:  3deg; }
+
 .isnap-chip.on {
   background: #ff7a1a;
   color: #fff;
-  box-shadow: 0 5px 16px rgba(0, 0, 0, .34);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .34);
+  transform: translateX(calc(var(--x) - 12px)) rotate(var(--r)) scale(1.06);
 }
-.isnap-chip:nth-child(1).on { transform: translateX(-19px) scale(1.05); }
-.isnap-chip:nth-child(2).on { transform: translateX(-13px) scale(1.05); }
-.isnap-chip:nth-child(3).on { transform: translateX(-7px) scale(1.05); }
-.isnap-chip:nth-child(4).on { transform: translateX(-1px) scale(1.05); }
 
+/* Positioned from the chip's own box in JS, so it tracks the cascade. */
 .isnap-cursor {
   position: absolute;
   z-index: 3;
-  right: -14px;
+  left: 0;
   top: 0;
   width: 20px;
   height: auto;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, .5));
-  transition: top .5s var(--ease);
+  transition: left .5s var(--ease), top .5s var(--ease);
 }
 
 @media (max-width: 720px) {

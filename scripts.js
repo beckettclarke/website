@@ -292,8 +292,19 @@
     let i = 0;
 
     const step = () => {
-      chips.forEach((c, n) => c.classList.toggle('on', n === i));
-      if (cursor) cursor.style.top = `${chips[i].offsetTop + chips[i].offsetHeight * 0.45}px`;
+      const active = chips[i];
+      chips.forEach(c => c.classList.toggle('on', c === active));
+
+      if (cursor) {
+        // The chips are transformed, so read the real boxes rather than
+        // offsetTop — and only after the layout has settled.
+        requestAnimationFrame(() => {
+          const box = stack.getBoundingClientRect();
+          const chip = active.getBoundingClientRect();
+          cursor.style.left = `${chip.right - box.left - 5}px`;
+          cursor.style.top = `${chip.top - box.top + chip.height * 0.3}px`;
+        });
+      }
       i = (i + 1) % chips.length;
     };
 
