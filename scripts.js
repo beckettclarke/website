@@ -246,15 +246,25 @@
         ? null
         : new Promise(done => { img.onload = img.onerror = done; })));
 
-      const need = wall.offsetHeight * 1.15;   // the wall is rotated, so allow slack
+      // The wall is rotated, so a column has to cover more than the wall's
+      // own height — the far columns swing up and down by half the wall
+      // width times sin(13deg).
+      const need = wall.offsetHeight + wall.offsetWidth * 0.23;
+
       wall.querySelectorAll('[data-loop]').forEach(col => {
         const base = [...col.children];
         let guard = 0;
-        while (col.offsetHeight < need && guard++ < 8) {
+        while (col.offsetHeight < need && guard++ < 12) {
           base.forEach(node => col.appendChild(node.cloneNode(true)));
         }
-        // Mirror the finished set so translateY(-50%) lands on a repeat.
+
+        const setCount = col.children.length;
         [...col.children].forEach(node => col.appendChild(node.cloneNode(true)));
+
+        // Distance from the first tile to its copy: shifting by exactly this
+        // puts identical content under the viewport, so the wrap is invisible.
+        const shift = col.children[setCount].offsetTop - col.children[0].offsetTop;
+        col.style.setProperty('--shift', `-${shift}px`);
       });
 
       wall.classList.add('running');

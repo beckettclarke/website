@@ -103,8 +103,8 @@
 .card:hover {
   --lift: -4px;
   box-shadow:
-    0 12px 34px rgba(0, 0, 0, .42),
-    0 18px 64px -22px var(--tint);
+    0 10px 26px rgba(0, 0, 0, .34),
+    0 16px 54px -26px color-mix(in srgb, var(--tint) 33%, transparent);
 }
 .card:active { --lift: -1px; }
 
@@ -140,6 +140,7 @@
 .shot {
   position: absolute;
   z-index: 2;
+  height: auto;
   object-fit: contain;
   transition: transform .9s var(--ease);
 }
@@ -261,10 +262,10 @@ i.lbl-icon {
 
 .photowall {
   position: absolute;
-  top: -30%;
-  left: -16%;
-  width: 132%;
-  height: 160%;
+  top: -40%;
+  left: -20%;
+  width: 140%;
+  height: 180%;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   /* Columns must size to their own content — stretched to a shared row
@@ -295,8 +296,9 @@ i.lbl-icon {
   background: #1c1c1f;
 }
 @keyframes colscroll {
-  /* The track is duplicated in JS, so -50% is exactly one set. */
-  to { transform: translateY(-50%); }
+  /* --shift is the measured distance to the first repeat, so the wrap is
+     exact. A percentage of the whole track lands half a gap short. */
+  to { transform: translateY(var(--shift, -50%)); }
 }
 
 /* Gradient box over the wall: darkens the edges, sinks the bottom
@@ -312,7 +314,7 @@ i.lbl-icon {
 }
 
 @media (max-width: 720px) {
-  .photowall { top: -26%; left: -14%; width: 128%; height: 152%; gap: 8px; }
+  .photowall { top: -34%; left: -18%; width: 136%; height: 172%; gap: 8px; }
   .photocol { gap: 8px; }
 }
 
@@ -344,6 +346,7 @@ i.lbl-icon {
 .azmark {
   position: absolute;
   z-index: 2;
+  height: auto;
   right: -5%;
   top: 50%;
   width: 58%;
@@ -372,8 +375,8 @@ i.lbl-icon {
    instead of being clipped by the bottom edge. */
 .shot-610 {
   left: 50%;
-  bottom: 12%;
-  width: 100%;
+  bottom: 9%;
+  width: 116%;
   translate: -50% 0;
   filter: drop-shadow(0 16px 30px rgba(0, 0, 0, .34));
 }
