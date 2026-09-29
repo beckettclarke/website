@@ -1,25 +1,24 @@
-/* ===[ Header — Fable 5.1 style ]============================
-   Floating bar: transparent at the top of the page, then it tightens
-   up into a blurred, bordered pill once the page scrolls. */
+/* ===[ Header ]================================================
+   Transparent at the top of the page, then it tightens into a
+   blurred, bordered bar once the page scrolls. */
 
 header#header {
-  --h-line: rgba(255, 255, 255, .08);
-  --h-line-2: rgba(255, 255, 255, .14);
-  --h-dim: rgba(255, 255, 255, .62);
-  --h-faint: rgba(255, 255, 255, .38);
-  --h-paper: #f4f4f5;
-  --h-ink: #0a0a0b;
-  --h-accent: #ff9f1a;
-  --h-ease: cubic-bezier(.22, 1, .36, 1);
+  --h-line: var(--line);
+  --h-line-2: var(--line-2);
+  --h-dim: var(--dim);
+  --h-faint: var(--faint);
+  --h-paper: var(--paper);
+  --h-ink: var(--ink);
+  --h-accent: var(--ember);
+  --h-ease: var(--ease);
 
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   z-index: 100;
-  box-sizing: border-box;
-  padding: 16px 13px 0;
-  transition: padding .5s var(--h-ease);
+  padding: 16px max(10px, calc(var(--gutter) - 12px)) 0;
+  transition: padding .5s var(--h-ease), transform .5s var(--h-ease);
 }
 body.scrolled header#header,
 body.nav-open header#header { padding-top: 10px; }
@@ -34,12 +33,10 @@ body.nav-open header#header { padding-top: 10px; }
   height: 54px;
   margin: 0 auto;
   padding: 0 8px 0 12px;
-  box-sizing: border-box;
 }
 
 /* The glass lives on a pseudo-element, so the bar never becomes a
-   containing block for the fixed mobile drawer, and the dropdowns
-   keep their own backdrop-filter. */
+   containing block for the fixed mobile drawer. */
 .navbar::before {
   content: "";
   position: absolute;
@@ -47,10 +44,8 @@ body.nav-open header#header { padding-top: 10px; }
   z-index: -1;
   border: 1px solid transparent;
   border-radius: 16px;
-  background: rgba(10, 10, 11, 0);
+  background: rgba(13, 12, 11, 0);
   box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0);
-  -webkit-backdrop-filter: blur(0);
-  backdrop-filter: blur(0);
   transition: background .5s var(--h-ease), border-color .5s var(--h-ease),
               box-shadow .5s var(--h-ease), backdrop-filter .5s var(--h-ease),
               -webkit-backdrop-filter .5s var(--h-ease);
@@ -58,38 +53,35 @@ body.nav-open header#header { padding-top: 10px; }
 body.scrolled .navbar::before,
 body.nav-open .navbar::before {
   border-color: var(--h-line-2);
-  background: rgba(10, 10, 11, .7);
-  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, .45);
+  background: rgba(13, 12, 11, .72);
+  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, .5);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
   backdrop-filter: blur(24px) saturate(160%);
 }
 
-/* ===[ Brand ]=============================================== */
+/* ===[ Brand ]================================================= */
 
 .brand {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 6px 4px;
   text-decoration: none;
 }
-
 .brand-mark {
   width: 19px;
   height: auto;
-  display: block;
-  transition: transform .5s var(--h-ease);
+  transition: transform .6s var(--h-ease);
 }
-.brand:hover .brand-mark,
-.brand:focus-visible .brand-mark { transform: scale(1.12); }
-
+.brand:hover .brand-mark { transform: rotate(-8deg) scale(1.1); }
 .brand-name {
-  font-size: 14.5px;
-  font-weight: 600;
-  letter-spacing: -.015em;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: -.02em;
   white-space: nowrap;
 }
 
-/* ===[ Nav ]================================================= */
+/* ===[ Nav ]=================================================== */
 
 .nav {
   position: absolute;
@@ -99,7 +91,7 @@ body.nav-open .navbar::before {
   align-items: center;
   gap: 2px;
 }
-.navsection { display: contents; }
+.navsection { position: relative; }
 
 .ddbutton {
   position: relative;
@@ -121,22 +113,40 @@ body.nav-open .navbar::before {
   transition: color .18s var(--h-ease), background .18s var(--h-ease);
 }
 .ddbutton:hover,
-.ddbutton:focus-within,
-.ddbutton.active {
+.has-dd:hover > .ddbutton,
+.has-dd:focus-within > .ddbutton {
   color: var(--h-paper);
-  background: rgba(255, 255, 255, .06);
+  background: rgba(242, 237, 230, .06);
+}
+/* Current section gets a small ember dot under the label */
+.ddbutton.active { color: var(--h-paper); }
+.ddbutton.active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  width: 4px;
+  height: 4px;
+  margin-left: -2px;
+  border-radius: 50%;
+  background: var(--h-accent);
 }
 
 .ddbutton .chev {
-  font-size: 9px;
-  color: inherit;
+  width: 11px;
+  height: 11px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   opacity: .55;
   transition: transform .35s var(--h-ease), opacity .18s var(--h-ease);
 }
-.ddbutton:hover .chev,
-.ddbutton:focus-within .chev { transform: rotate(180deg); opacity: .9; }
+.has-dd:hover .chev,
+.has-dd:focus-within .chev { transform: rotate(180deg); opacity: .9; }
 
-/* ===[ Dropdowns ]=========================================== */
+/* ===[ Dropdowns ]============================================= */
 
 .dropdown {
   position: absolute;
@@ -147,70 +157,68 @@ body.nav-open .navbar::before {
   transform: translateX(-50%);
   pointer-events: none;
 }
-.ddbutton:hover .dropdown,
-.ddbutton:focus-within .dropdown { pointer-events: auto; }
+.has-dd:hover .dropdown,
+.has-dd:focus-within .dropdown { pointer-events: auto; }
 
 .dropdown-content {
   display: flex;
   flex-direction: column;
   gap: 1px;
-  width: 210px;
-  padding: 4px;
-  box-sizing: border-box;
+  width: 244px;
+  padding: 5px;
   border: 1px solid var(--h-line-2);
-  border-radius: 13px;
-  background: rgba(17, 17, 19, .84);
+  border-radius: 14px;
+  background: rgba(20, 19, 17, .88);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   backdrop-filter: blur(24px) saturate(180%);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, .4), 0 24px 64px rgba(0, 0, 0, .42);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .4), 0 24px 64px rgba(0, 0, 0, .45);
   opacity: 0;
   filter: blur(4px);
   transform: rotateX(-9deg) translateY(-6px) scale(.97);
   transform-origin: top center;
   transition: opacity .35s var(--h-ease), transform .35s var(--h-ease), filter .35s var(--h-ease);
 }
-#clientdropdown .dropdown-content { width: 250px; }
-.ddbutton:hover .dropdown-content,
-.ddbutton:focus-within .dropdown-content {
+.has-dd:hover .dropdown-content,
+.has-dd:focus-within .dropdown-content {
   opacity: 1;
   filter: none;
   transform: none;
 }
 
-.dropdown-content a {
+.dropdown-content a,
+.dd-soon {
   display: flex;
   align-items: center;
-  gap: 9px;
-  padding: 6px 8px;
+  gap: 11px;
+  padding: 7px 9px;
   border-radius: 9px;
-  font-size: 13.5px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--h-dim);
-  text-align: left;
+  letter-spacing: -.01em;
+  color: var(--h-paper);
   text-decoration: none;
-  cursor: pointer;
-  transition: background .18s var(--h-ease), color .18s var(--h-ease);
+  transition: background .18s var(--h-ease);
 }
-.dropdown-content a:hover { background: rgba(255, 255, 255, .06); color: var(--h-paper); }
-.dropdown-content a img {
-  width: 20px;
-  height: 20px;
-  border-radius: 5px;
+.dropdown-content a:hover { background: rgba(242, 237, 230, .07); }
+.dd-soon { opacity: .45; cursor: default; }
+.dropdown-content img {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
   object-fit: cover;
   flex: 0 0 auto;
 }
-.dropdown-content .half {
-  margin-left: auto;
-  font-size: 11px;
-  color: inherit;
-  opacity: .38;
-  white-space: nowrap;
+.dd-t { display: flex; flex-direction: column; line-height: 1.2; }
+.dd-t small {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: .04em;
+  color: var(--h-faint);
+  margin-top: 2px;
 }
 
-/* ===[ CTA ]================================================= */
+/* ===[ CTA ]=================================================== */
 
-/* White pill with a dark arrow disc; on hover the pill takes the accent
-   and the disc turns the arrow from ↗ to →. */
 .navcta {
   margin-left: auto;
   display: inline-flex;
@@ -221,7 +229,7 @@ body.nav-open .navbar::before {
   background: var(--h-paper);
   color: var(--h-ink);
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: -.01em;
   text-decoration: none;
   white-space: nowrap;
@@ -230,15 +238,14 @@ body.nav-open .navbar::before {
 }
 .navcta:hover {
   background: var(--h-accent);
-  box-shadow: 0 8px 26px rgba(255, 159, 26, .2);
+  box-shadow: 0 8px 26px rgba(255, 154, 31, .22);
 }
 .navcta:active { transform: scale(.98); }
-
 .cta-arrow {
   display: grid;
   place-items: center;
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   background: var(--h-ink);
   color: var(--h-paper);
@@ -247,14 +254,13 @@ body.nav-open .navbar::before {
 .cta-arrow svg { width: 12px; height: 12px; }
 .navcta:hover .cta-arrow { transform: rotate(45deg); }
 
-/* ===[ Mobile ]============================================== */
+/* ===[ Mobile ]================================================ */
 
-/* Two hairlines that cross into an X. */
 .navtoggle {
   display: none;
   margin-left: auto;
-  width: 38px;
-  height: 38px;
+  width: 40px;
+  height: 40px;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -266,7 +272,7 @@ body.nav-open .navbar::before {
   cursor: pointer;
   transition: background .18s var(--h-ease);
 }
-.navtoggle:hover { background: rgba(255, 255, 255, .06); }
+.navtoggle:hover { background: rgba(242, 237, 230, .06); }
 .navtoggle .bar {
   display: block;
   width: 16px;
@@ -284,7 +290,6 @@ body.nav-open .navtoggle .bar:last-child  { transform: translateY(-3.75px) rotat
   .navtoggle { display: flex; }
   .navcta { display: none; }
 
-  /* Full-screen drawer, sitting under the floating bar */
   .nav {
     position: fixed;
     inset: 0;
@@ -293,8 +298,8 @@ body.nav-open .navtoggle .bar:last-child  { transform: translateY(-3.75px) rotat
     overflow-y: auto;
     overscroll-behavior: contain;
     transform: none;
-    padding: 84px 20px calc(24px + env(safe-area-inset-bottom));
-    background: rgba(10, 10, 11, .95);
+    padding: 88px 20px calc(24px + env(safe-area-inset-bottom));
+    background: rgba(13, 12, 11, .96);
     -webkit-backdrop-filter: blur(40px);
     backdrop-filter: blur(40px);
     opacity: 0;
@@ -302,13 +307,19 @@ body.nav-open .navtoggle .bar:last-child  { transform: translateY(-3.75px) rotat
     transition: opacity .5s var(--h-ease);
   }
   body.nav-open .nav { opacity: 1; pointer-events: auto; }
+  .nav { display: flex; flex-direction: column; align-items: stretch; }
+
+  /* Big page links first, then the grouped lists */
+  .navsection { order: 1; }
+  .navsection:not(.has-dd) { order: 0; margin-bottom: 6px; }
+  .navsection:not(.has-dd):nth-of-type(4) { margin-bottom: 26px; }
+  .navsheet-cta { order: 2; flex: 0 0 auto; }
   body.nav-open { overflow: hidden; }
 
-  /* Sections rise in one after another. */
   .navsection,
   .navsheet-cta {
     display: block;
-    margin-bottom: 14px;
+    margin-bottom: 18px;
     opacity: 0;
     transform: translateY(16px);
     transition: opacity .5s var(--h-ease), transform .5s var(--h-ease);
@@ -321,55 +332,62 @@ body.nav-open .navtoggle .bar:last-child  { transform: translateY(-3.75px) rotat
   body.nav-open .navsheet-cta              { transition-delay: .2s; }
 
   .ddbutton .chev { display: none; }
+  .ddbutton.active::after { display: none; }
 
   /* A dropdown trigger becomes a group heading... */
   button.ddbutton,
-  button.ddbutton:hover,
-  button.ddbutton:focus-within {
+  .has-dd:hover > button.ddbutton,
+  .has-dd:focus-within > button.ddbutton {
     display: block;
     width: 100%;
     padding: 0;
     border-radius: 0;
     background: none;
+    font-family: var(--mono);
     font-size: 11px;
-    font-weight: 600;
-    letter-spacing: .18em;
+    font-weight: 400;
+    letter-spacing: .12em;
     text-transform: uppercase;
     color: var(--h-faint);
     text-align: left;
     cursor: default;
   }
 
-  /* ...and plain links stay tappable rows. */
-  a.ddbutton,
-  .dropdown-content a {
-    padding: 9px 11px;
-    border: 1px solid var(--h-line);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, .03);
-    font-size: 15px;
-    font-weight: 500;
-    letter-spacing: -.01em;
-    text-transform: none;
+  /* ...and plain links become big tappable rows. */
+  a.ddbutton {
+    padding: 0;
+    border-radius: 0;
+    background: none !important;
+    font-size: 34px;
+    font-weight: 700;
+    letter-spacing: -.035em;
     color: var(--h-paper);
   }
-  a.ddbutton:active,
-  .dropdown-content a:active { background: rgba(255, 255, 255, .09); }
+  .dropdown-content a,
+  .dd-soon {
+    padding: 9px 10px;
+    border: 1px solid var(--h-line);
+    border-radius: 12px;
+    background: rgba(242, 237, 230, .03);
+    font-size: 16px;
+  }
+  .dropdown-content a:active { background: rgba(242, 237, 230, .09); }
 
   .dropdown,
-  .ddbutton:hover .dropdown {
+  .has-dd:hover .dropdown {
     position: static;
     transform: none;
-    padding-top: 6px;
+    padding-top: 8px;
     perspective: none;
     pointer-events: auto;
   }
   .dropdown-content,
-  #clientdropdown .dropdown-content,
-  .ddbutton:hover .dropdown-content,
-  .ddbutton:focus-within .dropdown-content {
+  .has-dd:hover .dropdown-content,
+  .has-dd:focus-within .dropdown-content {
     width: 100%;
-    gap: 4px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
     padding: 0;
     border: none;
     border-radius: 0;
@@ -381,71 +399,133 @@ body.nav-open .navtoggle .bar:last-child  { transform: translateY(-3.75px) rotat
     filter: none;
     transform: none;
   }
-  .dropdown-content a img { width: 22px; height: 22px; }
 
   .navsheet-cta {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    padding: 11px;
+    height: 50px;
+    margin-top: 28px;
     border-radius: 999px;
     background: var(--h-paper);
     color: var(--h-ink);
-    font-size: 15px;
-    font-weight: 600;
+    font-size: 16px;
+    font-weight: 500;
     text-decoration: none;
   }
-  .navsheet-cta i { color: var(--h-ink); }
 }
-
-@media (max-width: 400px) {
+@media (max-width: 420px) {
+  .dropdown-content,
+  .has-dd:hover .dropdown-content,
+  .has-dd:focus-within .dropdown-content { grid-template-columns: 1fr; }
+}
+@media (max-width: 360px) {
   .brand-name { display: none; }
 }
 
-/* ===[ Footer ]================= */
-footer{
-  margin-top:30px;
-  padding:30px;
-  background:linear-gradient(transparent, rgba(255, 166, 0, 0.185));
-  z-index: 10;
+/* ===[ Footer ]================================================ */
+
+footer#footer {
+  position: relative;
+  z-index: 1;
+  margin-top: clamp(100px, 14vw, 180px);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.foot { position: relative; z-index: 2; }
+
+.foot-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line-2);
+}
+.foot-mail {
+  display: inline-flex;
+  align-items: baseline;
+  gap: .18em;
+  width: fit-content;
+  max-width: 100%;
+  font-size: clamp(34px, 7.4vw, 112px);
+  font-weight: 700;
+  letter-spacing: -.045em;
+  line-height: .95;
+  text-decoration: none;
+  color: var(--paper);
+  transition: color .35s var(--ease);
+  overflow-wrap: anywhere;
+}
+.foot-mail .arr { font-weight: 400; color: var(--faint); transition: transform .5s var(--ease), color .35s var(--ease); }
+.foot-mail:hover { color: var(--ember); }
+.foot-mail:hover .arr { color: var(--ember); transform: translate(.08em, -.08em); }
+
+.foot-cols {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 32px 24px;
+  margin-top: clamp(56px, 8vw, 110px);
+}
+.foot-cols h2 { margin-bottom: 14px; font-weight: 400; }
+.foot-cols a {
+  display: block;
+  width: fit-content;
+  padding: 3px 0;
+  font-size: 15px;
+  color: var(--dim);
+  text-decoration: none;
+  transition: color .2s var(--ease);
+}
+.foot-cols a:hover { color: var(--paper); }
+@media (max-width: 720px) {
+  .foot-cols { grid-template-columns: 1fr 1fr; }
+}
+
+.foot-base {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 28px;
+  margin-top: clamp(48px, 7vw, 90px);
+  padding-block: 18px;
+  border-top: 1px solid var(--line);
+  font-size: 12px;
+}
+.foot-base .fish { margin-left: auto; font-style: italic; }
+@media (max-width: 720px) { .foot-base .fish { margin-left: 0; } }
+
+/* The bc mark rising out of the bottom edge like a sun */
+.foot-mark {
+  position: relative;
+  z-index: 1;
+  height: clamp(170px, 25vw, 330px);
+  margin-top: clamp(20px, 4vw, 40px);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.foot-mark::before {
+  content: "";
   position: absolute;
-  padding:30px max(40px, calc(100vw - 1000px) / 2 + 30px);
-  width: 100vw;
+  left: 50%;
+  bottom: -60%;
+  width: min(1100px, 130vw);
+  aspect-ratio: 2 / 1;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 154, 31, .5), rgba(255, 120, 31, .14) 55%, transparent);
+  filter: blur(20px);
 }
-
-.flex{
-  display:flex;
-}
-footer{
-  display:grid;
-  grid-template-columns: repeat(var(--gc), 1fr) !important;
-  gap:20px;
-  box-sizing:border-box
-}
-/* @media (max-width: 600px) {
-  footer{
-    grid-template-columns: 1fr !important;
-  }
-} */
-footer h1{
-  /* font-size:24px; */
-  margin:0;
-}
-
-#footersep{
-  position:absolute;
-  width:calc(100vw - 60px);
-  left:30px;
-  right:30px;
-  height:1px;
-  background:var(--border);
-  margin-bottom:20px;
-}
-
-#subfooter{
-  text-align: center;
-  grid-column: span var(--gc);
-  opacity:.4;
-  font-weight:bold;
+.foot-mark img {
+  position: relative;
+  width: clamp(170px, 27vw, 360px);
+  height: auto;
+  align-self: flex-start;
+  transform: translateY(var(--rise, 30%));
+  -webkit-mask-image: linear-gradient(#000 20%, transparent 88%);
+  mask-image: linear-gradient(#000 20%, transparent 88%);
+  opacity: .92;
+  transition: transform .2s linear;
 }
