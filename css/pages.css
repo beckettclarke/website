@@ -664,6 +664,14 @@ body.scrolled .jump { top: 72px; }
 
 /* ---------- Type specimens (brand pages) ---------- */
 
+/* Crescent Outreach's heading face, served from the CDN */
+@font-face {
+  font-family: 'DIN Black';
+  src: url('https://cdn.beckettclarke.ca/fonts/DIN%20Black%20Regular.otf') format('opentype');
+  font-weight: 100 900;
+  font-display: swap;
+}
+
 .type { display: flex; flex-direction: column; gap: clamp(14px, 2vw, 22px); }
 .type-row {
   display: grid;

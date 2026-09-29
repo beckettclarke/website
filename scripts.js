@@ -90,6 +90,7 @@ function initPage(root, route) {
   if (focused && focused.closest && focused.closest('#header .dropdown')) focused.blur();
   markActiveNav(route);
 
+  initChips(root);
   initMasonry(root);
   initImages(root);
   initReveal(root);
@@ -98,6 +99,24 @@ function initPage(root, route) {
   initToc(root);
   initVideos(root);
   onScroll();
+}
+
+// Hero chips: work out how far each one may spread before it would push its
+// word onto the next line, and hand that to the CSS as --k.
+function initChips(root) {
+  root.querySelectorAll('.chip-stack, .chip-photos').forEach(chip => {
+    chip.addEventListener('mouseenter', () => {
+      const title = chip.closest('h1');
+      const group = chip.closest('.nw') || chip;
+      if (!title) return;
+      const imgs = chip.querySelectorAll('img').length;
+      const em = parseFloat(getComputedStyle(chip).fontSize);
+      const perGap = chip.classList.contains('chip-photos') ? .61 : .36;
+      const wanted = perGap * em * (imgs - 1);
+      const room = title.getBoundingClientRect().right - group.getBoundingClientRect().right - 2;
+      chip.style.setProperty('--k', Math.max(0, Math.min(1, room / wanted)).toFixed(3));
+    });
+  });
 }
 
 // Gallery markup stays a plain list of <img largeview> tags; wrap each one in a
@@ -413,13 +432,22 @@ function mi(e) {
   get.queryAll('.macicon.sel').forEach(el => el !== e && el.classList.remove('sel'));
   e.classList.add('sel');
 
-  const a = document.createElement('a');
-  a.href = img.src;
-  const filename = decodeURIComponent(img.src.split('/').pop());
-  a.download = filename || 'image.png';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  // The icons live on the CDN, and browsers ignore `download` on cross-origin
+  // links, so fetch the file and save it from a local blob URL instead.
+  const filename = decodeURIComponent(img.src.split('/').pop()) || 'icon.png';
+  fetch(img.src)
+    .then(r => { if (!r.ok) throw r; return r.blob(); })
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    })
+    .catch(() => window.open(img.src, '_blank', 'noopener'));
 
   const label = e.textContent.trim();
   toast(`<img src="${img.getAttribute('src')}" alt=""> Downloading ${label.replace(/[<>&]/g, '')}`);

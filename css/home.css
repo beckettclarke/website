@@ -10,7 +10,8 @@
   letter-spacing: -.048em;
   font-weight: 700;
   max-width: 14.6em;
-  text-wrap: pretty;
+  /* Greedy breaking: a growing chip can only affect the lines after it */
+  text-wrap: wrap;
 }
 .hero-title .hi { display: block; color: var(--paper); margin-bottom: .04em; }
 .hero-title .dim { color: rgba(242, 237, 230, .5); }
@@ -32,16 +33,12 @@
   box-shadow: 0 0 0 .045em var(--ink), 0 .08em .2em rgba(0, 0, 0, .5);
   outline: 1px solid rgba(255, 255, 255, .13);
   outline-offset: -1px;
-  transition: transform .6s var(--ease);
+  transition: transform .6s var(--ease), margin .6s var(--ease);
 }
 .chip-stack img + img { margin-left: -.3em; }
 .chip-stack img:nth-child(1) { transform: rotate(-8deg); }
 .chip-stack img:nth-child(2) { transform: rotate(4deg) translateY(-.03em); }
 .chip-stack img:nth-child(3) { transform: rotate(10deg); }
-/* Hover only moves things with transforms, so the line never reflows */
-.chip-stack:hover img:nth-child(1) { transform: translate(-.1em, -.06em) rotate(-4deg); }
-.chip-stack:hover img:nth-child(2) { transform: translateY(-.1em); }
-.chip-stack:hover img:nth-child(3) { transform: translate(.1em, -.06em) rotate(5deg); }
 
 .chip-photos img {
   width: 1.05em;
@@ -49,15 +46,20 @@
   border-radius: .14em;
   object-fit: cover;
   box-shadow: 0 0 0 .045em var(--ink), 0 .08em .24em rgba(0, 0, 0, .5);
-  transition: transform .6s var(--ease);
+  transition: transform .6s var(--ease), margin .6s var(--ease);
 }
 .chip-photos img + img { margin-left: -.55em; }
 .chip-photos img:nth-child(1) { transform: rotate(-7deg); }
 .chip-photos img:nth-child(2) { transform: rotate(3deg) translateY(-.04em); }
 .chip-photos img:nth-child(3) { transform: rotate(9deg); }
-.chip-photos:hover img:nth-child(1) { transform: translate(-.14em, -.06em) rotate(-10deg); }
-.chip-photos:hover img:nth-child(2) { transform: translateY(-.12em) rotate(1deg); }
-.chip-photos:hover img:nth-child(3) { transform: translate(.14em, -.06em) rotate(12deg); }
+
+/* Hover spreads the chip out and pushes the sentence along. --k (0 to 1) is
+   set by scripts.js from the room left on the line, so a chip at the end of
+   a line never grows enough to wrap and flicker. */
+.chip-stack:hover img + img  { margin-left: calc(-.3em + .36em * var(--k, 1)); }
+.chip-photos:hover img + img { margin-left: calc(-.55em + .61em * var(--k, 1)); }
+.chip-stack:hover img,
+.chip-photos:hover img { transform: rotate(0) translateY(-.06em); }
 
 .hero-actions {
   display: flex;
