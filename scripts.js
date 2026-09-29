@@ -2,7 +2,7 @@ log('Loaded scripts.js','#0066ff','📜 Script');
 // fetch() is blocked on file://, so fall back to the fragments.js bundle
 async function loadFragment(id, url) {
 	try {
-		get.id(id).innerHTML = await fetch(url).then(response => response.text());
+		get.id(id).innerHTML = await fetch(url, { cache: 'no-cache' }).then(response => response.text());
 	} catch (e) {
 		get.id(id).innerHTML = (window.BC_FRAGMENTS && window.BC_FRAGMENTS[url]) || '';
 	}
