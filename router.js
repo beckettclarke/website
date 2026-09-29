@@ -1,5 +1,7 @@
 log('Loaded script router.js v4', '#0066ff', '📜 Script');
 
+// file:// has an opaque "null" origin, which URL() rejects as a base
+const ORIGIN = location.origin === 'null' ? 'http://local.invalid' : location.origin;
 const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1' || location.protocol === 'file:';
 // const isLocal = true;
 // const useHashRouting = !isLiveSite; // clean urls only on real domain but not real right now
@@ -47,9 +49,13 @@ async function loadpage(page){
   const contentElement = document.getElementsByTagName('content')[0];
   contentElement.classList.remove('anim');
   if (contentElement) {
-    // Use an absolute path so the request is always made to the site's /pages/ folder
-    // (avoids resolving "pages/..." relative to a subpath like /clients/)
-    contentElement.innerHTML = await fetch(`/pages/${normalizedPage}.html`).then(response => {
+    // Relative path: index.html sets <base href="/"> on the live site, and on file:// it resolves next to index.html
+    const pageUrl = `pages/${normalizedPage}.html`;
+    contentElement.innerHTML = await fetch(pageUrl).catch(() => {
+      // fetch() is blocked on file://, fall back to the fragments.js bundle
+      const bundled = window.BC_FRAGMENTS && window.BC_FRAGMENTS[pageUrl];
+      return bundled == null ? Promise.reject() : { ok: true, text: () => bundled };
+    }).then(response => {
       if (!response.ok) {
         log(`Page not found: ${normalizedPage}`, '#ff0000', '🚫 Error');
       }
@@ -77,11 +83,11 @@ window.addEventListener('popstate', () => {
 
 function linkClick(e){
   const hrefValue = e.getAttribute('href') || '';
-  const dest = new URL(hrefValue, location.origin);
+  const dest = new URL(hrefValue, ORIGIN);
   const destPath = dest.pathname || '/';
   if (isLocal){
     // Use hash routing for local mode
-    history.pushState(null, null, location.origin + '#' + hrefValue);
+    history.pushState(null, null, (location.protocol === 'file:' ? location.pathname : location.origin) + '#' + hrefValue);
     log(`Routing ${location.origin}#${hrefValue}`, '#00cc88', '🔁 Hash');
   } else {
     // Push only the pathname (browser will resolve with the same origin)
@@ -116,8 +122,8 @@ document.addEventListener('click', function(e) {
   }
   
   // Only intercept links that are on the same origin
-  const url = new URL(href, location.origin);
-  if (url.origin === location.origin) {
+  const url = new URL(href, ORIGIN);
+  if (url.origin === ORIGIN) {
     e.preventDefault();
     linkClick(anchor); // Run this instead of normal href behavior
   }
