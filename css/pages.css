@@ -79,16 +79,6 @@
   letter-spacing: -.038em;
   line-height: 1;
 }
-.c-title sup {
-  position: static;
-  margin-top: .3em;
-  font-family: var(--mono);
-  font-size: 13px;
-  font-weight: 400;
-  letter-spacing: .04em;
-  line-height: 1;
-  color: var(--ember);
-}
 .c-sec-head p { margin-top: 14px; max-width: 36em; font-size: 16px; color: var(--dim); }
 
 .yb-video { aspect-ratio: 2 / 1; margin-bottom: clamp(10px, 1.4vw, 16px); }
@@ -239,14 +229,11 @@
   gap: 12px;
   min-height: 92px;
   padding: 16px 18px;
-  border: none;
   border-radius: var(--radius);
   background: var(--sw);
   color: var(--sw-fg, #fff);
   font-family: var(--sans);
   text-align: left;
-  cursor: copy;
-  transition: transform .5s var(--ease);
 }
 .swatch::after {
   content: "";
@@ -255,7 +242,6 @@
   border-radius: inherit;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .1);
 }
-.swatch:hover { transform: translateX(6px); }
 .swatch b { font-size: 17px; font-weight: 700; letter-spacing: -.01em; color: inherit; }
 .swatch span {
   font-family: var(--mono);
@@ -472,38 +458,7 @@ body.scrolled .jump { top: 72px; }
 
 /* ---------- Photography index ---------- */
 
-.albums {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  margin-top: clamp(48px, 7vw, 88px);
-}
-.album {
-  display: block;
-  text-decoration: none;
-}
-.album .frame { aspect-ratio: 4 / 5; }
-.album .frame img { transition: transform 1.4s var(--ease); }
-.album:hover .frame img { transform: scale(1.05); }
-.album-cap {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  gap: 12px;
-  margin-top: 14px;
-}
-.album-cap b {
-  font-size: clamp(20px, 2vw, 26px);
-  font-weight: 700;
-  letter-spacing: -.03em;
-  transition: color .3s var(--ease);
-}
-.album:hover .album-cap b { color: var(--ember); }
-.album-sub { margin-top: 4px; }
-@media (max-width: 760px) {
-  .albums { grid-template-columns: 1fr; }
-  .album .frame { aspect-ratio: 4 / 3; }
-}
+.display .nw { white-space: nowrap; }
 
 /* ---------- macOS Icons: a Finder window ---------- */
 
@@ -650,7 +605,7 @@ body.scrolled .jump { top: 72px; }
 
 .toc {
   position: fixed;
-  left: calc((100vw - var(--widthcap)) / 2 - 66px);
+  left: 28px;
   top: 50%;
   z-index: 60;
   display: flex;
@@ -706,3 +661,54 @@ body.scrolled .jump { top: 72px; }
 .toc a:hover i { background: var(--paper); }
 /* Only where there's a real margin beside the content */
 @media (max-width: 1399px) { .toc { display: none; } }
+
+/* ---------- Type specimens (brand pages) ---------- */
+
+.type { display: flex; flex-direction: column; gap: clamp(14px, 2vw, 22px); }
+.type-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: baseline;
+  gap: 24px;
+  color: var(--paper);
+}
+.type-name {
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 1.05;
+  letter-spacing: -.01em;
+  font-family: inherit;
+  font-weight: inherit;
+  white-space: nowrap;
+}
+.type-sample {
+  font-size: clamp(34px, 5vw, 64px);
+  line-height: 1.05;
+  font-family: inherit;
+  font-weight: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, #000 45%, transparent);
+  mask-image: linear-gradient(90deg, #000 45%, transparent);
+}
+.type-scale {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: clamp(40px, 5vw, 64px);
+}
+.ts-row {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 16px;
+}
+.ts { line-height: 1.1; color: var(--paper); }
+.ts-1 { font-size: clamp(40px, 5vw, 64px); }
+.ts-2 { font-size: clamp(32px, 3.8vw, 48px); }
+.ts-3 { font-size: clamp(26px, 3vw, 36px); }
+.ts-4 { font-size: clamp(18px, 1.8vw, 22px); }
+@media (max-width: 700px) {
+  .type-row { grid-template-columns: 1fr; gap: 4px; }
+  .type-sample { font-size: 28px; }
+  .ts-row { grid-template-columns: 1fr; gap: 2px; }
+}

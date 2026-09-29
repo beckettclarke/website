@@ -406,18 +406,6 @@ function toast(html) {
   toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
 }
 
-// ===[ Brand swatches: click to copy the hex ]===============
-document.addEventListener('click', e => {
-  const sw = e.target.closest('.swatch[data-hex]');
-  if (!sw) return;
-  const hex = sw.dataset.hex;
-  const chip = `<span style="width:18px;height:18px;border-radius:5px;background:${hex};box-shadow:inset 0 0 0 1px rgba(255,255,255,.2)"></span>`;
-  const done = () => toast(`${chip} Copied ${hex}`);
-  const fail = () => toast(`${chip} ${hex}`);
-  if (navigator.clipboard) navigator.clipboard.writeText(hex).then(done, fail);
-  else fail();
-});
-
 // ===[ macOS icons: select like Finder, then download ]=======
 function mi(e) {
   const img = e.querySelector('img');
