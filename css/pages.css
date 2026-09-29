@@ -720,3 +720,26 @@ body.scrolled .jump { top: 72px; }
   .type-sample { font-size: 28px; }
   .ts-row { grid-template-columns: 1fr; gap: 2px; }
 }
+
+/* ---------- Drone page: the Mavic on a light product tile ---------- */
+
+.gear-tile {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: clamp(64px, 8vw, 112px);
+  aspect-ratio: 1;
+  border-radius: 24%;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 30%, #f7f3ec 0%, #e3ddd3 55%, #cbc4b9 100%);
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, .7), inset 0 1px 0 rgba(255, 255, 255, .6);
+}
+.gear-tile img {
+  width: 128%;
+  max-width: none;
+  height: auto;
+  transform: translateY(4%);
+  filter: drop-shadow(0 6px 6px rgba(0, 0, 0, .25));
+  transition: transform .9s var(--ease);
+}
+.gear-tile:hover img { transform: translateY(-2%) rotate(-3deg); }
