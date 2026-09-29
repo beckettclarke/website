@@ -1,34 +1,51 @@
-<div nodrag class="mw">
-  <a href="/"><img class="lightinvert" src="/icons/logo.svg"></a>
-  <a href="/" class="ddbutton">Home</a>
-  <button class="ddbutton">Apps
-    <div class="dropdown">
-      <div class="dropdown-content shadowdi">
-        <a href="https://beckettclarke.github.io/imagesnap"><img src="/icons/imagesnap.png"> Imagesnap</a>
-        <a href="https://pastezone.beckettclarke.ca"><img src="/icons/pastezone.png"> Pastezone</a>
-        <a><img src="/icons/screentest.png"> Screentest</a>
-      </div>
+<nav nodrag class="navbar">
+  <a href="/" class="brand" aria-label="Beckett Clarke — home">
+    <img class="brand-mark" src="icons/logo.svg" alt="">
+    <span class="brand-name">Beckett Clarke</span>
+  </a>
+
+  <div class="nav" id="nav">
+    <div class="navsection">
+      <a href="/" class="ddbutton">Home</a>
     </div>
-  </button>
-  <button class="ddbutton">Work
-    <div id="clientdropdown" class="dropdown">
-      <div class="dropdown-content shadowdi">
-        <a href="/clients/opportunitynorth/"><img class="hic" src="/icons/opportunitynorth.png"> Opportunity North <span class="fas half">&#xf03e; &#xf0ac;</span></a>
-        <a href="/clients/team610/"> <img class="hic" src="/icons/team610.png"> Team 610 <span class="fas half">&#xf0ac; &#xf02d;</span></a>
-        <a href="/clients/csoutreach/"><img class="hic" src="/icons/csoutreach.png"> Crescent Outreach <span class="fas half">&#xf03e;</span></a>
-        <a href="/clients/apollozhang/"><img class="hic" src="/icons/apollozhang.png"> Apollo Zhang <span class="fas half">&#xf03e;</span></a>
-      </div>
+
+    <div class="navsection">
+      <button class="ddbutton" type="button">Apps <i class="fas fa-chevron-down chev"></i>
+        <div class="dropdown">
+          <div class="dropdown-content">
+            <a href="https://beckettclarke.github.io/imagesnap"><img src="icons/imagesnap.png" alt=""> Imagesnap</a>
+            <a href="https://pastezone.beckettclarke.ca"><img src="icons/pastezone.png" alt=""> Pastezone</a>
+            <a><img src="icons/screentest.png" alt=""> Screentest</a>
+          </div>
+        </div>
+      </button>
     </div>
+
+    <div class="navsection">
+      <button class="ddbutton" type="button">Work <i class="fas fa-chevron-down chev"></i>
+        <div id="clientdropdown" class="dropdown">
+          <div class="dropdown-content">
+            <a href="/clients/opportunitynorth/"><img class="hic" src="icons/opportunitynorth.png" alt=""> Opportunity North <span class="fas half">&#xf03e; &#xf0ac;</span></a>
+            <a href="/clients/team610/"><img class="hic" src="icons/team610.png" alt=""> Team 610 <span class="fas half">&#xf0ac; &#xf02d;</span></a>
+            <a href="/clients/csoutreach/"><img class="hic" src="icons/csoutreach.png" alt=""> Crescent Outreach <span class="fas half">&#xf03e;</span></a>
+            <a href="/clients/apollozhang/"><img class="hic" src="icons/apollozhang.png" alt=""> Apollo Zhang <span class="fas half">&#xf03e;</span></a>
+          </div>
+        </div>
+      </button>
+    </div>
+
+    <div class="navsection">
+      <a href="/photography" class="ddbutton">Photos</a>
+    </div>
+
+    <a class="navsheet-cta" href="mailto:hi@beckettclarke.ca">Get in touch <i class="fas fa-arrow-right"></i></a>
+  </div>
+
+  <a class="navcta" href="mailto:hi@beckettclarke.ca">Get in touch
+    <span class="cta-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></span>
+  </a>
+  <button class="navtoggle" id="navtoggle" type="button" aria-label="Menu" aria-expanded="false">
+    <span class="bar"></span>
+    <span class="bar"></span>
   </button>
-  <!-- <button class="ddbutton">Socials
-    <div class="dropdown">
-      <div class="dropdown-content shadowdi">
-        <a href="https://github.com/beckettclarke"><img src="./icons/socials/github.png"> GitHub</a>
-        <a href="https://instagram.com/beckett_clarke" target="_blank"><img src="./icons/socials/instagram.png"> Instagram</a>
-        <a href="https://log.concept2.com/profile/2242336" target="_blank"><img src="./icons/socials/concept2.png"> Concept2</a>
-        <a href="https://log.concept2.com/profile/2242336" target="_blank"><img src="./icons/socials/steam.png"> Steam</a>
-      </div>
-    </div> -->
-  <!-- </button> -->
-  <a href="/photography" class="ddbutton">Photos</a>
-</div>
+</nav>

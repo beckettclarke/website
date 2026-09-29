@@ -1,92 +1,406 @@
-.shadowdi{
-  box-shadow:0 0px 0px 1px rgba(0,0,0,.06),0 1px 1px -0.5px rgba(0,0,0,.06),0 3px 3px -1.5px rgba(0,0,0,.06),0 6px 6px -3px rgba(0,0,0,.06),0 12px 12px -6px rgba(0,0,0,.04),0 24px 24px -12px rgba(0,0,0,.04),0 24px 24px 2px rgba(0,0,0,.1)
-}
-header{
-  z-index:100;
-  background-color: var(--overlay);
-  backdrop-filter:blur(20px);
-  box-shadow: var(--shadow);
+/* ===[ Header — Fable 5.1 style ]============================
+   Floating bar: transparent at the top of the page, then it tightens
+   up into a blurred, bordered pill once the page scrolls. */
+
+header#header {
+  --h-line: rgba(255, 255, 255, .08);
+  --h-line-2: rgba(255, 255, 255, .14);
+  --h-dim: rgba(255, 255, 255, .62);
+  --h-faint: rgba(255, 255, 255, .38);
+  --h-paper: #f4f4f5;
+  --h-ink: #0a0a0b;
+  --h-accent: #ff9f1a;
+  --h-ease: cubic-bezier(.22, 1, .36, 1);
+
   position: fixed;
-  top:0px;
-  width:100vw;
-  border-bottom: 1px solid transparent;
-  transition:border 0.2 ease;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  box-sizing: border-box;
+  padding: 16px 13px 0;
+  transition: padding .5s var(--h-ease);
 }
-header > div{
-display: flex;
+body.scrolled header#header,
+body.nav-open header#header { padding-top: 10px; }
+
+.navbar {
+  position: relative;
+  isolation: isolate;
+  display: flex;
   align-items: center;
-  gap:15px;
-  padding: 15px 20px;
+  gap: 10px;
+  max-width: calc(var(--widthcap) + 24px);
+  height: 54px;
+  margin: 0 auto;
+  padding: 0 8px 0 12px;
+  box-sizing: border-box;
 }
 
-body.scrolled header {
-  border-bottom: 1px solid var(--border);
+/* The glass lives on a pseudo-element, so the bar never becomes a
+   containing block for the fixed mobile drawer, and the dropdowns
+   keep their own backdrop-filter. */
+.navbar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: 1px solid transparent;
+  border-radius: 16px;
+  background: rgba(10, 10, 11, 0);
+  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, 0);
+  -webkit-backdrop-filter: blur(0);
+  backdrop-filter: blur(0);
+  transition: background .5s var(--h-ease), border-color .5s var(--h-ease),
+              box-shadow .5s var(--h-ease), backdrop-filter .5s var(--h-ease),
+              -webkit-backdrop-filter .5s var(--h-ease);
+}
+body.scrolled .navbar::before,
+body.nav-open .navbar::before {
+  border-color: var(--h-line-2);
+  background: rgba(10, 10, 11, .7);
+  box-shadow: 0 24px 50px -12px rgba(0, 0, 0, .45);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  backdrop-filter: blur(24px) saturate(160%);
 }
 
-header button,header a{
-  background: none;
-  border: none;
-  cursor: pointer;
-  color: var(--text-color);
-  font-size: 17px;
-  transition:background-color 0.2s ease;
-  padding:5px 10px;
-  border-radius: 7.5px;
-}
+/* ===[ Brand ]=============================================== */
 
-header a{
-  display:flex;
+.brand {
+  display: flex;
   align-items: center;
-  gap:5px;
-  transition:background-color 0.2s ease;
-  font-size:16px;
+  gap: 10px;
   text-decoration: none;
 }
 
-header a img{
-  width:25px;
+.brand-mark {
+  width: 19px;
+  height: auto;
+  display: block;
+  transition: transform .5s var(--h-ease);
 }
-header  button:hover, header a:hover,header button.active,header a.active{
-  background-color: var(--border);
-}
-.dropdown{
-  perspective:2000px;
-  transform:translateX(-85px) translateY(5px);
+.brand:hover .brand-mark,
+.brand:focus-visible .brand-mark { transform: scale(1.12); }
+
+.brand-name {
+  font-size: 14.5px;
+  font-weight: 600;
+  letter-spacing: -.015em;
+  white-space: nowrap;
 }
 
-.dropdown-content{
-  position:fixed;
-  border:1px solid var(--border);
+/* ===[ Nav ]================================================= */
+
+.nav {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.navsection { display: contents; }
+
+.ddbutton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -.005em;
+  color: var(--h-dim);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color .18s var(--h-ease), background .18s var(--h-ease);
+}
+.ddbutton:hover,
+.ddbutton:focus-within,
+.ddbutton.active {
+  color: var(--h-paper);
+  background: rgba(255, 255, 255, .06);
+}
+
+.ddbutton .chev {
+  font-size: 9px;
+  color: inherit;
+  opacity: .55;
+  transition: transform .35s var(--h-ease), opacity .18s var(--h-ease);
+}
+.ddbutton:hover .chev,
+.ddbutton:focus-within .chev { transform: rotate(180deg); opacity: .9; }
+
+/* ===[ Dropdowns ]=========================================== */
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  padding-top: 12px;
+  perspective: 1200px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.ddbutton:hover .dropdown,
+.ddbutton:focus-within .dropdown { pointer-events: auto; }
+
+.dropdown-content {
+  display: flex;
   flex-direction: column;
-  padding:5px;
+  gap: 1px;
+  width: 210px;
+  padding: 4px;
+  box-sizing: border-box;
+  border: 1px solid var(--h-line-2);
+  border-radius: 13px;
+  background: rgba(17, 17, 19, .84);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .4), 0 24px 64px rgba(0, 0, 0, .42);
   opacity: 0;
-  transform: rotateX(-10deg) scale(.9);
-  pointer-events:none;
-  background:var(--foreground);
-  border-radius:10px;
-  display:flex;
-  width: 230px;
-  box-sizing:border-box;
-
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  filter: blur(4px);
+  transform: rotateX(-9deg) translateY(-6px) scale(.97);
+  transform-origin: top center;
+  transition: opacity .35s var(--h-ease), transform .35s var(--h-ease), filter .35s var(--h-ease);
 }
-.ddbutton:hover .dropdown-content{
+#clientdropdown .dropdown-content { width: 250px; }
+.ddbutton:hover .dropdown-content,
+.ddbutton:focus-within .dropdown-content {
   opacity: 1;
-  transform: rotateX(0deg) scale(1);
-  pointer-events:all;
-
+  filter: none;
+  transform: none;
 }
 
-.hic{
-  border-radius:5px;
-  scale:.84;
+.dropdown-content a {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 8px;
+  border-radius: 9px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--h-dim);
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background .18s var(--h-ease), color .18s var(--h-ease);
+}
+.dropdown-content a:hover { background: rgba(255, 255, 255, .06); color: var(--h-paper); }
+.dropdown-content a img {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  object-fit: cover;
+  flex: 0 0 auto;
+}
+.dropdown-content .half {
+  margin-left: auto;
+  font-size: 11px;
+  color: inherit;
+  opacity: .38;
+  white-space: nowrap;
 }
 
-#clientdropdown{
-  transform:translateX(-115px) translateY(5px);
+/* ===[ CTA ]================================================= */
+
+/* White pill with a dark arrow disc; on hover the pill takes the accent
+   and the disc turns the arrow from ↗ to →. */
+.navcta {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 5px 5px 16px;
+  border-radius: 999px;
+  background: var(--h-paper);
+  color: var(--h-ink);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -.01em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .35s var(--h-ease), box-shadow .35s var(--h-ease),
+              transform .18s var(--h-ease);
 }
-#clientdropdown .dropdown-content{
-  width:300px;
+.navcta:hover {
+  background: var(--h-accent);
+  box-shadow: 0 8px 26px rgba(255, 159, 26, .2);
+}
+.navcta:active { transform: scale(.98); }
+
+.cta-arrow {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--h-ink);
+  color: var(--h-paper);
+  transition: transform .35s var(--h-ease);
+}
+.cta-arrow svg { width: 12px; height: 12px; }
+.navcta:hover .cta-arrow { transform: rotate(45deg); }
+
+/* ===[ Mobile ]============================================== */
+
+/* Two hairlines that cross into an X. */
+.navtoggle {
+  display: none;
+  margin-left: auto;
+  width: 38px;
+  height: 38px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 0;
+  border: 1px solid var(--h-line-2);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: background .18s var(--h-ease);
+}
+.navtoggle:hover { background: rgba(255, 255, 255, .06); }
+.navtoggle .bar {
+  display: block;
+  width: 16px;
+  height: 1.5px;
+  border-radius: 1px;
+  background: var(--h-paper);
+  transition: transform .35s var(--h-ease);
+}
+body.nav-open .navtoggle .bar:first-child { transform: translateY(3.75px) rotate(45deg); }
+body.nav-open .navtoggle .bar:last-child  { transform: translateY(-3.75px) rotate(-45deg); }
+
+.navsheet-cta { display: none; }
+
+@media (max-width: 760px) {
+  .navtoggle { display: flex; }
+  .navcta { display: none; }
+
+  /* Full-screen drawer, sitting under the floating bar */
+  .nav {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    display: block;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    transform: none;
+    padding: 84px 20px calc(24px + env(safe-area-inset-bottom));
+    background: rgba(10, 10, 11, .95);
+    -webkit-backdrop-filter: blur(40px);
+    backdrop-filter: blur(40px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .5s var(--h-ease);
+  }
+  body.nav-open .nav { opacity: 1; pointer-events: auto; }
+  body.nav-open { overflow: hidden; }
+
+  /* Sections rise in one after another. */
+  .navsection,
+  .navsheet-cta {
+    display: block;
+    margin-bottom: 14px;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity .5s var(--h-ease), transform .5s var(--h-ease);
+  }
+  body.nav-open .navsection,
+  body.nav-open .navsheet-cta { opacity: 1; transform: none; }
+  body.nav-open .navsection:nth-of-type(2) { transition-delay: .05s; }
+  body.nav-open .navsection:nth-of-type(3) { transition-delay: .1s; }
+  body.nav-open .navsection:nth-of-type(4) { transition-delay: .15s; }
+  body.nav-open .navsheet-cta              { transition-delay: .2s; }
+
+  .ddbutton .chev { display: none; }
+
+  /* A dropdown trigger becomes a group heading... */
+  button.ddbutton,
+  button.ddbutton:hover,
+  button.ddbutton:focus-within {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--h-faint);
+    text-align: left;
+    cursor: default;
+  }
+
+  /* ...and plain links stay tappable rows. */
+  a.ddbutton,
+  .dropdown-content a {
+    padding: 9px 11px;
+    border: 1px solid var(--h-line);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, .03);
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -.01em;
+    text-transform: none;
+    color: var(--h-paper);
+  }
+  a.ddbutton:active,
+  .dropdown-content a:active { background: rgba(255, 255, 255, .09); }
+
+  .dropdown,
+  .ddbutton:hover .dropdown {
+    position: static;
+    transform: none;
+    padding-top: 6px;
+    perspective: none;
+    pointer-events: auto;
+  }
+  .dropdown-content,
+  #clientdropdown .dropdown-content,
+  .ddbutton:hover .dropdown-content,
+  .ddbutton:focus-within .dropdown-content {
+    width: 100%;
+    gap: 4px;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    box-shadow: none;
+    opacity: 1;
+    filter: none;
+    transform: none;
+  }
+  .dropdown-content a img { width: 22px; height: 22px; }
+
+  .navsheet-cta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px;
+    border-radius: 999px;
+    background: var(--h-paper);
+    color: var(--h-ink);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .navsheet-cta i { color: var(--h-ink); }
+}
+
+@media (max-width: 400px) {
+  .brand-name { display: none; }
 }
 
 /* ===[ Footer ]================= */
