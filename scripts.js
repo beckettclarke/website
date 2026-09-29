@@ -1,7 +1,6 @@
 log('Loaded scripts.js v12', '#0066ff', '📜 Script');
 
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
 
 // ===[ Fragments ]============================================
 // fetch() is blocked on file://, so fall back to the fragments.js bundle
@@ -67,6 +66,7 @@ function onScroll() {
     const p = Math.min(1, Math.max(0, (window.innerHeight - r.top) / (r.height + 120)));
     mark.style.setProperty('--rise', `${(1 - p) * 70 + 6}%`);
   }
+  updateToc();
   scrollTick = false;
 }
 window.addEventListener('scroll', () => {
@@ -89,14 +89,13 @@ function initPage(root, route) {
   const focused = document.activeElement;
   if (focused && focused.closest && focused.closest('#header .dropdown')) focused.blur();
   markActiveNav(route);
-  hidePeek();
 
   initMasonry(root);
   initImages(root);
   initReveal(root);
   initStrip(root);
-  initPeek(root);
   initJump(root);
+  initToc(root);
   initVideos(root);
   onScroll();
 }
@@ -168,53 +167,6 @@ function initStrip(root) {
   });
 }
 
-// ===[ Work list: preview that trails the cursor ]============
-const peek = { el: null, img: null, x: 0, y: 0, tx: 0, ty: 0, on: false, raf: 0 };
-
-function hidePeek() {
-  if (!peek.el) return;
-  peek.on = false;
-  peek.el.classList.remove('on');
-}
-
-function initPeek(root) {
-  const list = root.querySelector('.work-list');
-  if (!list || !finePointer.matches) return;
-  peek.el = get.id('peek');
-  peek.img = peek.el.querySelector('img');
-
-  // Warm the cache so the first hover isn't blank
-  list.querySelectorAll('[data-peek]').forEach(a => { new Image().src = a.dataset.peek; });
-
-  const loop = () => {
-    peek.x += (peek.tx - peek.x) * .14;
-    peek.y += (peek.ty - peek.y) * .14;
-    const dx = peek.tx - peek.x;
-    const rot = Math.max(-10, Math.min(10, dx * .06));
-    const h = peek.el.offsetHeight;
-    peek.el.style.transform = `translate3d(${peek.x + 28}px, ${peek.y - h / 2}px, 0) rotate(${rot}deg)`;
-    if (peek.on || Math.abs(dx) > .4) peek.raf = requestAnimationFrame(loop);
-    else peek.raf = 0;
-  };
-
-  list.addEventListener('mousemove', e => {
-    peek.tx = e.clientX;
-    peek.ty = e.clientY;
-    if (!peek.raf) peek.raf = requestAnimationFrame(loop);
-  });
-  list.querySelectorAll('[data-peek]').forEach(row => {
-    row.addEventListener('mouseenter', e => {
-      if (!peek.on) { peek.x = peek.tx = e.clientX; peek.y = peek.ty = e.clientY; }
-      peek.img.src = row.dataset.peek;
-      peek.on = true;
-      peek.el.classList.add('on');
-      if (!peek.raf) peek.raf = requestAnimationFrame(loop);
-    });
-  });
-  list.addEventListener('mouseleave', hidePeek);
-  window.addEventListener('scroll', hidePeek, { passive: true });
-}
-
 // ===[ Sticky jump nav with scroll-spy ]======================
 let jumpIO;
 function initJump(root) {
@@ -235,6 +187,80 @@ function initJump(root) {
     });
   }, { rootMargin: '-35% 0px -60% 0px' });
   byId.forEach((a, id) => { const s = document.getElementById(id); if (s) jumpIO.observe(s); });
+}
+
+// ===[ Section notches ]=====================================
+// Pages marked data-toc get a ruler on the left: one long notch per
+// section, short ones between that fill in as you read through it.
+let toc = null;
+const TOC_MINOR = 3;
+
+function pageTop(el) {
+  let y = 0;
+  for (let n = el; n; n = n.offsetParent) y += n.offsetTop;
+  return y;
+}
+
+function initToc(root) {
+  const old = get.query('body > .toc');
+  if (old) old.remove();
+  toc = null;
+
+  const page = root.querySelector('[data-toc]');
+  if (!page) return;
+  const secs = [...page.querySelectorAll('section[data-toc-label]:not([hidden])')];
+  if (secs.length < 2) return;
+
+  const nav = document.createElement('nav');
+  nav.className = 'toc';
+  nav.setAttribute('aria-label', 'Sections');
+  const majors = [], minors = [];
+  secs.forEach((sec, i) => {
+    const a = document.createElement('a');
+    a.className = 'major';
+    a.href = '#' + sec.id;
+    a.innerHTML = '<i></i><span></span>';
+    a.querySelector('span').textContent = sec.dataset.tocLabel;
+    nav.appendChild(a);
+    majors.push(a);
+    const row = [];
+    if (i < secs.length - 1) {
+      for (let k = 0; k < TOC_MINOR; k++) {
+        const m = document.createElement('span');
+        m.className = 'minor';
+        m.innerHTML = '<i></i>';
+        nav.appendChild(m);
+        row.push(m);
+      }
+    }
+    minors.push(row);
+  });
+  document.body.appendChild(nav);
+  toc = { nav, secs, majors, minors };
+  updateToc();
+}
+
+function updateToc() {
+  if (!toc) return;
+  const { nav, secs, majors, minors } = toc;
+  const y = window.scrollY + window.innerHeight * .4;
+  const tops = secs.map(pageTop);
+  const last = secs[secs.length - 1];
+  const end = tops[tops.length - 1] + last.offsetHeight;
+
+  let cur = -1;
+  tops.forEach((t, i) => { if (y >= t) cur = i; });
+  nav.classList.toggle('on', y >= tops[0] - window.innerHeight * .3 && y < end + window.innerHeight * .2);
+
+  majors.forEach((a, i) => {
+    a.classList.toggle('lit', i <= cur);
+    a.classList.toggle('active', i === cur);
+  });
+  minors.forEach((row, i) => {
+    if (!row.length) return;
+    const p = (y - tops[i]) / (tops[i + 1] - tops[i]);
+    row.forEach((m, k) => m.classList.toggle('lit', p > (k + 1) / (TOC_MINOR + 1)));
+  });
 }
 
 // ===[ Videos only play while on screen ]=====================
