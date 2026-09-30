@@ -565,13 +565,23 @@ body.scrolled .jump { top: 72px; }
 /* ---------- Not found ---------- */
 
 .lost {
-  min-height: 62vh;
+  min-height: 64vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 28px;
 }
-.lost .display span { color: var(--ghost); }
+.lost-code {
+  font-size: clamp(150px, 31vw, 420px);
+  font-weight: 900;
+  letter-spacing: -.065em;
+  line-height: .8;
+  margin-left: -.04em;
+}
+.lost-cap {
+  margin-top: clamp(20px, 3vw, 36px);
+  font-size: clamp(18px, 1.8vw, 24px);
+  color: var(--dim);
+}
 
 /* ---------- One-offs ---------- */
 
