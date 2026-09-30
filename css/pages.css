@@ -565,23 +565,48 @@ body.scrolled .jump { top: 72px; }
 /* ---------- Not found ---------- */
 
 .lost {
-  min-height: 64vh;
+  position: relative;
+  isolation: isolate;
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
   justify-content: center;
+  text-align: center;
+}
+/* Soft ember glow sitting behind the number */
+.lost::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: 50%;
+  top: 44%;
+  width: min(900px, 110vw);
+  aspect-ratio: 2 / 1;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(255, 154, 31, .16), rgba(255, 120, 31, .05) 55%, transparent);
+  filter: blur(30px);
+  pointer-events: none;
 }
 .lost-code {
-  font-size: clamp(150px, 31vw, 420px);
+  font-size: clamp(150px, 30vw, 400px);
   font-weight: 900;
   letter-spacing: -.065em;
   line-height: .8;
-  margin-left: -.04em;
+  padding: 0 .06em .04em 0;
+  background: linear-gradient(180deg, #f7f2ea 25%, rgba(242, 237, 230, .38) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 50px rgba(255, 154, 31, .18));
 }
 .lost-cap {
-  margin-top: clamp(20px, 3vw, 36px);
+  margin-top: clamp(22px, 3vw, 36px);
   font-size: clamp(18px, 1.8vw, 24px);
   color: var(--dim);
 }
+.lost .btn { margin-top: clamp(24px, 3vw, 36px); }
 
 /* ---------- One-offs ---------- */
 
