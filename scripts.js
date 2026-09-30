@@ -299,7 +299,7 @@ function initVideos(root) {
 
 // ===[ Lightbox ]=============================================
 const lb = {
-  el: null, img: null, list: [], i: 0, lastFocus: null,
+  el: null, img: null, list: [], i: 0, token: 0, lastFocus: null,
   get open() { return this.el && this.el.classList.contains('open'); }
 };
 
@@ -314,37 +314,75 @@ function frameName(src) {
   return n.replace(/_/g, ' ');
 }
 
-function lbShow(i) {
+// dir: 1 = next, -1 = previous, 0 = just opened
+function lbShow(i, dir = 0) {
   const n = lb.list.length;
+  const token = ++lb.token;
   lb.i = (i + n) % n;
   const thumb = lb.list[lb.i];
   const full = fullSrc(thumb);
+  const preview = thumb.currentSrc || thumb.getAttribute('src');
   const pad = String(n).length < 2 ? 2 : String(n).length;
+  const img = lb.img;
 
   lb.el.querySelector('.lb-count').textContent = `${String(lb.i + 1).padStart(pad, '0')} / ${String(n).padStart(pad, '0')}`;
   const section = thumb.closest('[data-name]');
   lb.el.querySelector('.lb-name').textContent = (section ? section.dataset.name + ' · ' : '') + frameName(full);
-  lb.img.alt = thumb.alt || '';
 
-  // Show the cached preview straight away, then swap in the full-size file
-  lb.img.classList.remove('ready');
-  lb.img.classList.add('soft');
-  lb.el.classList.add('loading');
-  lb.img.src = thumb.currentSrc || thumb.src;
-  requestAnimationFrame(() => lb.img.classList.add('ready'));
+  const live = () => token === lb.token;
+  const decode = el => (el.decode ? el.decode().catch(() => {}) : Promise.resolve());
+  const reveal = () => { if (!live()) return; void img.offsetWidth; img.classList.remove('pre'); };
 
-  const hi = new Image();
-  hi.onload = () => {
-    if (lb.list[lb.i] !== thumb) return;
-    lb.img.src = full;
-    lb.img.classList.remove('soft');
-    lb.el.classList.remove('loading');
+  const enter = () => {
+    if (!live()) return;
+    // Park the image just off to the side, invisible, ready to slide in
+    img.style.setProperty('--dir', dir);
+    img.classList.remove('leave');
+    img.classList.add('pre', 'soft');
+    lb.el.classList.add('loading');
+    img.alt = thumb.alt || '';
+
+    let hiReady = false;
+
+    // The gallery thumbnail is usually cached, so it can go up straight away
+    const pv = new Image();
+    const showPreview = () => {
+      if (!live() || hiReady) return;
+      img.src = preview;
+      decode(img).then(reveal);
+    };
+    pv.onload = pv.onerror = showPreview;
+    pv.src = preview;
+    if (pv.complete && pv.naturalWidth) { pv.onload = pv.onerror = null; showPreview(); }
+
+    // Then the full-size file replaces it once it has arrived
+    const hi = new Image();
+    hi.onload = () => decode(hi).then(() => {
+      if (!live()) return;
+      hiReady = true;
+      img.src = full;
+      img.classList.remove('soft');
+      lb.el.classList.remove('loading');
+      reveal();
+    });
+    hi.onerror = () => { if (live()) { img.classList.remove('soft'); lb.el.classList.remove('loading'); reveal(); } };
+    hi.src = full;
   };
-  hi.onerror = () => { lb.img.classList.remove('soft'); lb.el.classList.remove('loading'); };
-  hi.src = full;
 
-  // Preload neighbours
-  [1, -1].forEach(d => { const t = lb.list[(lb.i + d + n) % n]; if (t) new Image().src = fullSrc(t); });
+  // Slide the current photo a little way out first, then bring the next one in
+  if (dir && img.getAttribute('src')) {
+    img.style.setProperty('--dir', dir);
+    img.classList.add('leave');
+    setTimeout(enter, 170);
+  } else {
+    enter();
+  }
+
+  // Warm up the neighbours so paging feels instant
+  [1, -1].forEach(d => {
+    const t = lb.list[(lb.i + d + n) % n];
+    if (t) { new Image().src = t.getAttribute('src'); new Image().src = fullSrc(t); }
+  });
 }
 
 function lbOpen(list, i) {
@@ -360,6 +398,7 @@ function lbOpen(list, i) {
 
 function lbClose() {
   if (!lb.open) return;
+  lb.token++;
   lb.el.classList.remove('open', 'loading');
   lb.el.setAttribute('aria-hidden', 'true');
   document.documentElement.style.overflow = '';
@@ -383,15 +422,15 @@ function initLightbox() {
   });
 
   lb.el.querySelector('.lb-close').addEventListener('click', lbClose);
-  lb.el.querySelector('.lb-prev').addEventListener('click', () => lbShow(lb.i - 1));
-  lb.el.querySelector('.lb-next').addEventListener('click', () => lbShow(lb.i + 1));
+  lb.el.querySelector('.lb-prev').addEventListener('click', () => lbShow(lb.i - 1, -1));
+  lb.el.querySelector('.lb-next').addEventListener('click', () => lbShow(lb.i + 1, 1));
   lb.el.querySelector('.lb-stage').addEventListener('click', e => { if (e.target !== lb.img) lbClose(); });
 
   document.addEventListener('keydown', e => {
     if (!lb.open) return;
     if (e.key === 'Escape') lbClose();
-    else if (e.key === 'ArrowRight') lbShow(lb.i + 1);
-    else if (e.key === 'ArrowLeft') lbShow(lb.i - 1);
+    else if (e.key === 'ArrowRight') lbShow(lb.i + 1, 1);
+    else if (e.key === 'ArrowLeft') lbShow(lb.i - 1, -1);
     else if (e.key === 'Tab') {
       // Keep focus inside the viewer
       const f = [...lb.el.querySelectorAll('button')].filter(b => b.offsetParent);
@@ -408,7 +447,7 @@ function initLightbox() {
     if (sx == null) return;
     const dx = e.changedTouches[0].clientX - sx;
     const dy = e.changedTouches[0].clientY - sy;
-    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) lbShow(lb.i + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) lbShow(lb.i + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
     else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) lbClose();
     sx = sy = null;
   });
