@@ -149,6 +149,7 @@ content {
   transition: opacity 1.2s var(--ease);
 }
 body.has-tint #tint { opacity: .55; }
+body.has-tint.tint-held #tint { opacity: 0; }
 
 /* ===[ Type ]================================================== */
 

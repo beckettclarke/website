@@ -56,6 +56,17 @@
 /* Hover spreads the chip out and pushes the sentence along. --k (0 to 1) is
    set by scripts.js from the room left on the line, so a chip at the end of
    a line never grows enough to wrap and flicker. */
+/* Hover is read from the chip's own box, never the images: they tilt and move
+   as it spreads, so a corner could slide out from under the cursor and loop.
+   The box only grows when spread, so the pointer can't fall out of it. */
+.chip-stack, .chip-photos { position: relative; }
+.chip-stack img, .chip-photos img { pointer-events: none; }
+.chip-stack::before,
+.chip-photos::before {
+  content: "";
+  position: absolute;
+  inset: -.12em -.06em;
+}
 .chip-stack:hover img + img  { margin-left: calc(-.3em + .36em * var(--k, 1)); }
 .chip-photos:hover img + img { margin-left: calc(-.55em + .61em * var(--k, 1)); }
 .chip-stack:hover img,
@@ -71,7 +82,9 @@
 /* ---------- Filmstrip ---------- */
 
 .strip {
-  margin-top: clamp(44px, 5vw, 64px);
+  /* Headroom so the hover lift isn't clipped by overflow: hidden */
+  margin-top: calc(clamp(44px, 5vw, 64px) - 12px);
+  padding-top: 12px;
   overflow: hidden;
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
@@ -97,15 +110,6 @@
 }
 .strip figure:hover img { transform: translateY(-6px); }
 .strip:hover figure:not(:hover) img { filter: brightness(.6) saturate(.8); }
-.strip figcaption {
-  display: flex;
-  gap: 10px;
-  margin-top: 11px;
-  font-size: 11.5px;
-  letter-spacing: .02em;
-  color: var(--faint);
-}
-.strip figcaption b { font-weight: 500; color: var(--paper); }
 .strip figure { display: flex; flex-direction: column; justify-content: flex-end; }
 .strip-track { align-items: flex-end; }
 
@@ -136,6 +140,186 @@
 }
 .sec-link:hover { color: var(--paper); }
 
+/* Subsection heads inside Work */
+.sub-h { margin-bottom: clamp(16px, 2vw, 22px); }
+.bento + .sub-h { margin-top: clamp(48px, 6vw, 80px); }
+
+/* Title with a little icon beside it. Hovering the title or the icon plays
+   the icon's animation. Apps and Elsewhere are Launchpad-style folders. */
+.sec-t {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.6vw, 22px);
+}
+.lp {
+  --s: clamp(44px, 5vw, 66px);
+  --spring: cubic-bezier(.34, 1.56, .64, 1);
+  position: relative;
+  flex: none;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: calc(var(--s) * .07);
+  width: var(--s);
+  height: var(--s);
+  padding: calc(var(--s) * .15);
+  border-radius: 27%;
+  background: rgba(255, 255, 255, .13);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  backdrop-filter: blur(18px) saturate(1.4);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .12),
+              inset 0 1px 0 rgba(255, 255, 255, .16),
+              0 12px 26px -12px rgba(0, 0, 0, .6);
+  transition: transform .7s var(--spring), background .4s var(--ease);
+}
+.lp > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  object-fit: cover;
+}
+.lp > i { display: block; }
+
+/* Only the folders get the frosted backing */
+.lp-work,
+.lp-photos {
+  display: block;
+  padding: 0;
+  background: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+/* Apps: the folder lifts and its icons ease apart, like it's about to open */
+.lp-apps > img {
+  border-radius: 23%;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .35);
+  transition: transform .7s var(--spring);
+}
+.lp-apps > img:nth-child(2) { transition-delay: 30ms; }
+.lp-apps > img:nth-child(3) { transition-delay: 60ms; }
+.lp-apps > img:nth-child(4) { transition-delay: 90ms; }
+
+/* Work: a deck of client logos that fans out like a hand of cards */
+.lp-work > img {
+  position: absolute;
+  left: 13%;
+  top: 13%;
+  width: 74%;
+  height: 74%;
+  border-radius: 23%;
+  box-shadow: 0 0 0 1.5px var(--ink), 0 4px 10px rgba(0, 0, 0, .45);
+  transform-origin: 50% 150%;
+  transform: translateX(var(--x, 0)) rotate(var(--r, 0deg));
+  transition: transform .7s var(--spring);
+}
+.lp-work > img:nth-child(1) { --r: -9deg; --x: -4%; }
+.lp-work > img:nth-child(2) { --r: -3deg; --x: -1%; transition-delay: 25ms; }
+.lp-work > img:nth-child(3) { --r: 3deg; --x: 1%; transition-delay: 50ms; }
+.lp-work > img:nth-child(4) { --r: 9deg; --x: 4%; transition-delay: 75ms; }
+
+/* Photography: one photo. Viewfinder brackets snap in, it focuses, the
+   shutter blinks */
+.lp-photos > img {
+  border-radius: 22%;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, .1), 0 12px 26px -12px rgba(0, 0, 0, .6);
+  transition: transform .8s var(--ease);
+}
+.lp-photos .lp-vf {
+  position: absolute;
+  inset: -14%;
+  opacity: 0;
+  pointer-events: none;
+  --b: rgba(255, 255, 255, .85);
+  background:
+    linear-gradient(var(--b), var(--b)) 0 0 / 22% 2px,
+    linear-gradient(var(--b), var(--b)) 0 0 / 2px 22%,
+    linear-gradient(var(--b), var(--b)) 100% 0 / 22% 2px,
+    linear-gradient(var(--b), var(--b)) 100% 0 / 2px 22%,
+    linear-gradient(var(--b), var(--b)) 0 100% / 22% 2px,
+    linear-gradient(var(--b), var(--b)) 0 100% / 2px 22%,
+    linear-gradient(var(--b), var(--b)) 100% 100% / 22% 2px,
+    linear-gradient(var(--b), var(--b)) 100% 100% / 2px 22%;
+  background-repeat: no-repeat;
+  transition: inset .55s var(--spring), opacity .3s var(--ease);
+}
+.lp-photos::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 22%;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+}
+@keyframes lp-focus {
+  0%, 100% { filter: blur(0); }
+  35% { filter: blur(1.4px); }
+}
+@keyframes lp-shutter {
+  0%, 100% { opacity: 0; }
+  25% { opacity: .5; }
+}
+
+/* Socials: icons swap places clockwise and a notification pops in */
+.lp-social > img {
+  transform: scale(1.22);
+  filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, .35));
+  transition: transform .75s var(--spring);
+}
+.lp-social .lp-badge {
+  position: absolute;
+  top: -9%;
+  right: -9%;
+  display: grid;
+  place-items: center;
+  min-width: 36%;
+  height: 36%;
+  padding: 0 calc(var(--s) * .06);
+  border-radius: 999px;
+  background: #ff3b30;
+  box-shadow: 0 0 0 2px var(--ink);
+  font: 700 calc(var(--s) * .2) / 1 var(--sans);
+  font-style: normal;
+  color: #fff;
+  opacity: 0;
+  transform: scale(.3);
+  transition: transform .5s var(--spring), opacity .2s var(--ease);
+}
+
+@media (hover: hover) {
+  .sec-t:hover .lp-apps,
+  .sec-t:hover .lp-social { transform: translateY(-2px) scale(1.07); background: rgba(255, 255, 255, .19); }
+
+  .sec-t:hover .lp-work > img:nth-child(1) { --r: -19deg; --x: -4%; }
+  .sec-t:hover .lp-work > img:nth-child(2) { --r: -6deg; --x: -1%; }
+  .sec-t:hover .lp-work > img:nth-child(3) { --r: 7deg; --x: 1%; }
+  .sec-t:hover .lp-work > img:nth-child(4) { --r: 19deg; --x: 4%; }
+
+  .sec-t:hover .lp-apps > img:nth-child(1) { transform: translate(-8%, -8%) scale(1.06); }
+  .sec-t:hover .lp-apps > img:nth-child(2) { transform: translate(8%, -8%) scale(1.06); }
+  .sec-t:hover .lp-apps > img:nth-child(3) { transform: translate(-8%, 8%) scale(1.06); }
+  .sec-t:hover .lp-apps > img:nth-child(4) { transform: translate(8%, 8%) scale(1.06); }
+
+  .sec-t:hover .lp-photos { transform: translateY(-2px); }
+  .sec-t:hover .lp-photos > img { transform: scale(1.04); animation: lp-focus .55s var(--ease); }
+  .sec-t:hover .lp-photos .lp-vf { inset: -7%; opacity: 1; }
+  .sec-t:hover .lp-photos::after { animation: lp-shutter .45s .4s var(--ease-io); }
+
+  /* One step = a cell plus the gap: (.315s + .07s) / .315s ≈ 122% */
+  .sec-t:hover .lp-social > img:nth-child(1) { transform: translateX(122%) scale(1.22); }
+  .sec-t:hover .lp-social > img:nth-child(2) { transform: translateY(122%) scale(1.22); }
+  .sec-t:hover .lp-social > img:nth-child(3) { transform: translateY(-122%) scale(1.22); }
+  .sec-t:hover .lp-social > img:nth-child(4) { transform: translateX(-122%) scale(1.22); }
+  .sec-t:hover .lp-social .lp-badge { opacity: 1; transform: none; transition-delay: .25s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .lp, .lp *, .lp::after { transition: none !important; animation: none !important; }
+}
+
 /* ---------- Work bento ---------- */
 
 .bento {
@@ -155,7 +339,26 @@
 }
 .t-610 { grid-column: span 4; aspect-ratio: 2 / 1; }
 .t-on  { grid-column: span 2; }
-.t-cs, .t-az { grid-column: span 3; aspect-ratio: 16 / 9; }
+.bento-brand { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.t-cs, .t-az, .t-next { grid-column: span 1; aspect-ratio: 4 / 3; }
+.bento-brand .tile-mark { width: clamp(64px, 6.4vw, 92px); transform: translateY(-12px); }
+.bento-brand .tile-cap b { font-size: clamp(16px, 1.4vw, 19px); }
+
+/* "Your logo here" tile at the end of the Branding row */
+.t-next {
+  background: transparent;
+  place-items: end start;
+  padding: clamp(16px, 2vw, 24px);
+}
+.t-next::before { display: none; }
+.t-next::after { box-shadow: inset 0 0 0 1px var(--line-2); transition: box-shadow .3s var(--ease); }
+.t-next-body { display: flex; flex-direction: column; gap: 4px; }
+.t-next-body b { font-size: clamp(16px, 1.4vw, 19px); font-weight: 700; letter-spacing: -.02em; }
+.t-next-body .dim { font-size: 14.5px; }
+.t-next .tile-go { opacity: 1; transform: none; background: rgba(242, 237, 230, .06); }
+.t-next:hover { background: rgba(242, 237, 230, .035); }
+.t-next:hover::after { box-shadow: inset 0 0 0 1px var(--ghost); }
+.t-next:hover .tile-go { background: var(--ember); color: var(--ink); }
 
 .tile > video,
 .tile-bg {
@@ -214,6 +417,13 @@
   line-height: 1.1;
 }
 .tile-cap .label { color: rgba(242, 237, 230, .72); }
+.tile-cap-icon {
+  flex: 0 0 auto;
+  width: clamp(40px, 3.6vw, 50px);
+  height: clamp(40px, 3.6vw, 50px);
+  border-radius: 24%;
+  box-shadow: 0 10px 24px -10px rgba(0, 0, 0, .7), 0 0 0 1px rgba(255, 255, 255, .08);
+}
 .tile-go {
   position: absolute;
   top: clamp(14px, 2vw, 20px);
@@ -236,6 +446,7 @@
   .tile:hover > video,
   .tile:hover .tile-bg { transform: scale(1.03); }
   .tile:hover .tile-mark { transform: translateY(-14px) scale(1.04); }
+  .bento-brand .tile:hover .tile-mark { transform: translateY(-12px) scale(1.04); }
   .tile:hover .tile-go { opacity: 1; transform: none; }
 }
 @media (hover: none) {
@@ -245,9 +456,12 @@
 @media (max-width: 760px) {
   .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .t-610, .t-on { grid-column: span 2; aspect-ratio: 16 / 10; }
+  .bento-brand { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .t-cs, .t-az { grid-column: span 1; aspect-ratio: 1 / 1.1; }
+  .t-next { grid-column: span 2; aspect-ratio: auto; min-height: 120px; }
   .t-cs .tile-cap .label, .t-az .tile-cap .label { display: none; }
   .tile-mark { width: 44%; transform: translateY(-18px); }
+  .bento-brand .tile-mark { width: 38%; transform: translateY(-16px); }
   .tile-mark-wide { width: 46%; }
 }
 
@@ -255,23 +469,42 @@
 
 .apps {
   display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
-  gap: clamp(28px, 4.5vw, 64px);
-  align-items: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(36px, 4vw, 48px) 14px;
 }
-.docket { margin: 0; }
-.docket-art img { transition: transform 1.2s var(--ease); }
-.docket:hover .docket-art img { transform: scale(1.03); }
-.docket figcaption {
+.app-hero { margin: 0; }
+.app-hero-art { aspect-ratio: 2 / 1; }
+.app-hero-art img { transition: transform 1.2s var(--ease); }
+.app-hero:hover .app-hero-art img { transform: scale(1.03); }
+.app-hero figcaption {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 20px;
-  margin-top: 20px;
+  align-items: center;
+  gap: 14px;
+  margin-top: 18px;
 }
-.docket figcaption p { margin-top: 6px; font-size: 16px; max-width: 26em; }
+.app-hero-icon {
+  flex: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 23%;
+  box-shadow: 0 8px 18px -6px rgba(0, 0, 0, .5);
+}
+.app-hero-t { flex: 1; min-width: 0; }
+.app-hero-name {
+  font-size: clamp(21px, 2vw, 26px);
+  line-height: 1.1;
+  letter-spacing: -.025em;
+}
+.app-hero-t p { margin-top: 3px; font-size: 15.5px; }
+.app-hero .pill { align-self: flex-start; margin-top: 4px; }
 
-.app-list { display: flex; flex-direction: column; gap: 6px; }
+.app-list {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  margin-inline: -12px;
+}
 .app {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) 20px;
@@ -287,9 +520,7 @@
   width: 44px;
   height: 44px;
   filter: drop-shadow(0 6px 10px rgba(0, 0, 0, .4));
-  transition: transform .6s var(--ease);
 }
-.app:hover .app-icon { transform: rotate(-6deg) scale(1.05); }
 .app-body { display: flex; flex-direction: column; gap: 2px; }
 .app-name { font-size: 17px; font-weight: 700; letter-spacing: -.02em; }
 .app-desc { font-size: 14.5px; line-height: 1.4; color: var(--dim); }
@@ -302,6 +533,20 @@
 .app:hover .app-go { color: var(--ember); }
 @media (max-width: 900px) {
   .apps { grid-template-columns: 1fr; }
+  .app-list { grid-template-columns: 1fr; }
+}
+/* Phones: the pill moves onto the art so the tagline has room */
+@media (max-width: 520px) {
+  .app-hero { position: relative; }
+  .app-hero .pill {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    margin: 0;
+    background: rgba(13, 12, 11, .45);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
 }
 
 /* ---------- Photo collections ---------- */

@@ -41,6 +41,41 @@
   .p-intro { grid-template-columns: 1fr; }
 }
 
+/* Full-bleed hero: a video behind the page head that scrolls away with it */
+.page.has-hero { padding-top: 0; }
+.v-hero {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(560px, 100svh, 1100px);
+  padding: 112px 0 clamp(40px, 6vw, 88px);
+}
+.v-hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+}
+.v-hero-bg video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Darken the top for the nav and fade the bottom into the page */
+.v-hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(13, 12, 11, .55) 0%, rgba(13, 12, 11, 0) 22%, rgba(13, 12, 11, .25) 50%, rgba(13, 12, 11, .82) 80%, var(--ink) 100%);
+}
+.v-hero .lede { color: rgba(242, 237, 230, .78); }
+@media (max-width: 860px) {
+  .v-hero { min-height: clamp(520px, 86svh, 900px); }
+}
+
 /* Definition list of facts: client, scope, year... */
 .meta {
   margin: 0;
@@ -81,7 +116,6 @@
 }
 .c-sec-head p { margin-top: 14px; max-width: 36em; font-size: 16px; color: var(--dim); }
 
-.yb-video { aspect-ratio: 2 / 1; margin-bottom: clamp(10px, 1.4vw, 16px); }
 
 /* Image grids */
 .grid {
@@ -331,25 +365,8 @@
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
   pointer-events: none;
 }
-.shot figcaption {
-  position: absolute;
-  left: 10px;
-  bottom: 10px;
-  padding: 4px 8px;
-  border-radius: 6px;
-  background: rgba(13, 12, 11, .6);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  font-size: 11px;
-  color: var(--paper);
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity .35s var(--ease), transform .45s var(--ease);
-  pointer-events: none;
-}
 @media (hover: hover) {
   .shot:hover img { transform: scale(1.035); }
-  .shot:hover figcaption { opacity: 1; transform: none; }
 }
 
 .g-sec { padding-top: clamp(64px, 8vw, 110px); scroll-margin-top: 150px; }
@@ -671,7 +688,7 @@ body.scrolled .jump { top: 72px; }
 .toc .minor i { width: 8px; background: rgba(242, 237, 230, .12); }
 .toc .lit i { background: rgba(242, 237, 230, .55); }
 .toc .major.active i { width: 30px; background: var(--ember); }
-.toc span {
+.toc a span {
   position: absolute;
   left: 42px;
   padding: 3px 9px;
@@ -690,9 +707,9 @@ body.scrolled .jump { top: 72px; }
   transition: opacity .3s var(--ease), transform .4s var(--ease), color .2s;
   pointer-events: none;
 }
-.toc:hover span { opacity: 1; transform: none; }
+.toc:hover a span { opacity: 1; transform: none; }
 .toc a:hover span,
-.toc .active span { color: var(--paper); }
+.toc .major.active span { color: var(--paper); }
 .toc a:hover i { background: var(--paper); }
 /* Only where there's a real margin beside the content */
 @media (max-width: 1399px) { .toc { display: none; } }

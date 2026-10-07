@@ -59,6 +59,11 @@ function onScroll() {
   document.body.classList.toggle('scrolled', y > 24);
   document.body.classList.toggle('deep', y > window.innerHeight * 1.5);
 
+  // Hold the client tint back until a video hero has mostly scrolled away,
+  // otherwise it glows through below the hero's dark fade
+  const hero = get.query('.v-hero');
+  document.body.classList.toggle('tint-held', !!hero && hero.getBoundingClientRect().bottom > window.innerHeight * .25);
+
   // The footer mark rises as it comes into view
   const mark = get.query('.foot-mark img');
   if (mark) {
@@ -83,6 +88,7 @@ function initPage(root, route) {
   const tint = page && page.dataset.tint;
   document.body.classList.toggle('has-tint', !!tint);
   if (tint) document.body.style.setProperty('--tint', tint);
+  onScroll();
 
   setNavOpen(false);
   // A dropdown link keeps focus after it's clicked, which would hold the menu open
@@ -120,17 +126,13 @@ function initChips(root) {
 }
 
 // Gallery markup stays a plain list of <img largeview> tags; wrap each one in a
-// figure with its frame number so the hover caption and hairline work.
+// figure so the hairline works.
 function initMasonry(root) {
   root.querySelectorAll('.masonry > img').forEach(img => {
     const fig = document.createElement('figure');
     fig.className = 'shot';
     img.replaceWith(fig);
     fig.appendChild(img);
-    const cap = document.createElement('figcaption');
-    cap.className = 'mono';
-    cap.textContent = frameName(img.getAttribute('src'));
-    fig.appendChild(cap);
   });
 }
 

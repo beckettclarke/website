@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400">
+  <!-- Placeholder art for Orbit (working name); swap for the real banner -->
+  <defs>
+    <radialGradient id="sky" cx=".5" cy=".55" r=".8">
+      <stop offset="0" stop-color="#26357f"/>
+      <stop offset=".6" stop-color="#121a4a"/>
+      <stop offset="1" stop-color="#070a1f"/>
+    </radialGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ff9a1f" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#ff9a1f" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="planet" cx=".35" cy=".3" r=".8">
+      <stop offset="0" stop-color="#ffd08a"/>
+      <stop offset=".55" stop-color="#ff9a1f"/>
+      <stop offset="1" stop-color="#c2410c"/>
+    </radialGradient>
+    <clipPath id="back"><rect x="0" y="0" width="800" height="210"/></clipPath>
+    <clipPath id="front"><rect x="0" y="210" width="800" height="190"/></clipPath>
+  </defs>
+  <rect width="800" height="400" fill="url(#sky)"/>
+  <g fill="#fff">
+    <circle cx="64" cy="58" r="1.6" opacity=".7"/><circle cx="148" cy="312" r="1.2" opacity=".5"/>
+    <circle cx="222" cy="96" r="1" opacity=".6"/><circle cx="92" cy="208" r="1.4" opacity=".4"/>
+    <circle cx="318" cy="36" r="1.2" opacity=".55"/><circle cx="604" cy="54" r="1.6" opacity=".6"/>
+    <circle cx="700" cy="140" r="1" opacity=".5"/><circle cx="742" cy="330" r="1.4" opacity=".6"/>
+    <circle cx="566" cy="360" r="1" opacity=".45"/><circle cx="470" cy="24" r="1" opacity=".5"/>
+    <circle cx="36" cy="370" r="1.2" opacity=".5"/><circle cx="764" cy="232" r="1" opacity=".55"/>
+  </g>
+  <g fill="none" stroke="#fff" transform="rotate(-14 400 210)">
+    <ellipse cx="400" cy="210" rx="360" ry="120" stroke-opacity=".08"/>
+    <ellipse cx="400" cy="210" rx="280" ry="92" stroke-opacity=".12"/>
+    <circle cx="40" cy="210" r="5" fill="#9fd4ff" stroke="none" opacity=".8"/>
+    <circle cx="664" cy="236" r="4" fill="#fff" stroke="none" opacity=".6"/>
+  </g>
+  <circle cx="400" cy="210" r="170" fill="url(#glow)"/>
+  <g transform="rotate(-14 400 210)">
+    <ellipse cx="400" cy="210" rx="190" ry="54" fill="none" stroke="#fff" stroke-opacity=".5" stroke-width="10" clip-path="url(#back)"/>
+    <circle cx="400" cy="210" r="92" fill="url(#planet)"/>
+    <ellipse cx="400" cy="210" rx="190" ry="54" fill="none" stroke="#fff" stroke-width="10" clip-path="url(#front)"/>
+    <circle cx="590" cy="210" r="16" fill="#9fd4ff"/>
+  </g>
+</svg>
