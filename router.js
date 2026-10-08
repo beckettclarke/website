@@ -137,7 +137,11 @@ document.addEventListener('click', function(e) {
   // In-page anchor, e.g. href="#work"
   if (href.startsWith('#') && !href.includes('/')) {
     e.preventDefault();
-    scrollToId(decodeURIComponent(href.substring(1)));
+    const id = decodeURIComponent(href.substring(1));
+    scrollToId(id);
+    // Move focus too when the target takes it, so "Skip to content" actually skips
+    const target = document.getElementById(id);
+    if (target && target.hasAttribute('tabindex')) target.focus({ preventScroll: true });
     return;
   }
 

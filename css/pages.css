@@ -206,6 +206,27 @@
   background: var(--ember);
 }
 
+/* Small link to a related project, under the page title */
+.p-rel {
+  --icon: 28px;
+  --pad: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: clamp(20px, 2.6vw, 28px);
+  padding: var(--pad) 16px var(--pad) var(--pad);
+  border: 1px solid var(--line-2);
+  /* Concentric with the icon's corners: icon radius + padding + border */
+  border-radius: calc(var(--icon) * .24 + var(--pad) + 1px);
+  font-size: 14.5px;
+  text-decoration: none;
+  transition: background .3s var(--ease), border-color .3s var(--ease);
+}
+.p-rel img { width: var(--icon); height: var(--icon); border-radius: 24%; }
+.p-rel .arr { color: var(--faint); transition: color .3s var(--ease), transform .3s var(--ease); }
+.p-rel:hover { background: rgba(242, 237, 230, .04); border-color: var(--ghost); }
+.p-rel:hover .arr { color: var(--ember); transform: translateX(2px); }
+
 /* Big outbound link */
 .cta-row {
   display: flex;
@@ -666,9 +687,15 @@ body.scrolled .jump { top: 72px; }
   transform: translateY(-50%);
   opacity: 0;
   pointer-events: none;
-  transition: opacity .5s var(--ease);
+  visibility: hidden;
+  transition: opacity .5s var(--ease), visibility 0s linear .5s;
 }
-.toc.on { opacity: 1; pointer-events: auto; }
+.toc.on {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transition: opacity .5s var(--ease), visibility 0s;
+}
 .toc a {
   position: relative;
   display: flex;

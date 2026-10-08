@@ -40,6 +40,7 @@
 html {
   background: var(--ink);
   -webkit-text-size-adjust: 100%;
+  -webkit-tap-highlight-color: transparent;
   scroll-padding-top: 96px;
 }
 
@@ -91,6 +92,8 @@ button { font: inherit; color: inherit; }
   outline-offset: 3px;
   border-radius: 6px;
 }
+/* Focus targets that only take focus from script, like the skip link's */
+[tabindex="-1"]:focus-visible { outline: none; }
 
 .skip {
   position: fixed;
@@ -579,15 +582,42 @@ content.is-entering { animation: enter .8s var(--ease) both; }
   backdrop-filter: blur(16px);
   cursor: pointer;
   transform: translateY(80px);
-  transition: transform .5s var(--ease), background .2s var(--ease);
+  /* Hidden, not just moved off screen, so Tab doesn't land on it */
+  visibility: hidden;
+  transition: transform .5s var(--ease), background .2s var(--ease), visibility 0s linear .5s;
 }
 #totop svg { width: 16px; height: 16px; fill: none; stroke: var(--paper); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; transition: transform .4s var(--ease); }
 #totop:hover { background: rgba(36, 34, 31, .9); }
 #totop:hover svg { transform: translateY(-3px); }
-body.deep #totop { transform: none; }
+body.deep #totop {
+  transform: none;
+  visibility: visible;
+  transition: transform .5s var(--ease), background .2s var(--ease), visibility 0s;
+}
 
-*[nodrag], *[nodrag] * {
+/* ===[ Interaction polish ]====================================
+   Pictures are never dragged out of the page (Firefox ignores
+   user-drag, so scripts.js cancels the drag there). Controls, cards
+   and chrome don't pick up a text selection when they're clicked
+   quickly; body copy, titles, hex codes and the email stay selectable. */
+
+img { -webkit-user-drag: none; }
+
+a, button, [largeview] { touch-action: manipulation; }
+
+*[nodrag], *[nodrag] *,
+.masonry, .masonry * {
   -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+button, .btn, .pill, .skip,
+.tile, .coll, .app, .index a, .links a, .sec-link, .p-rel, .cta-row, .next,
+.lp, .jump, .toc, .foot-cols, .browser-bar, .lost-code,
+#toast, #totop {
+  -webkit-user-select: none;
   user-select: none;
 }
 

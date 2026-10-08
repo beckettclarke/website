@@ -98,9 +98,11 @@ function initPage(root, route) {
 
   initChips(root);
   initMasonry(root);
+  // Before initImages, so the filmstrip's clones get their own load handlers
+  // instead of copying an is-loading class that nothing would ever remove
+  initStrip(root);
   initImages(root);
   initReveal(root);
-  initStrip(root);
   initJump(root);
   initToc(root);
   initVideos(root);
@@ -136,12 +138,23 @@ function initMasonry(root) {
   });
 }
 
-// Images fade up when they arrive
+// CSS stops images being dragged everywhere but Firefox, which ignores
+// -webkit-user-drag. Images inside links are left alone so the link drags.
+document.addEventListener('dragstart', e => {
+  if (e.target instanceof HTMLImageElement && !e.target.closest('a')) e.preventDefault();
+});
+
+// Images fade up when they arrive. The fade's transition would override the
+// image's own (hover zooms etc.), so drop the class once it's done.
 function initImages(root) {
   root.querySelectorAll('img').forEach(img => {
     if (img.complete && img.naturalWidth) return;
     img.classList.add('is-loading');
-    const done = () => { img.classList.remove('is-loading'); img.classList.add('is-loaded'); };
+    const done = () => {
+      img.classList.remove('is-loading');
+      img.classList.add('is-loaded');
+      setTimeout(() => img.classList.remove('is-loaded'), 800);
+    };
     img.addEventListener('load', done, { once: true });
     img.addEventListener('error', done, { once: true });
   });
@@ -168,7 +181,11 @@ function initReveal(root) {
 
 // ===[ Filmstrip ]============================================
 // Duplicate the strip once so translateX(-50%) loops seamlessly.
+let stripResize;
 function initStrip(root) {
+  // One resize listener for whatever strips the current page has
+  if (stripResize) window.removeEventListener('resize', stripResize);
+  stripResize = null;
   root.querySelectorAll('.strip-track').forEach(track => {
     if (track.dataset.looped) return;
     track.dataset.looped = '1';
@@ -184,8 +201,10 @@ function initStrip(root) {
       track.style.setProperty('--dur', `${Math.max(30, half / 38)}s`);
     };
     setSpeed();
-    window.addEventListener('resize', setSpeed, { passive: true });
+    const prev = stripResize;
+    stripResize = () => { if (prev) prev(); setSpeed(); };
   });
+  if (stripResize) window.addEventListener('resize', stripResize, { passive: true });
 }
 
 // ===[ Sticky jump nav with scroll-spy ]======================
@@ -296,7 +315,14 @@ function initVideos(root) {
       else target.pause();
     });
   });
-  vids.forEach(v => { v.muted = true; videoIO.observe(v); });
+  // These are backdrops, not players: no Picture-in-Picture toggle (Firefox
+  // shows one on hover) and no cast button
+  vids.forEach(v => {
+    v.muted = true;
+    v.disablePictureInPicture = true;
+    v.disableRemotePlayback = true;
+    videoIO.observe(v);
+  });
 }
 
 // ===[ Lightbox ]=============================================

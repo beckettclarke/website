@@ -304,9 +304,16 @@ body.nav-open .navtoggle .bar:last-child  { transform: translateY(-3.75px) rotat
     backdrop-filter: blur(40px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity .5s var(--h-ease);
+    /* Closed drawer links shouldn't be reachable with Tab */
+    visibility: hidden;
+    transition: opacity .5s var(--h-ease), visibility 0s linear .5s;
   }
-  body.nav-open .nav { opacity: 1; pointer-events: auto; }
+  body.nav-open .nav {
+    opacity: 1;
+    pointer-events: auto;
+    visibility: visible;
+    transition: opacity .5s var(--h-ease), visibility 0s;
+  }
   .nav { display: flex; flex-direction: column; align-items: stretch; }
 
   /* Big page links first, then the grouped lists */

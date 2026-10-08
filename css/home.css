@@ -339,6 +339,7 @@
 }
 .t-610 { grid-column: span 4; aspect-ratio: 2 / 1; }
 .t-on  { grid-column: span 2; }
+.t-cr  { grid-column: span 6; aspect-ratio: 3 / 1; }
 .bento-brand { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .t-cs, .t-az, .t-next { grid-column: span 1; aspect-ratio: 4 / 3; }
 .bento-brand .tile-mark { width: clamp(64px, 6.4vw, 92px); transform: translateY(-12px); }
@@ -455,7 +456,7 @@
 
 @media (max-width: 760px) {
   .bento { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-  .t-610, .t-on { grid-column: span 2; aspect-ratio: 16 / 10; }
+  .t-610, .t-on, .t-cr { grid-column: span 2; aspect-ratio: 16 / 10; }
   .bento-brand { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .t-cs, .t-az { grid-column: span 1; aspect-ratio: 1 / 1.1; }
   .t-next { grid-column: span 2; aspect-ratio: auto; min-height: 120px; }
@@ -504,6 +505,12 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
   margin-inline: -12px;
+}
+/* With a single featured app, the list sits beside it instead of below */
+.apps:has(> .app-hero:only-of-type) .app-list {
+  grid-column: auto;
+  grid-template-columns: 1fr;
+  align-content: start;
 }
 .app {
   display: grid;
@@ -616,6 +623,8 @@
   margin-top: clamp(36px, 5vw, 60px);
 }
 .colls-3 .coll { grid-column: auto; grid-row: auto; }
+/* Four cards sit two by two */
+.colls-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 @media (max-width: 900px) and (min-width: 761px) {
   .colls-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
