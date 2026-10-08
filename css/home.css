@@ -512,6 +512,10 @@
   grid-template-columns: 1fr;
   align-content: start;
 }
+/* ...and its left bleed would otherwise eat the gap beside the art */
+@media (min-width: 901px) {
+  .apps:has(> .app-hero:only-of-type) .app-list { margin-left: clamp(10px, 2vw, 26px); }
+}
 .app {
   display: grid;
   grid-template-columns: 44px minmax(0, 1fr) 20px;
