@@ -1,84 +1,521 @@
-log('Loaded scripts.js','#0066ff','📜 Script');  
+log('Loaded scripts.js v12', '#0066ff', '📜 Script');
+
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+// ===[ Fragments ]============================================
 // fetch() is blocked on file://, so fall back to the fragments.js bundle
 async function loadFragment(id, url) {
-	try {
-		get.id(id).innerHTML = await fetch(url, { cache: 'no-cache' }).then(response => response.text());
-	} catch (e) {
-		get.id(id).innerHTML = (window.BC_FRAGMENTS && window.BC_FRAGMENTS[url]) || '';
-	}
+  try {
+    const r = await fetch(url, { cache: 'no-cache' });
+    if (!r.ok) throw r;
+    get.id(id).innerHTML = await r.text();
+  } catch (e) {
+    get.id(id).innerHTML = (window.BC_FRAGMENTS && window.BC_FRAGMENTS[url]) || '';
+  }
 }
-loadFragment('header', 'header.html').then(initNav);
-loadFragment('footer', 'footer.html');
+loadFragment('header', 'header.html').then(() => { initNav(); markActiveNav(window.currentRoute); });
+loadFragment('footer', 'footer.html').then(initFooter);
+
+// ===[ Nav ]==================================================
+function setNavOpen(open) {
+  const toggle = get.id('navtoggle');
+  document.body.classList.toggle('nav-open', open);
+  if (toggle) toggle.setAttribute('aria-expanded', String(open));
+}
 
 function initNav() {
   const toggle = get.id('navtoggle');
   if (!toggle) return;
-  const setOpen = open => {
-    document.body.classList.toggle('nav-open', open);
-    toggle.setAttribute('aria-expanded', String(open));
-  };
-  toggle.addEventListener('click', () => setOpen(!document.body.classList.contains('nav-open')));
+  toggle.addEventListener('click', () => setNavOpen(!document.body.classList.contains('nav-open')));
   // Tapping a link or pressing Escape closes the drawer.
-  document.addEventListener('click', e => {
-    if (e.target.closest('#nav a')) setOpen(false);
-  });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') setOpen(false); });
-  window.addEventListener('resize', () => { if (window.innerWidth > 760) setOpen(false); });
+  document.addEventListener('click', e => { if (e.target.closest('#nav a')) setNavOpen(false); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') setNavOpen(false); });
+  window.addEventListener('resize', () => { if (window.innerWidth > 760) setNavOpen(false); });
 }
 
+function markActiveNav(route) {
+  if (!route) return;
+  const section =
+    route === 'home' ? 'home' :
+    route.startsWith('clients_northmount') ? 'photography' :
+    route.startsWith('clients') ? 'clients' :
+    route.startsWith('photography') ? 'photography' :
+    route.startsWith('macicons') ? 'macicons' : '';
+  get.queryAll('#header [data-route]').forEach(el => {
+    el.classList.toggle('active', el.dataset.route === section);
+  });
+}
 
-/// TEMP CODE
+// ===[ Footer ]===============================================
+function initFooter() {
+  get.queryAll('[data-year]').forEach(el => { el.textContent = new Date().getFullYear(); });
+  onScroll();
+}
 
-// setTimeout(() => {
-//   window.scrollTo(0, document.body.scrollHeight);
-// }, 300);
+// ===[ Scroll state ]=========================================
+let scrollTick = false;
+function onScroll() {
+  const y = window.scrollY;
+  document.body.classList.toggle('scrolled', y > 24);
+  document.body.classList.toggle('deep', y > window.innerHeight * 1.5);
 
-/// END TEMP CODE
+  // Hold the client tint back until a video hero has mostly scrolled away,
+  // otherwise it glows through below the hero's dark fade
+  const hero = get.query('.v-hero');
+  document.body.classList.toggle('tint-held', !!hero && hero.getBoundingClientRect().bottom > window.innerHeight * .25);
 
-window.addEventListener('scroll', () => {
-  if (window.scrollY > 24) {
-    document.body.classList.add('scrolled');
-  } else {
-    document.body.classList.remove('scrolled');
+  // The footer mark rises as it comes into view
+  const mark = get.query('.foot-mark img');
+  if (mark) {
+    const r = mark.parentElement.getBoundingClientRect();
+    const p = Math.min(1, Math.max(0, (window.innerHeight - r.top) / (r.height + 120)));
+    mark.style.setProperty('--rise', `${(1 - p) * 70 + 6}%`);
   }
+  updateToc();
+  scrollTick = false;
+}
+window.addEventListener('scroll', () => {
+  if (!scrollTick) { scrollTick = true; requestAnimationFrame(onScroll); }
+}, { passive: true });
+
+// ===[ Page init ]============================================
+// Called by the router every time a page is swapped in.
+function initPage(root, route) {
+  const page = root.querySelector('[data-title]');
+  const title = page && page.dataset.title;
+  document.title = title ? `${title} · Beckett Clarke` : 'Beckett Clarke';
+
+  const tint = page && page.dataset.tint;
+  document.body.classList.toggle('has-tint', !!tint);
+  if (tint) document.body.style.setProperty('--tint', tint);
+  onScroll();
+
+  setNavOpen(false);
+  // A dropdown link keeps focus after it's clicked, which would hold the menu open
+  const focused = document.activeElement;
+  if (focused && focused.closest && focused.closest('#header .dropdown')) focused.blur();
+  markActiveNav(route);
+
+  initChips(root);
+  initMasonry(root);
+  // Before initImages, so the filmstrip's clones get their own load handlers
+  // instead of copying an is-loading class that nothing would ever remove
+  initStrip(root);
+  initImages(root);
+  initReveal(root);
+  initJump(root);
+  initToc(root);
+  initVideos(root);
+  onScroll();
+}
+
+// Hero chips: work out how far each one may spread before it would push its
+// word onto the next line, and hand that to the CSS as --k.
+function initChips(root) {
+  root.querySelectorAll('.chip-stack, .chip-photos').forEach(chip => {
+    chip.addEventListener('mouseenter', () => {
+      const title = chip.closest('h1');
+      const group = chip.closest('.nw') || chip;
+      if (!title) return;
+      const imgs = chip.querySelectorAll('img').length;
+      const em = parseFloat(getComputedStyle(chip).fontSize);
+      const perGap = chip.classList.contains('chip-photos') ? .61 : .36;
+      const wanted = perGap * em * (imgs - 1);
+      const room = title.getBoundingClientRect().right - group.getBoundingClientRect().right - 2;
+      chip.style.setProperty('--k', Math.max(0, Math.min(1, room / wanted)).toFixed(3));
+    });
+  });
+}
+
+// Gallery markup stays a plain list of <img largeview> tags; wrap each one in a
+// figure so the hairline works.
+function initMasonry(root) {
+  root.querySelectorAll('.masonry > img').forEach(img => {
+    const fig = document.createElement('figure');
+    fig.className = 'shot';
+    img.replaceWith(fig);
+    fig.appendChild(img);
+  });
+}
+
+// CSS stops images being dragged everywhere but Firefox, which ignores
+// -webkit-user-drag. Images inside links are left alone so the link drags.
+document.addEventListener('dragstart', e => {
+  if (e.target instanceof HTMLImageElement && !e.target.closest('a')) e.preventDefault();
 });
 
-function largeview(url){
-  log(`Opening large view for: ${url}`, '#00cc88', '🔍 Large View');
-  var lv = get.id('largeview');
-  var lvi = get.id('largeviewimg');
-  
-  // Remove "-preview" from the URL if it exists
-  if (url.includes('-preview')) {
-    url = url.replace('-preview', '');
+// Images fade up when they arrive. The fade's transition would override the
+// image's own (hover zooms etc.), so drop the class once it's done.
+function initImages(root) {
+  root.querySelectorAll('img').forEach(img => {
+    if (img.complete && img.naturalWidth) return;
+    img.classList.add('is-loading');
+    const done = () => {
+      img.classList.remove('is-loading');
+      img.classList.add('is-loaded');
+      setTimeout(() => img.classList.remove('is-loaded'), 800);
+    };
+    img.addEventListener('load', done, { once: true });
+    img.addEventListener('error', done, { once: true });
+  });
+}
+
+// ===[ Reveal on scroll ]=====================================
+let revealIO;
+function initReveal(root) {
+  const els = root.querySelectorAll('[data-reveal]');
+  if (!('IntersectionObserver' in window) || reduceMotion.matches) {
+    els.forEach(el => el.classList.add('in'));
+    return;
   }
-  
-  lvi.src = url;
-  lv.classList.add('active');
-  lvi.classList.remove('loaded');
-  lvi.onload = function() {
-    setTimeout(() => {
-      lvi.classList.add('loaded');
-      log(`Image loaded: ${url}`, '#00cc88', '🖼️ Image');
-    }, 300);
+  if (revealIO) revealIO.disconnect();
+  revealIO = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('in');
+      revealIO.unobserve(entry.target);
+    });
+  }, { rootMargin: '0px 0px -6% 0px', threshold: .08 });
+  els.forEach(el => revealIO.observe(el));
+}
+
+// ===[ Filmstrip ]============================================
+// Duplicate the strip once so translateX(-50%) loops seamlessly.
+let stripResize;
+function initStrip(root) {
+  // One resize listener for whatever strips the current page has
+  if (stripResize) window.removeEventListener('resize', stripResize);
+  stripResize = null;
+  root.querySelectorAll('.strip-track').forEach(track => {
+    if (track.dataset.looped) return;
+    track.dataset.looped = '1';
+    [...track.children].forEach(fig => {
+      const clone = fig.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      clone.querySelectorAll('img').forEach(img => { img.dataset.clone = '1'; img.alt = ''; });
+      track.appendChild(clone);
+    });
+    // Constant speed regardless of how wide the strip turns out
+    const setSpeed = () => {
+      const half = track.scrollWidth / 2;
+      track.style.setProperty('--dur', `${Math.max(30, half / 38)}s`);
+    };
+    setSpeed();
+    const prev = stripResize;
+    stripResize = () => { if (prev) prev(); setSpeed(); };
+  });
+  if (stripResize) window.addEventListener('resize', stripResize, { passive: true });
+}
+
+// ===[ Sticky jump nav with scroll-spy ]======================
+let jumpIO;
+function initJump(root) {
+  const nav = root.querySelector('.jump');
+  if (jumpIO) jumpIO.disconnect();
+  if (!nav) return;
+  const links = [...nav.querySelectorAll('a[href^="#"]')];
+  const byId = new Map(links.map(a => [decodeURIComponent(a.getAttribute('href').slice(1)), a]));
+  const rail = nav.querySelector('.jump-rail') || nav;
+
+  jumpIO = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const a = byId.get(entry.target.id);
+      if (!a) return;
+      links.forEach(l => l.classList.toggle('active', l === a));
+      rail.scrollTo({ left: a.offsetLeft - rail.clientWidth / 2 + a.offsetWidth / 2, behavior: 'smooth' });
+    });
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  byId.forEach((a, id) => { const s = document.getElementById(id); if (s) jumpIO.observe(s); });
+}
+
+// ===[ Section notches ]=====================================
+// Pages marked data-toc get a ruler on the left: one long notch per
+// section, short ones between that fill in as you read through it.
+let toc = null;
+const TOC_MINOR = 3;
+
+function pageTop(el) {
+  let y = 0;
+  for (let n = el; n; n = n.offsetParent) y += n.offsetTop;
+  return y;
+}
+
+function initToc(root) {
+  const old = get.query('body > .toc');
+  if (old) old.remove();
+  toc = null;
+
+  const page = root.querySelector('[data-toc]');
+  if (!page) return;
+  const secs = [...page.querySelectorAll('section[data-toc-label]:not([hidden])')];
+  if (secs.length < 2) return;
+
+  const nav = document.createElement('nav');
+  nav.className = 'toc';
+  nav.setAttribute('aria-label', 'Sections');
+  const majors = [], minors = [];
+  secs.forEach((sec, i) => {
+    const a = document.createElement('a');
+    a.className = 'major';
+    a.href = '#' + sec.id;
+    a.innerHTML = '<i></i><span></span>';
+    a.querySelector('span').textContent = sec.dataset.tocLabel;
+    nav.appendChild(a);
+    majors.push(a);
+    const row = [];
+    if (i < secs.length - 1) {
+      for (let k = 0; k < TOC_MINOR; k++) {
+        const m = document.createElement('span');
+        m.className = 'minor';
+        m.innerHTML = '<i></i>';
+        nav.appendChild(m);
+        row.push(m);
+      }
+    }
+    minors.push(row);
+  });
+  document.body.appendChild(nav);
+  toc = { nav, secs, majors, minors };
+  updateToc();
+}
+
+function updateToc() {
+  if (!toc) return;
+  const { nav, secs, majors, minors } = toc;
+  const y = window.scrollY + window.innerHeight * .4;
+  const tops = secs.map(pageTop);
+  const last = secs[secs.length - 1];
+  const end = tops[tops.length - 1] + last.offsetHeight;
+
+  let cur = -1;
+  tops.forEach((t, i) => { if (y >= t) cur = i; });
+  nav.classList.toggle('on', y >= tops[0] - window.innerHeight * .3 && y < end + window.innerHeight * .2);
+
+  majors.forEach((a, i) => {
+    a.classList.toggle('lit', i <= cur);
+    a.classList.toggle('active', i === cur);
+  });
+  minors.forEach((row, i) => {
+    if (!row.length) return;
+    const p = (y - tops[i]) / (tops[i + 1] - tops[i]);
+    row.forEach((m, k) => m.classList.toggle('lit', p > (k + 1) / (TOC_MINOR + 1)));
+  });
+}
+
+// ===[ Videos only play while on screen ]=====================
+let videoIO;
+function initVideos(root) {
+  if (videoIO) videoIO.disconnect();
+  const vids = root.querySelectorAll('video[autoplay]');
+  if (!vids.length || !('IntersectionObserver' in window)) return;
+  videoIO = new IntersectionObserver(entries => {
+    entries.forEach(({ target, isIntersecting }) => {
+      if (isIntersecting) target.play().catch(() => {});
+      else target.pause();
+    });
+  });
+  // These are backdrops, not players: no Picture-in-Picture toggle (Firefox
+  // shows one on hover) and no cast button
+  vids.forEach(v => {
+    v.muted = true;
+    v.disablePictureInPicture = true;
+    v.disableRemotePlayback = true;
+    videoIO.observe(v);
+  });
+}
+
+// ===[ Lightbox ]=============================================
+const lb = {
+  el: null, img: null, list: [], i: 0, token: 0, lastFocus: null,
+  get open() { return this.el && this.el.classList.contains('open'); }
+};
+
+function fullSrc(img) {
+  return img.dataset.full || img.getAttribute('src').replace('-preview', '');
+}
+
+function frameName(src) {
+  let n = decodeURIComponent(src.split('/').pop()).replace(/\.[a-z0-9]+$/i, '').replace('-preview', '');
+  // Photos-app exports are long UUIDs; keep them readable
+  if (/^[0-9A-F]{8}-/i.test(n)) n = 'IMG ' + n.slice(0, 8);
+  return n.replace(/_/g, ' ');
+}
+
+// dir: 1 = next, -1 = previous, 0 = just opened
+function lbShow(i, dir = 0) {
+  const n = lb.list.length;
+  const token = ++lb.token;
+  lb.i = (i + n) % n;
+  const thumb = lb.list[lb.i];
+  const full = fullSrc(thumb);
+  const preview = thumb.currentSrc || thumb.getAttribute('src');
+  const pad = String(n).length < 2 ? 2 : String(n).length;
+  const img = lb.img;
+
+  lb.el.querySelector('.lb-count').textContent = `${String(lb.i + 1).padStart(pad, '0')} / ${String(n).padStart(pad, '0')}`;
+  const section = thumb.closest('[data-name]');
+  lb.el.querySelector('.lb-name').textContent = (section ? section.dataset.name + ' · ' : '') + frameName(full);
+
+  const live = () => token === lb.token;
+  const decode = el => (el.decode ? el.decode().catch(() => {}) : Promise.resolve());
+  const reveal = () => { if (!live()) return; void img.offsetWidth; img.classList.remove('pre'); };
+
+  const enter = () => {
+    if (!live()) return;
+    // Park the image just off to the side, invisible, ready to slide in
+    img.style.setProperty('--dir', dir);
+    img.classList.remove('leave');
+    img.classList.add('pre', 'soft');
+    lb.el.classList.add('loading');
+    img.alt = thumb.alt || '';
+
+    let hiReady = false;
+
+    // The gallery thumbnail is usually cached, so it can go up straight away
+    const pv = new Image();
+    const showPreview = () => {
+      if (!live() || hiReady) return;
+      img.src = preview;
+      decode(img).then(reveal);
+    };
+    pv.onload = pv.onerror = showPreview;
+    pv.src = preview;
+    if (pv.complete && pv.naturalWidth) { pv.onload = pv.onerror = null; showPreview(); }
+
+    // Then the full-size file replaces it once it has arrived
+    const hi = new Image();
+    hi.onload = () => decode(hi).then(() => {
+      if (!live()) return;
+      hiReady = true;
+      img.src = full;
+      img.classList.remove('soft');
+      lb.el.classList.remove('loading');
+      reveal();
+    });
+    hi.onerror = () => { if (live()) { img.classList.remove('soft'); lb.el.classList.remove('loading'); reveal(); } };
+    hi.src = full;
   };
-  
+
+  // Slide the current photo a little way out first, then bring the next one in
+  if (dir && img.getAttribute('src')) {
+    img.style.setProperty('--dir', dir);
+    img.classList.add('leave');
+    setTimeout(enter, 170);
+  } else {
+    enter();
+  }
+
+  // Warm up the neighbours so paging feels instant
+  [1, -1].forEach(d => {
+    const t = lb.list[(lb.i + d + n) % n];
+    if (t) { new Image().src = t.getAttribute('src'); new Image().src = fullSrc(t); }
+  });
 }
 
-function closelargeview(){
-  get.id('largeview').classList.remove('active');
-  get.id('largeviewimg').classList.remove('loaded');
+function lbOpen(list, i) {
+  lb.list = list;
+  lb.lastFocus = document.activeElement;
+  lb.el.classList.toggle('single', list.length < 2);
+  lb.el.classList.add('open');
+  lb.el.setAttribute('aria-hidden', 'false');
+  document.documentElement.style.overflow = 'hidden';
+  lbShow(i);
+  lb.el.querySelector('.lb-close').focus({ preventScroll: true });
 }
 
-function mi(e){
+function lbClose() {
+  if (!lb.open) return;
+  lb.token++;
+  lb.el.classList.remove('open', 'loading');
+  lb.el.setAttribute('aria-hidden', 'true');
+  document.documentElement.style.overflow = '';
+  if (lb.lastFocus) lb.lastFocus.focus({ preventScroll: true });
+}
+
+function initLightbox() {
+  lb.el = get.id('lightbox');
+  lb.img = lb.el.querySelector('.lb-img');
+
+  document.addEventListener('click', e => {
+    const img = e.target.closest('img[largeview]');
+    if (!img) return;
+    e.preventDefault();
+    // Group: the nearest gallery, otherwise the whole page. Filmstrip clones map back to originals.
+    const scope = img.closest('[data-gallery]') || get.tag('content')[0];
+    const list = [...scope.querySelectorAll('img[largeview]:not([data-clone])')];
+    let i = list.indexOf(img);
+    if (i < 0) i = Math.max(0, list.findIndex(t => t.getAttribute('src') === img.getAttribute('src')));
+    lbOpen(list, i);
+  });
+
+  lb.el.querySelector('.lb-close').addEventListener('click', lbClose);
+  lb.el.querySelector('.lb-prev').addEventListener('click', () => lbShow(lb.i - 1, -1));
+  lb.el.querySelector('.lb-next').addEventListener('click', () => lbShow(lb.i + 1, 1));
+  lb.el.querySelector('.lb-stage').addEventListener('click', e => { if (e.target !== lb.img) lbClose(); });
+
+  document.addEventListener('keydown', e => {
+    if (!lb.open) return;
+    if (e.key === 'Escape') lbClose();
+    else if (e.key === 'ArrowRight') lbShow(lb.i + 1, 1);
+    else if (e.key === 'ArrowLeft') lbShow(lb.i - 1, -1);
+    else if (e.key === 'Tab') {
+      // Keep focus inside the viewer
+      const f = [...lb.el.querySelectorAll('button')].filter(b => b.offsetParent);
+      const idx = f.indexOf(document.activeElement);
+      e.preventDefault();
+      f[(idx + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus();
+    }
+  });
+
+  // Swipe between photos on touch screens
+  let sx = null, sy = null;
+  lb.el.addEventListener('touchstart', e => { sx = e.touches[0].clientX; sy = e.touches[0].clientY; }, { passive: true });
+  lb.el.addEventListener('touchend', e => {
+    if (sx == null) return;
+    const dx = e.changedTouches[0].clientX - sx;
+    const dy = e.changedTouches[0].clientY - sy;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) lbShow(lb.i + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+    else if (dy > 90 && Math.abs(dy) > Math.abs(dx)) lbClose();
+    sx = sy = null;
+  });
+}
+initLightbox();
+
+// ===[ Toast ]================================================
+let toastTimer;
+function toast(html) {
+  const t = get.id('toast');
+  t.innerHTML = html;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+}
+
+// ===[ macOS icons: select like Finder, then download ]=======
+function mi(e) {
   const img = e.querySelector('img');
   if (!img) return;
-  var imgSrc = img.src;
-  var a = document.createElement('a');
-  a.href = imgSrc;
-  const filename = imgSrc.split('/').pop();
-  a.download = filename || 'image.png';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  get.queryAll('.macicon.sel').forEach(el => el !== e && el.classList.remove('sel'));
+  e.classList.add('sel');
+
+  // The icons live on the CDN, and browsers ignore `download` on cross-origin
+  // links, so fetch the file and save it from a local blob URL instead.
+  const filename = decodeURIComponent(img.src.split('/').pop()) || 'icon.png';
+  fetch(img.src)
+    .then(r => { if (!r.ok) throw r; return r.blob(); })
+    .then(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+    })
+    .catch(() => window.open(img.src, '_blank', 'noopener'));
+
+  const label = e.textContent.trim();
+  toast(`<img src="${img.getAttribute('src')}" alt=""> Downloading ${label.replace(/[<>&]/g, '')}`);
 }

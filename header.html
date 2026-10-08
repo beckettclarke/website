@@ -1,50 +1,53 @@
-<nav nodrag class="navbar">
-  <a href="/" class="brand" aria-label="Beckett Clarke — home">
+<nav nodrag class="navbar" aria-label="Main">
+  <a href="/" class="brand" aria-label="Beckett Clarke, home">
     <img class="brand-mark" src="icons/logo.svg" alt="">
     <span class="brand-name">Beckett Clarke</span>
   </a>
 
   <div class="nav" id="nav">
     <div class="navsection">
-      <a href="/" class="ddbutton">Home</a>
+      <a href="/" class="ddbutton" data-route="home">Home</a>
     </div>
 
-    <div class="navsection">
-      <button class="ddbutton" type="button">Apps <i class="fas fa-chevron-down chev"></i>
-        <div class="dropdown">
-          <div class="dropdown-content">
-            <a href="https://beckettclarke.github.io/imagesnap"><img src="icons/imagesnap.png" alt=""> Imagesnap</a>
-            <a href="https://pastezone.beckettclarke.ca"><img src="icons/pastezone.png" alt=""> Pastezone</a>
-            <a><img src="icons/screentest.png" alt=""> Screentest</a>
-          </div>
-        </div>
+    <div class="navsection has-dd">
+      <button class="ddbutton" type="button" data-route="clients" aria-haspopup="true">Work
+        <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="m3 4.5 3 3 3-3"/></svg>
       </button>
-    </div>
-
-    <div class="navsection">
-      <button class="ddbutton" type="button">Work <i class="fas fa-chevron-down chev"></i>
-        <div id="clientdropdown" class="dropdown">
-          <div class="dropdown-content">
-            <a href="/clients/opportunitynorth/"><img class="hic" src="icons/opportunitynorth.png" alt=""> Opportunity North <span class="fas half">&#xf03e; &#xf0ac;</span></a>
-            <a href="/clients/team610/"><img class="hic" src="icons/team610.png" alt=""> Team 610 <span class="fas half">&#xf0ac; &#xf02d;</span></a>
-            <a href="/clients/csoutreach/"><img class="hic" src="icons/csoutreach.png" alt=""> Crescent Outreach <span class="fas half">&#xf03e;</span></a>
-            <a href="/clients/apollozhang/"><img class="hic" src="icons/apollozhang.png" alt=""> Apollo Zhang <span class="fas half">&#xf03e;</span></a>
-          </div>
+      <div class="dropdown" id="clientdropdown">
+        <div class="dropdown-content">
+          <a href="/clients/team610/"><img src="icons/team610.png" alt=""><span class="dd-t">Team 610 Robotics<small>Print, merch, app</small></span></a>
+          <a href="/clients/opportunitynorth/"><img src="icons/opportunitynorth.png" alt=""><span class="dd-t">Opportunity North<small>Brand &amp; website</small></span></a>
+          <a href="/clients/crescent/"><img src="icons/crescent.png" alt=""><span class="dd-t">Crescent School<small>Posters &amp; graphics</small></span></a>
+          <a href="/clients/csoutreach/"><img src="icons/csoutreach.png" alt=""><span class="dd-t">Crescent Outreach<small>Logo</small></span></a>
+          <a href="/clients/apollozhang/"><img src="icons/apollozhang.png" alt=""><span class="dd-t">Apollo Zhang<small>Logo</small></span></a>
         </div>
+      </div>
+    </div>
+
+    <div class="navsection has-dd">
+      <button class="ddbutton" type="button" data-route="macicons" aria-haspopup="true">Apps
+        <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="m3 4.5 3 3 3-3"/></svg>
       </button>
+      <div class="dropdown">
+        <div class="dropdown-content">
+          <a href="https://pastezone.beckettclarke.ca"><img src="icons/pastezonefull.png" alt=""><span class="dd-t">Pastezone<small>Web</small></span></a>
+          <a href="https://beckettclarke.github.io/imagesnap"><img src="icons/imagesnapfull.png" alt=""><span class="dd-t">Imagesnap<small>Web</small></span></a>
+          <a href="/macicons/"><img src="icons/socials/macosicons.png" alt=""><span class="dd-t">macOS Icons<small>Free download</small></span></a>
+        </div>
+      </div>
     </div>
 
     <div class="navsection">
-      <a href="/photography" class="ddbutton">Photos</a>
+      <a href="/photography" class="ddbutton" data-route="photography">Photos</a>
     </div>
 
-    <a class="navsheet-cta" href="mailto:hi@beckettclarke.ca">Get in touch <i class="fas fa-arrow-right"></i></a>
+    <a class="navsheet-cta" href="mailto:hi@beckettclarke.ca">Get in touch <span class="arr">↗</span></a>
   </div>
 
   <a class="navcta" href="mailto:hi@beckettclarke.ca">Get in touch
     <span class="cta-arrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></span>
   </a>
-  <button class="navtoggle" id="navtoggle" type="button" aria-label="Menu" aria-expanded="false">
+  <button class="navtoggle" id="navtoggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav">
     <span class="bar"></span>
     <span class="bar"></span>
   </button>
