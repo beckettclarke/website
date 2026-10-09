@@ -12,6 +12,24 @@ async function loadFragment(id, url) {
   } catch (e) {
     get.id(id).innerHTML = (window.BC_FRAGMENTS && window.BC_FRAGMENTS[url]) || '';
   }
+  decodeEmails(get.id(id));
+}
+
+// Cloudflare rewrites mailto links into /cdn-cgi/l/email-protection#<hex> and
+// appends a decoder script, which never runs in innerHTML, so decode them here
+function cfDecode(hex) {
+  const key = parseInt(hex.slice(0, 2), 16);
+  let s = '';
+  for (let i = 2; i < hex.length; i += 2) s += '%' + ('0' + (parseInt(hex.slice(i, i + 2), 16) ^ key).toString(16)).slice(-2);
+  try { return decodeURIComponent(s); } catch (e) { return ''; }
+}
+function decodeEmails(root) {
+  root.querySelectorAll('a[href*="/cdn-cgi/l/email-protection#"]').forEach(a => {
+    const href = a.getAttribute('href');
+    a.setAttribute('href', 'mailto:' + cfDecode(href.slice(href.indexOf('#') + 1)));
+  });
+  root.querySelectorAll('[data-cfemail]').forEach(el => el.replaceWith(cfDecode(el.dataset.cfemail)));
+  root.querySelectorAll('script[src*="/cdn-cgi/"]').forEach(s => s.remove());
 }
 loadFragment('header', 'header.html').then(() => { initNav(); markActiveNav(window.currentRoute); });
 loadFragment('footer', 'footer.html').then(initFooter);
@@ -81,6 +99,7 @@ window.addEventListener('scroll', () => {
 // ===[ Page init ]============================================
 // Called by the router every time a page is swapped in.
 function initPage(root, route) {
+  decodeEmails(root);
   const page = root.querySelector('[data-title]');
   const title = page && page.dataset.title;
   document.title = title ? `${title} · Beckett Clarke` : 'Beckett Clarke';
