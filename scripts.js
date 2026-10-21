@@ -520,8 +520,10 @@ function mi(e) {
 
   // The icons live on the CDN, and browsers ignore `download` on cross-origin
   // links, so fetch the file and save it from a local blob URL instead.
-  const filename = decodeURIComponent(img.src.split('/').pop()) || 'icon.png';
-  fetch(img.src)
+  // The grid shows small WebP previews; the download is the full-size original
+  const full = img.dataset.full || img.src;
+  const filename = decodeURIComponent(full.split('/').pop()) || 'icon.png';
+  fetch(full)
     .then(r => { if (!r.ok) throw r; return r.blob(); })
     .then(blob => {
       const url = URL.createObjectURL(blob);
@@ -533,7 +535,7 @@ function mi(e) {
       a.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1000);
     })
-    .catch(() => window.open(img.src, '_blank', 'noopener'));
+    .catch(() => window.open(full, '_blank', 'noopener'));
 
   const label = e.textContent.trim();
   toast(`<img src="${img.getAttribute('src')}" alt=""> Downloading ${label.replace(/[<>&]/g, '')}`);
