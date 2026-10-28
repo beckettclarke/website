@@ -17,14 +17,21 @@ let firstLoad = true;
 // === ROUTER ===
 function checkpage(){
   let route = 'home';
+  let hash = location.hash.replace(/^#/, '');
+
+  // A hash without a slash, like "/#work", is a section on the page, not a route
+  if (hash && !hash.includes('/')) {
+    if (pendingY == null) pendingScroll = decodeURIComponent(hash);
+    hash = '';
+  }
 
   if (isLocal) {
-    if (location.hash && location.hash !== '#/') {
-      route = location.hash.replace(/^#/, '');
+    if (hash && hash !== '/') {
+      route = hash;
     }
   } else {
-    if (location.hash && location.hash !== '#/') {
-      const newPath = location.hash.replace(/^#/, '');
+    if (hash && hash !== '/') {
+      const newPath = hash;
       route = newPath;
       history.replaceState(null, '', newPath.startsWith('/') ? newPath : '/' + newPath);
     } else if (location.pathname !== '/' && location.pathname !== '/index.html') {

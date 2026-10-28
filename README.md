@@ -105,7 +105,7 @@ website/
 - **Links like `/#work`** go home first, then scroll to the section once it's loaded.
 - **Cloudflare-safe emails.** Cloudflare's email obfuscation doesn't run inside injected HTML, so `scripts.js` decodes those links itself.
 - **Respects reduced motion.** Animations, reveals and the film grain calm down under `prefers-reduced-motion`.
-- **Cache busting.** CSS and JS are loaded with `?v=12.0.2`. Bump it in `index.html` when shipping changes.
+- **Cache busting.** CSS and JS are loaded with `?v=12.0.3`. Bump it in `index.html` when shipping changes.
 - **Design tokens.** Warm ink `#0d0c0b`, paper `#f2ede6` and one ember accent `#ff9a1f`, set in Satoshi and IBM Plex Mono.
 
 </details>
