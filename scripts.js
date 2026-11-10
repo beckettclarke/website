@@ -67,17 +67,29 @@ function glider(container, cls) {
   };
 }
 
+// The nav's marker rests on the section you're in and glides to whatever is
+// pointed at, then back again.
+let navPill = null;
+function restNavPill() {
+  const nav = get.id('nav');
+  if (!nav || !navPill) return;
+  navPill.to(nav.querySelector('.ddbutton.active'));
+}
+
 function initNav() {
   const nav = get.id('nav');
   if (nav) {
-    const pill = glider(nav, 'nav-pill');
+    navPill = glider(nav, 'nav-pill');
     nav.querySelectorAll('.navsection').forEach(sec => {
       const btn = sec.querySelector('.ddbutton');
-      sec.addEventListener('mouseenter', () => pill.to(btn));
-      sec.addEventListener('focusin', () => pill.to(btn));
+      sec.addEventListener('mouseenter', () => navPill.to(btn));
+      sec.addEventListener('focusin', () => navPill.to(btn));
     });
-    nav.addEventListener('mouseleave', () => pill.hide());
-    nav.addEventListener('focusout', e => { if (!nav.contains(e.relatedTarget) && !nav.matches(':hover')) pill.hide(); });
+    nav.addEventListener('mouseleave', restNavPill);
+    nav.addEventListener('focusout', e => { if (!nav.contains(e.relatedTarget) && !nav.matches(':hover')) restNavPill(); });
+    window.addEventListener('resize', restNavPill, { passive: true });
+    // Widths shift once the webfont arrives
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(restNavPill);
   }
 
   const toggle = get.id('navtoggle');
@@ -100,6 +112,7 @@ function markActiveNav(route) {
   get.queryAll('#header [data-route]').forEach(el => {
     el.classList.toggle('active', el.dataset.route === section);
   });
+  restNavPill();
 }
 
 // ===[ Footer ]===============================================
@@ -119,6 +132,12 @@ function onScroll() {
   // otherwise it glows through below the hero's dark fade
   const hero = get.query('.v-hero');
   document.body.classList.toggle('tint-held', !!hero && hero.getBoundingClientRect().bottom > window.innerHeight * .25);
+
+  // The hero photo trails a little behind the page as it scrolls away
+  const heroImg = get.query('.hero-bg img');
+  if (heroImg && !reduceMotion.matches && y < window.innerHeight * 1.2) {
+    heroImg.style.setProperty('--py', `${(y * .14).toFixed(1)}px`);
+  }
 
   // The footer mark rises as it comes into view
   const mark = get.query('.foot-mark img');
@@ -154,6 +173,8 @@ function initPage(root, route) {
   markActiveNav(route);
 
   initSplit(root);
+  initHero(root);
+  initWork(root);
   initChips(root);
   initMasonry(root);
   initShots(root);
@@ -211,6 +232,30 @@ function initSplit(root) {
       requestAnimationFrame(() => requestAnimationFrame(go));
       setTimeout(go, 120);
     }
+  });
+}
+
+// The hero photo comes up out of the dark once it has actually arrived
+function initHero(root) {
+  const hero = root.querySelector('.hero');
+  if (!hero) return;
+  const img = hero.querySelector('.hero-bg img');
+  const go = () => hero.classList.add('in');
+  if (!img || (img.complete && img.naturalWidth)) return go();
+  img.addEventListener('load', go, { once: true });
+  img.addEventListener('error', go, { once: true });
+}
+
+// Work: pointing at (or tabbing to) a project puts its picture on the stage.
+// It stays there until another one is chosen.
+function initWork(root) {
+  const items = [...root.querySelectorAll('.work-item')].filter(it => it.querySelector('.work-shot'));
+  if (!items.length) return;
+  const show = item => items.forEach(it => it.classList.toggle('is-on', it === item));
+  items.forEach(item => {
+    const row = item.querySelector('.work-row');
+    row.addEventListener('pointerenter', e => { if (e.pointerType === 'mouse') show(item); });
+    row.addEventListener('focus', () => show(item));
   });
 }
 
@@ -275,7 +320,7 @@ document.addEventListener('dragstart', e => {
 // image's own (hover zooms etc.), so drop the class once it's done.
 function initImages(root) {
   root.querySelectorAll('img').forEach(img => {
-    if (img.complete && img.naturalWidth) return;
+    if ((img.complete && img.naturalWidth) || img.closest('.hero-bg')) return;
     img.classList.add('is-loading');
     const done = () => {
       img.classList.remove('is-loading');

@@ -1,41 +1,31 @@
 <main class="page page-home" data-title="">
 
   <!-- ===== Hero ===== -->
-  <section class="hero wrap">
-    <h1 class="hero-title">
+  <section class="hero">
+    <div class="hero-bg" aria-hidden="true">
+      <img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203906_0031_D.webp" width="2048" height="1152" fetchpriority="high" alt="">
+    </div>
+    <div class="wrap hero-in">
+      <h1 class="hero-title">
       <span class="hi">Hi, I'm Beckett.</span>
       <span class="dim">I design <span class="nw">brands<span nodrag class="chip chip-stack" aria-hidden="true"><img src="icons/opportunitynorth.png" alt=""><img src="icons/apollozhang.png" alt=""><img src="icons/csoutreach.png" alt=""></span>,</span>
       build websites and <span class="nw">apps<span nodrag class="chip chip-stack" aria-hidden="true"><img src="icons/docket.png" alt=""><img src="icons/pastezonefull.png" alt=""><img src="icons/imagesnapfull.png" alt=""></span>,</span>
       and photograph things I <span class="nw">see<span nodrag class="chip chip-photos" aria-hidden="true"><img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203826_0025_D-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/misc/9C5D0371-99F0-4977-8C10-738E562EA371_1_105_c-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/collections/airshow/F-35/BCS02396-preview.webp" alt=""></span>.</span></span>
     </h1>
 
-    <div class="hero-actions" data-reveal style="--d:1">
-      <a class="btn" href="mailto:hi@beckettclarke.ca">Get in touch
-        <span class="btn-dot" aria-hidden="true"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
-      </a>
-      <a class="btn ghost" href="#work">See the work</a>
+      <div class="hero-actions" data-reveal style="--d:1">
+        <a class="btn" href="mailto:hi@beckettclarke.ca">Get in touch
+          <span class="btn-dot" aria-hidden="true"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
+        </a>
+        <a class="btn ghost" href="#work">See the work</a>
+      </div>
     </div>
+    <a nodrag class="hero-credit label" href="/photography/drone/" data-reveal style="--d:3">Cotton candy sky, from a drone <span class="arr arr-r"><i class="fa-regular fa-arrow-right"></i></span></a>
   </section>
 
-  <!-- ===== Filmstrip ===== -->
-  <section nodrag class="strip" aria-label="Photographs" data-reveal style="--d:2">
-    <div class="strip-track">
-      <figure><img largeview width="720" height="405" src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203826_0025_D-preview.webp" alt="City skyline under a purple and orange sunset, from a drone"></figure>
-      <figure><img largeview width="540" height="720" src="https://cdn.beckettclarke.ca/site/img/misc/9C5D0371-99F0-4977-8C10-738E562EA371_1_105_c-preview.webp" alt="Green leaves covered in raindrops"></figure>
-      <figure><img largeview width="720" height="479" src="https://cdn.beckettclarke.ca/site/img/collections/airshow/Snowbirds/BCS03023-preview.webp" alt="A heart drawn in smoke by the Snowbirds"></figure>
-      <figure><img largeview width="720" height="405" src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251123122528_0014_D-preview.webp" alt="City lights at night from a drone"></figure>
-      <figure><img largeview width="540" height="720" src="https://cdn.beckettclarke.ca/site/img/misc/8795C3D8-DF40-4BD0-A519-7D0586B7C384_1_105_c-preview.webp" alt="Carved wooden crests on a wall, lit by the sunset"></figure>
-      <figure><img largeview width="720" height="405" src="https://cdn.beckettclarke.ca/site/img/misc/00BFADC3-3748-44E9-BE74-86768DA0642B_1_102_o-preview.webp" alt="A city skyline seen over a sea of trees"></figure>
-      <figure><img largeview width="720" height="540" src="https://cdn.beckettclarke.ca/site/img/misc/302C53A1-7F6B-4625-9CC3-333ACE6FF317_1_105_c-preview.webp" alt="Train tracks under streetlights at night"></figure>
-      <figure><img largeview width="720" height="540" src="https://cdn.beckettclarke.ca/site/img/misc/86A93E1C-3F2F-4DB2-88AE-5F7E0410A18F_1_102_o-preview.webp" alt="A cloud lit orange by the setting sun"></figure>
-      <figure><img largeview width="720" height="480" src="https://cdn.beckettclarke.ca/site/img/collections/northmount/BCS08332-preview.webp" alt="The Northmount logo at centre court, under a spotlight"></figure>
-      <figure><img largeview width="540" height="720" src="https://cdn.beckettclarke.ca/site/img/misc/F0BEABB2-6AF3-4922-8E04-E97FC0F8B266_1_102_o-preview.webp" alt="A stone building against a blue sky"></figure>
-      <figure><img largeview width="720" height="479" src="https://cdn.beckettclarke.ca/site/img/collections/airshow/F-35/BCS02396-preview.webp" alt="An F-35 banking against a blue sky"></figure>
-      <figure><img largeview width="720" height="405" src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203739_0020_D-preview.webp" alt="Pink and orange clouds over the city at sunset"></figure>
-    </div>
-  </section>
-
-  <!-- ===== Work ===== -->
+  <!-- ===== Work =====
+       A list on the left, and a stage on the right that shows whichever
+       project is under the pointer. On phones each project is a card. -->
   <section class="sec wrap" id="work">
     <div class="sec-h" data-reveal>
       <div class="sec-t">
@@ -46,48 +36,83 @@
       </div>
     </div>
 
-    <div class="sub-h" data-reveal>
-      <h3 class="subtitle">Projects</h3>
-    </div>
+    <div class="work">
+      <h3 class="work-group label" data-reveal>Projects</h3>
+      <div class="work-item work-lead is-on">
+        <a class="work-row" href="/clients/team610/" data-reveal style="--d:0">
+          <img class="work-ico" data-morph src="icons/team610.png" alt="">
+          <span class="work-t"><b>Team 610 Robotics</b><span class="label">Yearbook, Website, Document Design, UI Design</span></span>
+          <span class="l-dots"></span>
+          <span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span>
+        </a>
+        <a nodrag class="work-shot" href="/clients/team610/" tabindex="-1" aria-hidden="true">
+          <video src="https://cdn.beckettclarke.ca/site/img/clients/610yearbookbanner.webm" autoplay muted loop playsinline preload="metadata"></video>
+          <span class="shot-papers">
+            <img src="https://cdn.beckettclarke.ca/site/img/clients/team610/sponsorpackage/p1.png" width="696" height="986" loading="lazy" alt="">
+            <img src="https://cdn.beckettclarke.ca/site/img/clients/team610/yearbook_cover.jpeg" width="768" height="1024" loading="lazy" alt="">
+          </span>
+          <span class="tile-go"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
+        </a>
+      </div>
+      <div class="work-item">
+        <a class="work-row" href="/clients/opportunitynorth/" data-reveal style="--d:1">
+          <img class="work-ico" data-morph src="icons/opportunitynorth.png" alt="">
+          <span class="work-t"><b>Opportunity North</b><span class="label">Brand &amp; website</span></span>
+          <span class="l-dots"></span>
+          <span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span>
+        </a>
+        <a nodrag class="work-shot" href="/clients/opportunitynorth/" tabindex="-1" aria-hidden="true">
+          <img class="shot-bg" src="https://cdn.beckettclarke.ca/site/img/clients/opportunitynorth/onbg.png" loading="lazy" alt="">
+          <img class="shot-mark shot-mark-wide" src="https://cdn.beckettclarke.ca/site/img/clients/opportunitynorth/onlogo.png" loading="lazy" alt="">
+          <span class="tile-go"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
+        </a>
+      </div>
+      <div class="work-item">
+        <a class="work-row" href="/clients/crescent/" data-reveal style="--d:2">
+          <img class="work-ico" data-morph src="icons/crescent.png" alt="">
+          <span class="work-t"><b>Crescent School</b><span class="label">Posters &amp; graphics</span></span>
+          <span class="l-dots"></span>
+          <span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span>
+        </a>
+        <a nodrag class="work-shot" href="/clients/crescent/" tabindex="-1" aria-hidden="true">
+          <img class="shot-bg" src="https://cdn.beckettclarke.ca/site/img/clients/crescent/FNL%20Soccer%2026%20Poster.webp" loading="lazy" alt="">
+          <span class="tile-go"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
+        </a>
+      </div>
 
-    <div class="bento">
-      <a class="tile t-610" href="/clients/team610/" data-reveal>
-        <video src="https://cdn.beckettclarke.ca/site/img/clients/610yearbookbanner.webm" autoplay muted loop playsinline preload="metadata"></video>
-        <span class="tile-cap"><img class="tile-cap-icon" data-morph src="icons/team610.png" alt=""><span><b>Team 610 Robotics</b><span class="label">Yearbook, Website, Document Design, UI Design</span></span></span>
-        <span class="tile-go"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
-      </a>
-      <a class="tile t-on" href="/clients/opportunitynorth/" data-reveal style="--d:1">
-        <img class="tile-bg" src="https://cdn.beckettclarke.ca/site/img/clients/opportunitynorth/onbg.png" alt="">
-        <img class="tile-mark tile-mark-wide" src="https://cdn.beckettclarke.ca/site/img/clients/opportunitynorth/onlogo.png" alt="">
-        <span class="tile-cap"><span><b>Opportunity North</b><span class="label">Brand &amp; website</span></span></span>
-        <span class="tile-go"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
-      </a>
-      <a class="tile t-cr" href="/clients/crescent/" data-reveal style="--d:2">
-        <img class="tile-bg" src="https://cdn.beckettclarke.ca/site/img/clients/crescent/FNL%20Soccer%2026%20Poster.webp" loading="lazy" alt="">
-        <span class="tile-cap"><img class="tile-cap-icon" data-morph src="icons/crescent.png" alt=""><span><b>Crescent School</b><span class="label">Posters &amp; graphics</span></span></span>
-        <span class="tile-go"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
-      </a>
-    </div>
-
-    <div class="sub-h" id="branding" data-reveal>
-      <h3 class="subtitle">Branding</h3>
-    </div>
-
-    <div class="bento bento-brand">
-      <a class="tile t-cs" href="/clients/csoutreach/" style="--bg:#006e51" data-reveal>
-        <img class="tile-mark" data-morph src="icons/csoutreach.png" alt="">
-        <span class="tile-cap"><span><b>Crescent Outreach</b><span class="label">Logo</span></span></span>
-        <span class="tile-go"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
-      </a>
-      <a class="tile t-az" href="/clients/apollozhang/" style="--bg:#ff7047; --d:1" data-reveal>
-        <img class="tile-mark" data-morph src="icons/apollozhang.png" alt="">
-        <span class="tile-cap"><span><b>Apollo Zhang</b><span class="label">Logo</span></span></span>
-        <span class="tile-go"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
-      </a>
-      <a class="tile t-next" href="mailto:hi@beckettclarke.ca" data-reveal style="--d:2">
-        <span class="t-next-body"><b>Need a logo?</b><span class="dim">Let's make yours next.</span></span>
-        <span class="tile-go"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
-      </a>
+      <h3 class="work-group label" id="branding" data-reveal>Branding</h3>
+      <div class="work-item">
+        <a class="work-row" href="/clients/csoutreach/" data-reveal style="--d:0">
+          <img class="work-ico" data-morph src="icons/csoutreach.png" alt="">
+          <span class="work-t"><b>Crescent Outreach</b><span class="label">Logo</span></span>
+          <span class="l-dots"></span>
+          <span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span>
+        </a>
+        <a nodrag class="work-shot" href="/clients/csoutreach/" tabindex="-1" aria-hidden="true" style="--bg:#006e51">
+          <img class="shot-mark" src="icons/csoutreach.png" alt="">
+          <span class="tile-go"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
+        </a>
+      </div>
+      <div class="work-item">
+        <a class="work-row" href="/clients/apollozhang/" data-reveal style="--d:1">
+          <img class="work-ico" data-morph src="icons/apollozhang.png" alt="">
+          <span class="work-t"><b>Apollo Zhang</b><span class="label">Logo</span></span>
+          <span class="l-dots"></span>
+          <span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span>
+        </a>
+        <a nodrag class="work-shot" href="/clients/apollozhang/" tabindex="-1" aria-hidden="true" style="--bg:#ff7047">
+          <img class="shot-mark" src="icons/apollozhang.png" alt="">
+          <span class="tile-go"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
+        </a>
+      </div>
+      <div class="work-item work-next">
+        <a class="work-row" href="mailto:hi@beckettclarke.ca" data-reveal style="--d:2">
+          <span class="work-ico work-plus" aria-hidden="true"><i class="fa-regular fa-plus"></i></span>
+          <span class="work-t"><b>Need a logo?</b><span class="dim">Let's make yours next.</span></span>
+          <span class="l-dots"></span>
+          <span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -229,41 +254,67 @@
   </section>
 
   <!-- ===== Photography ===== -->
-  <section class="sec wrap" id="photos">
-    <div class="sec-h" data-reveal>
-      <div class="sec-t">
-        <span class="lp lp-photos" aria-hidden="true">
-          <img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203826_0025_D-preview.webp" alt="">
-          <i class="lp-vf"></i>
-        </span>
-        <h2 class="title">Photography</h2>
+  <section class="sec" id="photos">
+    <div class="wrap">
+      <div class="sec-h" data-reveal>
+        <div class="sec-t">
+          <span class="lp lp-photos" aria-hidden="true">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203826_0025_D-preview.webp" alt="">
+            <i class="lp-vf"></i>
+          </span>
+          <h2 class="title">Photography</h2>
+        </div>
+        <a class="sec-link" href="/photography">All photos <span class="arr arr-r"><i class="fa-regular fa-arrow-right"></i></span></a>
       </div>
-      <a class="sec-link" href="/photography">All photos <span class="arr arr-r"><i class="fa-regular fa-arrow-right"></i></span></a>
+
+      <div class="piles">
+        <a class="pile" href="/photography/cias/2025/" data-reveal style="--d:0">
+          <span class="pile-stack">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/airshow/F-35/BCS02396-preview.webp" loading="lazy" alt="">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/airshow/Snowbirds/BCS03023-preview.webp" loading="lazy" alt="">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/airshow/Snowbirds/BCS02893-preview.webp" loading="lazy" alt="The Snowbirds in formation">
+          </span>
+          <span class="pile-cap"><span class="pile-name">CIAS 2025</span><span class="l-dots"></span><span class="mono pile-n">118</span></span>
+          <span class="label">Canadian International Airshow</span>
+        </a>
+        <a class="pile" href="/photography/drone/" data-reveal style="--d:1">
+          <span class="pile-stack">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251123122528_0014_D-preview.webp" loading="lazy" alt="">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203739_0020_D-preview.webp" loading="lazy" alt="">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203826_0025_D-preview.webp" loading="lazy" alt="Sunset over the city from a drone">
+          </span>
+          <span class="pile-cap"><span class="pile-name">Drone</span><span class="l-dots"></span><span class="mono pile-n">07</span></span>
+          <span class="label">Misc Drone Shots</span>
+        </a>
+        <a class="pile" href="/clients/northmount/" data-reveal style="--d:2">
+          <span class="pile-stack">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/northmount/BCS08332-preview.webp" loading="lazy" alt="">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/northmount/BCS08168-preview.webp" loading="lazy" alt="">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/northmount/BCS08218-preview.webp" loading="lazy" alt="The Northmount School tower and flag">
+          </span>
+          <span class="pile-cap"><span class="pile-name">Northmount School</span><span class="l-dots"></span><span class="mono pile-n">49</span></span>
+          <span class="label">Toronto, Ontario</span>
+        </a>
+      </div>
     </div>
 
-    <div class="colls">
-      <a class="coll coll-a" href="/photography/cias/2025/" data-reveal>
-        <span class="frame"><img src="https://cdn.beckettclarke.ca/site/img/collections/airshow/Snowbirds/BCS02893-preview.webp" width="720" height="479" loading="lazy" alt="The Snowbirds in formation"></span>
-        <span class="coll-cap">
-          <span><span class="coll-name">CIAS 2025</span><span class="label">Canadian International Airshow</span></span>
-          <span class="mono coll-n">118</span>
-        </span>
-      </a>
-      <a class="coll coll-big" href="/photography/drone/" data-reveal style="--d:1">
-        <span class="frame"><img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203906_0031_D.webp" width="2048" height="1152" loading="lazy" alt="Sunset over the city from a drone"></span>
-        <span class="coll-cap">
-          <span><span class="coll-name">Drone</span><span class="label">Misc Drone Shots</span></span>
-          <span class="mono coll-n">07</span>
-        </span>
-      </a>
-      <a class="coll coll-b" href="/clients/northmount/" data-reveal style="--d:2">
-        <span class="frame"><img src="https://cdn.beckettclarke.ca/site/img/collections/northmount/BCS08218.webp" width="2048" height="1365" loading="lazy" alt="The Northmount School tower and flag"></span>
-        <span class="coll-cap">
-          <span><span class="coll-name">Northmount School</span><span class="label">Toronto, Ontario</span></span>
-          <span class="mono coll-n">49</span>
-        </span>
-      </a>
-    </div>
+    <!-- Filmstrip -->
+    <section nodrag class="strip" aria-label="Photographs" data-reveal>
+      <div class="strip-track">
+        <figure><img largeview width="720" height="405" src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203826_0025_D-preview.webp" alt="City skyline under a purple and orange sunset, from a drone"></figure>
+        <figure><img largeview width="540" height="720" src="https://cdn.beckettclarke.ca/site/img/misc/9C5D0371-99F0-4977-8C10-738E562EA371_1_105_c-preview.webp" alt="Green leaves covered in raindrops"></figure>
+        <figure><img largeview width="720" height="479" src="https://cdn.beckettclarke.ca/site/img/collections/airshow/Snowbirds/BCS03023-preview.webp" alt="A heart drawn in smoke by the Snowbirds"></figure>
+        <figure><img largeview width="720" height="405" src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251123122528_0014_D-preview.webp" alt="City lights at night from a drone"></figure>
+        <figure><img largeview width="540" height="720" src="https://cdn.beckettclarke.ca/site/img/misc/8795C3D8-DF40-4BD0-A519-7D0586B7C384_1_105_c-preview.webp" alt="Carved wooden crests on a wall, lit by the sunset"></figure>
+        <figure><img largeview width="720" height="405" src="https://cdn.beckettclarke.ca/site/img/misc/00BFADC3-3748-44E9-BE74-86768DA0642B_1_102_o-preview.webp" alt="A city skyline seen over a sea of trees"></figure>
+        <figure><img largeview width="720" height="540" src="https://cdn.beckettclarke.ca/site/img/misc/302C53A1-7F6B-4625-9CC3-333ACE6FF317_1_105_c-preview.webp" alt="Train tracks under streetlights at night"></figure>
+        <figure><img largeview width="720" height="540" src="https://cdn.beckettclarke.ca/site/img/misc/86A93E1C-3F2F-4DB2-88AE-5F7E0410A18F_1_102_o-preview.webp" alt="A cloud lit orange by the setting sun"></figure>
+        <figure><img largeview width="720" height="480" src="https://cdn.beckettclarke.ca/site/img/collections/northmount/BCS08332-preview.webp" alt="The Northmount logo at centre court, under a spotlight"></figure>
+        <figure><img largeview width="540" height="720" src="https://cdn.beckettclarke.ca/site/img/misc/F0BEABB2-6AF3-4922-8E04-E97FC0F8B266_1_102_o-preview.webp" alt="A stone building against a blue sky"></figure>
+        <figure><img largeview width="720" height="479" src="https://cdn.beckettclarke.ca/site/img/collections/airshow/F-35/BCS02396-preview.webp" alt="An F-35 banking against a blue sky"></figure>
+        <figure><img largeview width="720" height="405" src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203739_0020_D-preview.webp" alt="Pink and orange clouds over the city at sunset"></figure>
+      </div>
+    </section>
   </section>
 
   <!-- ===== Elsewhere ===== -->

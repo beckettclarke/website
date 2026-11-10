@@ -36,9 +36,6 @@
    `scale` is its own property, so it never fights the hover zooms,
    which all use `transform`. */
 
-.tile > video,
-.tile-bg,
-.coll .frame img,
 .grid .frame img,
 .app-hero-art > img,
 .index .frame img,
@@ -47,10 +44,12 @@
   transition: transform 1.2s var(--ease), filter .6s var(--ease),
               scale 1.6s var(--ease) calc(var(--d, 0) * var(--step));
 }
-[data-reveal]:not(.in) :is(.tile-bg, .frame > img:not(.on-logo), .frame > video),
-.tile[data-reveal]:not(.in) > video,
+[data-reveal]:not(.in) :is(.frame > img:not(.on-logo), .frame > video),
 .frame[data-reveal]:not(.in) > img { scale: 1.07; }
 .frame[data-reveal] > img { transition: transform 1.2s var(--ease), scale 1.6s var(--ease) calc(var(--d, 0) * var(--step)); }
+
+/* A pile of prints is dealt out as it arrives: closed up first, then fanned */
+.pile[data-reveal]:not(.in) .pile-stack img { --r: 0deg; --y: 0%; }
 
 /* Gallery photos rise in small groups as they scroll into view */
 .masonry.rv .shot {
@@ -71,7 +70,7 @@
   height: 32px;
   margin-top: -16px;
   border-radius: 999px;
-  background: rgba(242, 237, 230, .07);
+  background: rgba(242, 237, 230, .1);
   opacity: 0;
   pointer-events: none;
   transition: transform var(--t-med) var(--ease), width var(--t-med) var(--ease),
@@ -137,7 +136,6 @@
 
   .foot-cols > div:has(a:hover) a:not(:hover) { color: var(--faint); }
 
-  .tile:hover .tile-go { background: var(--paper); color: var(--ink); }
 }
 
 /* ---------- Photo viewer: grows out of the thumbnail ---------- */
@@ -190,8 +188,10 @@
   .masonry.rv .shot,
   .p-logo,
   .gear-tile { opacity: 1 !important; transform: none !important; scale: 1 !important; }
-  [data-reveal] :is(.tile-bg, .frame > img, .frame > video),
-  .tile[data-reveal] > video { scale: 1 !important; }
+  [data-reveal] :is(.frame > img, .frame > video) { scale: 1 !important; }
+  .hero-bg { opacity: 1 !important; }
+  .hero-bg img { scale: 1 !important; transform: none !important; }
+  .work-shot :is(video, .shot-bg, .shot-mark, .shot-papers) { scale: 1 !important; }
   .dropdown-content a { opacity: 1; transform: none; }
   .arr > i { transition: none; }
   ::view-transition-group(*),

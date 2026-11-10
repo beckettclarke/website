@@ -120,6 +120,8 @@ async function loadpage(page){
   root.classList.add('vt');
   let vt;
   try { vt = document.startViewTransition(swap); } catch (e) { root.classList.remove('vt'); return swap(); }
+  // A skipped transition (hidden tab, or a newer one taking over) rejects this
+  vt.ready.catch(() => {});
   vt.finished.catch(() => {}).then(() => {
     if (token !== navToken) return;
     root.classList.remove('vt');

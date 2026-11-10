@@ -103,18 +103,60 @@
 .p-hero .frame { aspect-ratio: 2 / 1; }
 @media (max-width: 700px) { .p-hero .frame { aspect-ratio: 4 / 3; } }
 
-.c-sec { padding-top: clamp(80px, 10vw, 140px); }
+/* A section opens with a rule. On a wide screen its title sits in a rail on
+   the left and keeps its place while the pictures scroll past on the right. */
+.c-sec { padding-top: clamp(64px, 8vw, 110px); }
+.c-sec:has(> .c-sec-head)::before {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-bottom: clamp(18px, 2vw, 24px);
+  background: var(--line-2);
+}
 .c-sec-head { margin-bottom: clamp(22px, 3vw, 36px); }
 .c-title {
   display: flex;
   align-items: flex-start;
   gap: .28em;
-  font-size: clamp(30px, 3.8vw, 52px);
+  font-size: clamp(28px, 3.6vw, 44px);
   font-weight: 700;
-  letter-spacing: -.038em;
-  line-height: 1;
+  letter-spacing: -.035em;
+  line-height: 1.02;
 }
 .c-sec-head p { margin-top: 14px; max-width: 36em; font-size: 16px; color: var(--dim); }
+
+@media (min-width: 961px) {
+  .c-sec:has(> .c-sec-head) {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    column-gap: clamp(24px, 3vw, 44px);
+    align-items: start;
+  }
+  .c-sec:has(> .c-sec-head)::before { grid-column: 1 / -1; grid-row: 1; }
+  .c-sec > .c-sec-head {
+    grid-column: 1;
+    grid-row: 2 / span 8;
+    position: sticky;
+    top: 104px;
+    margin: 0;
+  }
+  .c-sec:has(> .c-sec-head) > :not(.c-sec-head) { grid-column: 2; }
+  .c-sec > .c-sec-head .c-title {
+    display: block;
+    font-size: clamp(22px, 2.2vw, 30px);
+    letter-spacing: -.028em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+  .c-sec > .c-sec-head p { font-size: 14.5px; }
+
+  /* The intro lines up with the pictures below it */
+  .case .p-intro {
+    grid-template-columns: minmax(0, 3fr) minmax(0, 9fr);
+    column-gap: clamp(24px, 3vw, 44px);
+  }
+  .case .p-intro > * { grid-column: 2; }
+}
 
 
 /* Image grids */
@@ -761,7 +803,7 @@ body.scrolled .jump { top: 72px; }
   color: var(--paper);
 }
 .type-name {
-  font-size: clamp(34px, 5vw, 64px);
+  font-size: clamp(30px, 3.8vw, 50px);
   line-height: 1.05;
   letter-spacing: -.01em;
   font-family: inherit;
@@ -769,7 +811,7 @@ body.scrolled .jump { top: 72px; }
   white-space: nowrap;
 }
 .type-sample {
-  font-size: clamp(34px, 5vw, 64px);
+  font-size: clamp(30px, 3.8vw, 50px);
   line-height: 1.05;
   font-family: inherit;
   font-weight: inherit;

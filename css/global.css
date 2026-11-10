@@ -620,7 +620,7 @@ a, button, [largeview] { touch-action: manipulation; }
 }
 
 button, .btn, .pill, .skip,
-.tile, .coll, .app, .index a, .links a, .sec-link, .p-rel, .cta-row, .next,
+.work-row, .work-shot, .pile, .app, .index a, .links a, .sec-link, .p-rel, .cta-row, .next, .hero-credit,
 .lp, .jump, .toc, .foot-cols, .browser-bar, .lost-code,
 #toast, #totop {
   -webkit-user-select: none;

@@ -79,7 +79,7 @@ website/
 ├── index.html            ← the shell: header, footer, lightbox, toast
 ├── 404.html              ← turns /any/path into /#/any/path for the router
 ├── router.js             ← path → pages/<route>.html, transitions, scroll restore
-├── scripts.js            ← nav, reveals, filmstrip, chips, lightbox, macOS icon picker
+├── scripts.js            ← nav, reveals, hero, work stage, filmstrip, chips, lightbox, macOS icon picker
 ├── flexkit.js / .css     ← tiny helpers: get.id(), log(), attribute layout utilities
 ├── header.html           ← nav, loaded into <header>
 ├── footer.html           ← footer, loaded into <footer>
@@ -105,8 +105,9 @@ website/
 - **Links like `/#work`** go home first, then scroll to the section once it's loaded.
 - **Cloudflare-safe emails.** Cloudflare's email obfuscation doesn't run inside injected HTML, so `scripts.js` decodes those links itself.
 - **Respects reduced motion.** Animations, reveals and the film grain calm down under `prefers-reduced-motion`.
+- **Work is a list with one stage.** Each project keeps its picture beside its row in `pages/home.html`. On a wide screen with a pointer the pictures share one cell and only the active one shows; on phones and touch screens each project is a card.
 - **One motion system.** Every animation uses the curves and speeds set in `css/global.css`; the moving parts live in `css/motion.css`. Page changes use view transitions where the browser has them and a plain fade where it doesn't.
-- **Cache busting.** CSS and JS are loaded with `?v=13.0.0`. Bump it in `index.html` when shipping changes.
+- **Cache busting.** CSS and JS are loaded with `?v=13.1.0`. Bump it in `index.html` when shipping changes.
 - **Design tokens.** Warm ink `#0d0c0b`, paper `#f2ede6` and one ember accent `#ff9a1f`, set in Satoshi and IBM Plex Mono.
 
 </details>

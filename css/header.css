@@ -118,19 +118,8 @@ body.nav-open .navbar::before {
   color: var(--h-paper);
   background: rgba(242, 237, 230, .06);
 }
-/* Current section gets a small ember dot under the label */
+/* The marker in motion.css rests on the current section */
 .ddbutton.active { color: var(--h-paper); }
-.ddbutton.active::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  bottom: -3px;
-  width: 4px;
-  height: 4px;
-  margin-left: -2px;
-  border-radius: 50%;
-  background: var(--h-accent);
-}
 
 .ddbutton .chev {
   font-size: 9px;
@@ -139,6 +128,70 @@ body.nav-open .navbar::before {
 }
 .has-dd:hover .chev,
 .has-dd:focus-within .chev { transform: rotate(180deg); opacity: .9; }
+
+/* ===[ Wide screens: three floating pieces ]====================
+   The links sit in their own capsule in the middle. The brand and the
+   button float either side; once the page scrolls the brand folds down
+   to its mark on a small chip, and opens again when it's pointed at. */
+
+@media (min-width: 761px) {
+  .navbar { padding: 0 12px 0 0; }
+  .navbar::before { display: none; }
+
+  .nav { padding: 4px; }
+  .nav::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+    border-radius: 999px;
+    background: rgba(242, 237, 230, .045);
+    box-shadow: inset 0 0 0 1px var(--h-line), 0 18px 40px -14px rgba(0, 0, 0, 0);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    backdrop-filter: blur(22px) saturate(160%);
+    transition: background .5s var(--h-ease), box-shadow .5s var(--h-ease);
+  }
+  body.scrolled .nav::before {
+    background: rgba(13, 12, 11, .74);
+    box-shadow: inset 0 0 0 1px var(--h-line-2), 0 18px 40px -14px rgba(0, 0, 0, .6);
+  }
+
+  .brand {
+    position: relative;
+    height: 42px;
+    padding: 0 14px 0 12px;
+    border-radius: 999px;
+    transition: padding .6s var(--h-ease);
+  }
+  .brand::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: rgba(13, 12, 11, .74);
+    box-shadow: inset 0 0 0 1px var(--h-line-2), 0 18px 40px -14px rgba(0, 0, 0, .6);
+    -webkit-backdrop-filter: blur(22px) saturate(160%);
+    backdrop-filter: blur(22px) saturate(160%);
+    opacity: 0;
+    transition: opacity .5s var(--h-ease);
+  }
+  body.scrolled .brand::before { opacity: 1; }
+  .brand-name {
+    max-width: 9em;
+    overflow: hidden;
+    transition: max-width .6s var(--h-ease), opacity .35s var(--h-ease), margin .6s var(--h-ease);
+  }
+  body.scrolled .brand:not(:hover):not(:focus-visible) { padding-right: 12px; }
+  body.scrolled .brand:not(:hover):not(:focus-visible) .brand-name {
+    max-width: 0;
+    margin-left: -10px;
+    opacity: 0;
+  }
+
+  .navcta { transition: background .35s var(--h-ease), box-shadow .5s var(--h-ease), transform .18s var(--h-ease); }
+  body.scrolled .navcta:not(:hover) { box-shadow: 0 18px 40px -14px rgba(0, 0, 0, .6); }
+}
 
 /* ===[ Dropdowns ]============================================= */
 
@@ -331,7 +384,6 @@ body.nav-open .navtoggle .bar:last-child  { transform: translateY(-3.75px) rotat
   body.nav-open .navsheet-cta              { transition-delay: .2s; }
 
   .ddbutton .chev { display: none; }
-  .ddbutton.active::after { display: none; }
 
   /* A dropdown trigger becomes a group heading... */
   button.ddbutton,
