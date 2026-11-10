@@ -133,13 +133,7 @@ body.nav-open .navbar::before {
 }
 
 .ddbutton .chev {
-  width: 11px;
-  height: 11px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  font-size: 9px;
   opacity: .55;
   transition: transform .35s var(--h-ease), opacity .18s var(--h-ease);
 }
@@ -211,8 +205,7 @@ body.nav-open .navbar::before {
 .dd-t { display: flex; flex-direction: column; line-height: 1.2; }
 .dd-t small {
   font-family: var(--mono);
-  font-size: 10.5px;
-  letter-spacing: .04em;
+  font-size: 11px;
   color: var(--h-faint);
   margin-top: 2px;
 }
@@ -249,10 +242,9 @@ body.nav-open .navbar::before {
   border-radius: 50%;
   background: var(--h-ink);
   color: var(--h-paper);
-  transition: transform .35s var(--h-ease);
+  font-size: 13px;
 }
-.cta-arrow svg { width: 12px; height: 12px; }
-.navcta:hover .cta-arrow { transform: rotate(45deg); }
+
 
 /* ===[ Mobile ]================================================ */
 
@@ -351,10 +343,8 @@ body.nav-open .navtoggle .bar:last-child  { transform: translateY(-3.75px) rotat
     border-radius: 0;
     background: none;
     font-family: var(--mono);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 400;
-    letter-spacing: .12em;
-    text-transform: uppercase;
     color: var(--h-faint);
     text-align: left;
     cursor: default;
@@ -465,9 +455,9 @@ footer#footer {
   transition: color .35s var(--ease);
   overflow-wrap: anywhere;
 }
-.foot-mail .arr { font-weight: 400; color: var(--faint); transition: transform .5s var(--ease), color .35s var(--ease); }
+.foot-mail .arr { align-self: center; font-size: .8em; color: var(--faint); transition: color .35s var(--ease); }
 .foot-mail:hover { color: var(--ember); }
-.foot-mail:hover .arr { color: var(--ember); transform: translate(.08em, -.08em); }
+.foot-mail:hover .arr { color: var(--ember); }
 
 .foot-cols {
   display: grid;
@@ -483,8 +473,10 @@ footer#footer {
   font-size: 15px;
   color: var(--dim);
   text-decoration: none;
-  transition: color .2s var(--ease);
+  background: linear-gradient(currentColor, currentColor) 0 calc(100% - 2px) / 0% 1px no-repeat;
+  transition: color var(--t-fast) var(--ease), background-size var(--t-med) var(--ease);
 }
+.foot-cols a:hover { background-size: 100% 1px; }
 .foot-cols a:hover { color: var(--paper); }
 @media (max-width: 720px) {
   .foot-cols { grid-template-columns: 1fr 1fr; }
@@ -501,6 +493,7 @@ footer#footer {
   font-size: 12px;
 }
 .foot-base .fish { margin-left: auto; font-style: italic; }
+.foot-base i { margin: 0 .15em; color: #e0492f; }
 @media (max-width: 720px) { .foot-base .fish { margin-left: 0; } }
 
 /* The bc mark rising out of the bottom edge like a sun */

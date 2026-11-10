@@ -1,0 +1,200 @@
+/* ===[ v13 · Motion ]==========================================
+   Everything that moves, in one place, built from the curves and
+   speeds in global.css. The rule of thumb: things arrive with --ease,
+   things that travel use --ease-io, and only small icons get --spring.
+   Nothing here loops. */
+
+/* ---------- Headlines arrive a word at a time ----------
+   scripts.js wraps each word of a page's h1 in .w and numbers it. */
+
+[data-split] .w {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(.34em);
+  transition: opacity var(--t-slow) var(--ease), transform 1.1s var(--ease);
+  transition-delay: calc(var(--i, 0) * 34ms + 60ms);
+}
+[data-split].in .w { opacity: 1; transform: none; }
+
+/* The little stacks in the sentence pop in just after their word */
+[data-split] .chip {
+  opacity: 0;
+  scale: .6;
+  transition: opacity .5s var(--ease), scale .8s var(--spring);
+  transition-delay: calc(var(--i, 0) * 34ms + 140ms);
+}
+[data-split].in .chip { opacity: 1; scale: 1; }
+
+/* A page title's wrapper stops fading as a block once its words do the work;
+   the logo beside it springs up on its own instead */
+[data-reveal="off"] { opacity: 1; transform: none; transition: none; }
+.p-logo,
+.gear-tile { transition: opacity .6s var(--ease), scale .9s var(--spring); }
+[data-reveal="off"]:not(.in) :is(.p-logo, .gear-tile) { opacity: 0; scale: .8; }
+
+/* ---------- Pictures settle as they are revealed ----------
+   `scale` is its own property, so it never fights the hover zooms,
+   which all use `transform`. */
+
+.tile > video,
+.tile-bg,
+.coll .frame img,
+.grid .frame img,
+.app-hero-art > img,
+.index .frame img,
+.p-hero .frame > img,
+.p-hero .frame > video {
+  transition: transform 1.2s var(--ease), filter .6s var(--ease),
+              scale 1.6s var(--ease) calc(var(--d, 0) * var(--step));
+}
+[data-reveal]:not(.in) :is(.tile-bg, .frame > img:not(.on-logo), .frame > video),
+.tile[data-reveal]:not(.in) > video,
+.frame[data-reveal]:not(.in) > img { scale: 1.07; }
+.frame[data-reveal] > img { transition: transform 1.2s var(--ease), scale 1.6s var(--ease) calc(var(--d, 0) * var(--step)); }
+
+/* Gallery photos rise in small groups as they scroll into view */
+.masonry.rv .shot {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity var(--t-slow) var(--ease) var(--sd, 0ms), transform 1.1s var(--ease) var(--sd, 0ms);
+}
+.masonry.rv .shot.in { opacity: 1; transform: none; }
+
+/* ---------- Nav: one marker that glides between items ---------- */
+
+.nav-pill {
+  position: absolute;
+  z-index: -1;
+  top: 50%;
+  left: 0;
+  width: 0;
+  height: 32px;
+  margin-top: -16px;
+  border-radius: 999px;
+  background: rgba(242, 237, 230, .07);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--t-med) var(--ease), width var(--t-med) var(--ease),
+              opacity var(--t-fast) var(--ease);
+}
+.nav-pill.on { opacity: 1; }
+/* First appearance: land on the item, don't slide in from the corner */
+.nav-pill.snap { transition: opacity var(--t-fast) var(--ease); }
+
+@media (min-width: 761px) {
+  .nav.has-pill .ddbutton:hover,
+  .nav.has-pill .has-dd:hover > .ddbutton,
+  .nav.has-pill .has-dd:focus-within > .ddbutton { background: none; }
+
+  /* Dropdown rows follow the panel in, one after another */
+  .dropdown-content a {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: background .18s var(--ease), opacity .35s var(--ease), transform var(--t-med) var(--ease);
+  }
+  .has-dd:hover .dropdown-content a,
+  .has-dd:focus-within .dropdown-content a {
+    opacity: 1;
+    transform: none;
+    transition-delay: 0s, calc(var(--n, 0) * 28ms + 50ms), calc(var(--n, 0) * 28ms + 50ms);
+  }
+  .dropdown-content a:nth-child(2) { --n: 1; }
+  .dropdown-content a:nth-child(3) { --n: 2; }
+  .dropdown-content a:nth-child(4) { --n: 3; }
+  .dropdown-content a:nth-child(5) { --n: 4; }
+  .dropdown-content a:nth-child(6) { --n: 5; }
+}
+@media (max-width: 760px) {
+  .nav-pill { display: none; }
+}
+
+/* The same marker under the active link of a collection's jump bar */
+.jump-rail { position: relative; }
+.jump a { position: relative; z-index: 1; }
+.jump-pill {
+  position: absolute;
+  top: 4px;
+  left: 0;
+  width: 0;
+  height: calc(100% - 8px);
+  border-radius: 999px;
+  background: var(--paper);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform var(--t-med) var(--ease-io), width var(--t-med) var(--ease-io),
+              opacity var(--t-fast) var(--ease);
+}
+.jump-pill.on { opacity: 1; }
+.jump-pill.snap { transition: opacity var(--t-fast) var(--ease); }
+
+/* ---------- Lists: the row under the pointer stays lit ---------- */
+
+@media (hover: hover) {
+  .links a { transition: opacity .3s var(--ease); }
+  .links:has(a:hover) a:not(:hover) { opacity: .5; }
+  .links .l-name { transition: transform var(--t-med) var(--ease); }
+  .links a:hover .l-name { transform: translateX(3px); }
+
+  .foot-cols > div:has(a:hover) a:not(:hover) { color: var(--faint); }
+
+  .tile:hover .tile-go { background: var(--paper); color: var(--ink); }
+}
+
+/* ---------- Photo viewer: grows out of the thumbnail ---------- */
+
+.lb-img.fly {
+  transition: transform .55s var(--ease), clip-path .55s var(--ease), opacity .2s linear, filter .5s var(--ease);
+}
+.lb-img.fly-back {
+  transition: transform .34s var(--ease-io), clip-path .34s var(--ease-io), opacity .34s var(--ease-io);
+}
+.lb-bar,
+.lb-nav { transition: opacity .35s var(--ease) .1s, background .2s var(--ease), transform .3s var(--ease); }
+#lightbox:not(.open) :is(.lb-bar, .lb-nav) { opacity: 0; transition-delay: 0s; }
+
+/* ---------- Page to page ----------
+   Where the browser supports view transitions, the old page cross-fades
+   into the new one and a project's logo travels from its card to the
+   page title (and back again). Elsewhere router.js falls back to the
+   plain fade. */
+
+@supports (view-transition-name: none) {
+  .p-logo { view-transition-name: bc-logo; }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: .4s;
+    animation-timing-function: var(--ease-io);
+  }
+  ::view-transition-group(bc-logo) {
+    animation-duration: .6s;
+    animation-timing-function: var(--ease-io);
+  }
+  ::view-transition-old(bc-logo),
+  ::view-transition-new(bc-logo) {
+    animation-duration: .3s;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* While a transition runs, the logo is already in flight: no second entrance */
+  html.vt :is(.p-logo, .gear-tile) { opacity: 1 !important; scale: 1 !important; transition: none; }
+}
+
+/* ---------- Reduced motion ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  [data-split] .w,
+  [data-split] .chip,
+  .masonry.rv .shot,
+  .p-logo,
+  .gear-tile { opacity: 1 !important; transform: none !important; scale: 1 !important; }
+  [data-reveal] :is(.tile-bg, .frame > img, .frame > video),
+  .tile[data-reveal] > video { scale: 1 !important; }
+  .dropdown-content a { opacity: 1; transform: none; }
+  .arr > i { transition: none; }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}

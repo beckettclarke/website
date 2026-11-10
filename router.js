@@ -1,4 +1,4 @@
-log('Loaded script router.js v12', '#0066ff', '📜 Script');
+log('Loaded script router.js v13', '#0066ff', '📜 Script');
 
 // file:// has an opaque "null" origin, which URL() rejects as a base
 const ORIGIN = location.origin === 'null' ? 'http://local.invalid' : location.origin;
@@ -68,7 +68,12 @@ async function loadpage(page){
   const content = document.getElementsByTagName('content')[0];
   if (!content) return log('No <content> element found in the document.', '#ff0000', '🚫 Error');
 
-  const leaving = !firstLoad && content.childElementCount
+  // Where the browser can do it, the pages cross-fade as a view transition and
+  // the old page stays up while the new one is fetched. Otherwise: fade out,
+  // swap, fade in.
+  const still = typeof reduceMotion !== 'undefined' && reduceMotion.matches;
+  const canVT = !firstLoad && !still && !!content.childElementCount && typeof document.startViewTransition === 'function';
+  const leaving = !canVT && !firstLoad && content.childElementCount
     ? (content.classList.add('is-leaving'), wait(220))
     : Promise.resolve();
 
@@ -79,25 +84,68 @@ async function loadpage(page){
   }
   if (token !== navToken) return; // a newer navigation won
 
-  window.currentRoute = name;
-  content.innerHTML = html;
-  content.classList.remove('is-leaving', 'is-entering');
-  void content.offsetWidth;
-  content.classList.add('is-entering');
+  const prev = window.currentRoute;
+  const swap = () => {
+    window.currentRoute = name;
+    content.innerHTML = html;
+    content.classList.remove('is-leaving', 'is-entering');
+    if (!canVT) {
+      void content.offsetWidth;
+      content.classList.add('is-entering');
+    }
 
-  if (pendingScroll && document.getElementById(pendingScroll)) {
-    scrollToId(pendingScroll, firstLoad ? 'auto' : 'smooth');
-  } else if (pendingY != null) {
-    window.scrollTo(0, pendingY);
-  } else {
-    window.scrollTo(0, 0);
+    if (pendingScroll && document.getElementById(pendingScroll)) {
+      scrollToId(pendingScroll, firstLoad ? 'auto' : 'smooth');
+    } else if (pendingY != null) {
+      window.scrollTo(0, pendingY);
+    } else {
+      window.scrollTo(0, 0);
+    }
+    pendingScroll = null;
+    pendingY = null;
+    firstLoad = false;
+
+    if (typeof initPage === 'function') initPage(content, name);
+    // Coming back: the card for the page we just left catches its logo
+    if (canVT) nameLogo(content, prev, true);
+    log(`Page loaded: ${name}`, 'darkgreen', '✅ Loaded');
+  };
+
+  if (!canVT) return swap();
+
+  // Going in: a card that leads to this page hands its logo to the page title
+  clearLogo();
+  nameLogo(content, name, false);
+  const root = document.documentElement;
+  root.classList.add('vt');
+  let vt;
+  try { vt = document.startViewTransition(swap); } catch (e) { root.classList.remove('vt'); return swap(); }
+  vt.finished.catch(() => {}).then(() => {
+    if (token !== navToken) return;
+    root.classList.remove('vt');
+    clearLogo();
+  });
+}
+
+// ===[ Logo hand-off ]===
+// Cards mark their logo with data-morph. For the length of a page transition
+// it shares a view-transition-name with the page title's logo (.p-logo in
+// motion.css), so the browser moves one into the other.
+function nameLogo(scope, route, arriving){
+  for (const img of scope.querySelectorAll('a[href] [data-morph]')) {
+    const href = img.closest('a').getAttribute('href');
+    if (routeName(new URL(href, ORIGIN).pathname) !== route) continue;
+    const r = img.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > window.innerHeight) return;
+    img.style.viewTransitionName = 'bc-logo';
+    // Its card is still waiting to be revealed; show it now so the logo lands on something
+    const card = arriving && img.closest('[data-reveal]');
+    if (card) card.removeAttribute('data-reveal');
+    return;
   }
-  pendingScroll = null;
-  pendingY = null;
-  firstLoad = false;
-
-  if (typeof initPage === 'function') initPage(content, name);
-  log(`Page loaded: ${name}`, 'darkgreen', '✅ Loaded');
+}
+function clearLogo(){
+  document.querySelectorAll('[data-morph]').forEach(el => { el.style.viewTransitionName = ''; });
 }
 
 setTimeout(checkpage, 0);

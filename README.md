@@ -5,7 +5,7 @@
 <p align="center">
   <a href="https://beckettclarke.ca"><img src="https://img.shields.io/badge/beckettclarke.ca-visit-ff9a1f?style=for-the-badge&labelColor=0d0c0b" alt="Visit beckettclarke.ca"></a>
   <a href="https://github.com/beckettclarke/website/actions/workflows/static.yml"><img src="https://img.shields.io/github/actions/workflow/status/beckettclarke/website/static.yml?branch=main&style=for-the-badge&label=deploy&labelColor=0d0c0b&color=6fd08c" alt="Deploy status"></a>
-  <img src="https://img.shields.io/badge/version-12-f2ede6?style=for-the-badge&labelColor=0d0c0b" alt="Version 12">
+  <img src="https://img.shields.io/badge/version-13-f2ede6?style=for-the-badge&labelColor=0d0c0b" alt="Version 13">
   <img src="https://img.shields.io/badge/framework-none-f2ede6?style=for-the-badge&labelColor=0d0c0b" alt="No framework">
 </p>
 
@@ -90,7 +90,7 @@ website/
 │   └── …
 ├── fragments.js          ← generated bundle of every fragment (for file://)
 ├── build-fragments.py    ← regenerates fragments.js
-├── css/                  ← global, header, home and page styles
+├── css/                  ← global, header, home and page styles, plus motion.css
 ├── icons/  res/          ← logos, app icons, bento art, previews
 └── .github/workflows/    ← deploys to GitHub Pages on push to main
 ```
@@ -105,7 +105,8 @@ website/
 - **Links like `/#work`** go home first, then scroll to the section once it's loaded.
 - **Cloudflare-safe emails.** Cloudflare's email obfuscation doesn't run inside injected HTML, so `scripts.js` decodes those links itself.
 - **Respects reduced motion.** Animations, reveals and the film grain calm down under `prefers-reduced-motion`.
-- **Cache busting.** CSS and JS are loaded with `?v=12.0.3`. Bump it in `index.html` when shipping changes.
+- **One motion system.** Every animation uses the curves and speeds set in `css/global.css`; the moving parts live in `css/motion.css`. Page changes use view transitions where the browser has them and a plain fade where it doesn't.
+- **Cache busting.** CSS and JS are loaded with `?v=13.0.0`. Bump it in `index.html` when shipping changes.
 - **Design tokens.** Warm ink `#0d0c0b`, paper `#f2ede6` and one ember accent `#ff9a1f`, set in Satoshi and IBM Plex Mono.
 
 </details>

@@ -223,9 +223,9 @@
   transition: background .3s var(--ease), border-color .3s var(--ease);
 }
 .p-rel img { width: var(--icon); height: var(--icon); border-radius: 24%; }
-.p-rel .arr { color: var(--faint); transition: color .3s var(--ease), transform .3s var(--ease); }
+.p-rel .arr { font-size: 14px; color: var(--faint); transition: color .3s var(--ease); }
 .p-rel:hover { background: rgba(242, 237, 230, .04); border-color: var(--ghost); }
-.p-rel:hover .arr { color: var(--ember); transform: translateX(2px); }
+.p-rel:hover .arr { color: var(--ember); }
 
 /* Big outbound link */
 .cta-row {
@@ -241,7 +241,7 @@
   transition: background .3s var(--ease), border-color .3s var(--ease);
 }
 .cta-row strong { font-size: 18px; font-weight: 500; letter-spacing: -.015em; }
-.cta-row .arr { font-size: 20px; color: var(--faint); }
+.cta-row .arr { font-size: 20px; color: var(--faint); transition: color .3s var(--ease); }
 .cta-row:hover { background: rgba(242, 237, 230, .04); border-color: var(--ghost); }
 .cta-row:hover .arr { color: var(--ember); }
 
@@ -491,7 +491,10 @@
   transition: background .25s var(--ease), color .25s var(--ease);
 }
 .jump a:hover { color: var(--paper); background: rgba(242, 237, 230, .06); }
-.jump a.active { background: var(--paper); color: var(--ink); }
+.jump a.active { color: var(--ink); }
+.jump a.active:hover { background: none; }
+/* Without the sliding marker (no JS yet), the active link fills itself */
+.jump-rail:not(.has-pill) a.active { background: var(--paper); }
 body.scrolled .jump { top: 72px; }
 
 /* ---------- Photography index ---------- */
@@ -724,9 +727,7 @@ body.scrolled .jump { top: 72px; }
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   font-family: var(--mono);
-  font-size: 11px;
-  letter-spacing: .06em;
-  text-transform: uppercase;
+  font-size: 11.5px;
   white-space: nowrap;
   color: var(--dim);
   opacity: 0;

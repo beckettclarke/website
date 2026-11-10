@@ -89,13 +89,16 @@
   -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
   mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
+/* scripts.js drives the track: it drifts, eases to a stop under the pointer,
+   and can be dragged or flicked. */
+.strip { cursor: grab; touch-action: pan-y; }
+.strip.is-dragging { cursor: grabbing; }
+.strip.is-dragging img { cursor: grabbing; pointer-events: none; }
 .strip-track {
   display: flex;
   width: max-content;
-  animation: marquee var(--dur, 90s) linear infinite;
+  will-change: transform;
 }
-.strip:hover .strip-track { animation-play-state: paused; }
-@keyframes marquee { to { transform: translateX(-50%); } }
 
 .strip figure {
   margin: 0 14px 0 0;
@@ -114,8 +117,7 @@
 .strip-track { align-items: flex-end; }
 
 @media (prefers-reduced-motion: reduce) {
-  .strip { overflow-x: auto; }
-  .strip-track { animation: none; }
+  .strip { overflow-x: auto; cursor: auto; }
 }
 
 /* ---------- Section heads ---------- */
@@ -139,6 +141,7 @@
   transition: color .25s var(--ease);
 }
 .sec-link:hover { color: var(--paper); }
+.sec-link .arr { font-size: 14px; }
 
 /* Subsection heads inside Work */
 .sub-h { margin-bottom: clamp(16px, 2vw, 22px); }
@@ -290,32 +293,30 @@
   transition: transform .5s var(--spring), opacity .2s var(--ease);
 }
 
-@media (hover: hover) {
-  .sec-t:hover .lp-apps,
-  .sec-t:hover .lp-social { transform: translateY(-2px) scale(1.07); background: rgba(255, 255, 255, .19); }
+.sec-t:is(:hover, .play) .lp-apps,
+.sec-t:is(:hover, .play) .lp-social { transform: translateY(-2px) scale(1.07); background: rgba(255, 255, 255, .19); }
 
-  .sec-t:hover .lp-work > img:nth-child(1) { --r: -19deg; --x: -4%; }
-  .sec-t:hover .lp-work > img:nth-child(2) { --r: -6deg; --x: -1%; }
-  .sec-t:hover .lp-work > img:nth-child(3) { --r: 7deg; --x: 1%; }
-  .sec-t:hover .lp-work > img:nth-child(4) { --r: 19deg; --x: 4%; }
+.sec-t:is(:hover, .play) .lp-work > img:nth-child(1) { --r: -19deg; --x: -4%; }
+.sec-t:is(:hover, .play) .lp-work > img:nth-child(2) { --r: -6deg; --x: -1%; }
+.sec-t:is(:hover, .play) .lp-work > img:nth-child(3) { --r: 7deg; --x: 1%; }
+.sec-t:is(:hover, .play) .lp-work > img:nth-child(4) { --r: 19deg; --x: 4%; }
 
-  .sec-t:hover .lp-apps > img:nth-child(1) { transform: translate(-8%, -8%) scale(1.06); }
-  .sec-t:hover .lp-apps > img:nth-child(2) { transform: translate(8%, -8%) scale(1.06); }
-  .sec-t:hover .lp-apps > img:nth-child(3) { transform: translate(-8%, 8%) scale(1.06); }
-  .sec-t:hover .lp-apps > img:nth-child(4) { transform: translate(8%, 8%) scale(1.06); }
+.sec-t:is(:hover, .play) .lp-apps > img:nth-child(1) { transform: translate(-8%, -8%) scale(1.06); }
+.sec-t:is(:hover, .play) .lp-apps > img:nth-child(2) { transform: translate(8%, -8%) scale(1.06); }
+.sec-t:is(:hover, .play) .lp-apps > img:nth-child(3) { transform: translate(-8%, 8%) scale(1.06); }
+.sec-t:is(:hover, .play) .lp-apps > img:nth-child(4) { transform: translate(8%, 8%) scale(1.06); }
 
-  .sec-t:hover .lp-photos { transform: translateY(-2px); }
-  .sec-t:hover .lp-photos > img { transform: scale(1.04); animation: lp-focus .55s var(--ease); }
-  .sec-t:hover .lp-photos .lp-vf { inset: -7%; opacity: 1; }
-  .sec-t:hover .lp-photos::after { animation: lp-shutter .45s .4s var(--ease-io); }
+.sec-t:is(:hover, .play) .lp-photos { transform: translateY(-2px); }
+.sec-t:is(:hover, .play) .lp-photos > img { transform: scale(1.04); animation: lp-focus .55s var(--ease); }
+.sec-t:is(:hover, .play) .lp-photos .lp-vf { inset: -7%; opacity: 1; }
+.sec-t:is(:hover, .play) .lp-photos::after { animation: lp-shutter .45s .4s var(--ease-io); }
 
-  /* One step = a cell plus the gap: (.315s + .07s) / .315s ≈ 122% */
-  .sec-t:hover .lp-social > img:nth-child(1) { transform: translateX(122%) scale(1.22); }
-  .sec-t:hover .lp-social > img:nth-child(2) { transform: translateY(122%) scale(1.22); }
-  .sec-t:hover .lp-social > img:nth-child(3) { transform: translateY(-122%) scale(1.22); }
-  .sec-t:hover .lp-social > img:nth-child(4) { transform: translateX(-122%) scale(1.22); }
-  .sec-t:hover .lp-social .lp-badge { opacity: 1; transform: none; transition-delay: .25s; }
-}
+/* One step = a cell plus the gap: (.315s + .07s) / .315s ≈ 122% */
+.sec-t:is(:hover, .play) .lp-social > img:nth-child(1) { transform: translateX(122%) scale(1.22); }
+.sec-t:is(:hover, .play) .lp-social > img:nth-child(2) { transform: translateY(122%) scale(1.22); }
+.sec-t:is(:hover, .play) .lp-social > img:nth-child(3) { transform: translateY(-122%) scale(1.22); }
+.sec-t:is(:hover, .play) .lp-social > img:nth-child(4) { transform: translateX(-122%) scale(1.22); }
+.sec-t:is(:hover, .play) .lp-social .lp-badge { opacity: 1; transform: none; transition-delay: .25s; }
 @media (prefers-reduced-motion: reduce) {
   .lp, .lp *, .lp::after { transition: none !important; animation: none !important; }
 }
@@ -437,10 +438,11 @@
   background: rgba(13, 12, 11, .35);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
-  font-size: 16px;
+  font-size: 15px;
   opacity: 0;
   transform: translate(-4px, 4px);
-  transition: opacity .35s var(--ease), transform .5s var(--ease), background .3s var(--ease);
+  transition: opacity .35s var(--ease), transform var(--t-med) var(--ease),
+              background .3s var(--ease), color .3s var(--ease);
 }
 
 @media (hover: hover) {
@@ -516,18 +518,8 @@
   color: var(--paper);
   transition: background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease);
 }
-.app-open svg {
-  width: 13px;
-  height: 13px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 2.2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  transition: transform .45s var(--ease);
-}
+.app-open .arr { font-size: 14px; }
 .app-hero:hover .app-open { background: var(--paper); border-color: var(--paper); color: var(--ink); }
-.app-hero:hover .app-open svg { transform: translate(1px, -1px); }
 
 /* TuffLyrics: its link preview rebuilt live, the demo playing in a window */
 .tl-art {
@@ -586,7 +578,6 @@
 .app-mini .app-hero-name { font-size: clamp(17px, 1.5vw, 19px); }
 .app-mini .app-hero-t p { margin-top: 2px; font-size: 14.5px; }
 .app-open-sm { width: 34px; height: 34px; padding: 0; justify-content: center; border-radius: 10px; }
-.app-hero:hover .app-open-r svg { transform: translateX(2px); }
 
 /* Pastezone: its glass window over the blurred skyline, a note typing itself */
 .pz-art { background: #0b0d14; }
@@ -925,7 +916,7 @@
   letter-spacing: -.02em;
   text-decoration: none;
 }
-.links i {
+.links .l-ico {
   width: 22px;
   font-size: 18px;
   text-align: center;
@@ -940,8 +931,8 @@
   opacity: .8;
 }
 .l-handle { font-size: 13px; color: var(--dim); }
-.links .arr { color: var(--faint); transition: transform .5s var(--ease), color .3s var(--ease); }
-.links a:hover i,
+.links .arr { font-size: 17px; color: var(--faint); transition: color .3s var(--ease); }
+.links a:hover .l-ico,
 .links a:hover .arr { color: var(--ember); }
 @media (max-width: 760px) {
   .links { grid-template-columns: 1fr; }
