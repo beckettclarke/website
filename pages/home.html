@@ -2,8 +2,16 @@
 
   <!-- ===== Hero ===== -->
   <section class="hero">
+    <!-- One of these photos is shown, picked at random each time the site loads
+         (initHero in scripts.js). --pos is the part of the photo to keep in frame. -->
     <div class="hero-bg" aria-hidden="true">
-      <img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203906_0031_D.webp" width="2048" height="1152" fetchpriority="high" alt="">
+      <img data-src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203906_0031_D.webp" style="--pos: 45% 0" alt="">
+      <img data-src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203739_0020_D.webp" style="--pos: 60% 0" alt="">
+      <img data-src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203826_0025_D.webp" style="--pos: 62% 0" alt="">
+      <img data-src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203854_0028_D.webp" style="--pos: 42% 0" alt="">
+      <img data-src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251123122445_0009_D.webp" style="--pos: 50% 0" alt="">
+      <img data-src="https://cdn.beckettclarke.ca/site/img/collections/strathcona/DJI_20260321105806_0052_D.webp" style="--pos: 50% 0" alt="">
+      <img data-src="https://cdn.beckettclarke.ca/site/img/collections/strathcona/DJI_20260321105611_0048_D.webp" style="--pos: 50% 0" alt="">
     </div>
     <div class="wrap hero-in">
       <h1 class="hero-title">
@@ -20,7 +28,7 @@
         <a class="btn ghost" href="#work">See the work</a>
       </div>
     </div>
-    <a nodrag class="hero-credit label" href="/photography/drone/" data-reveal style="--d:3">Cotton candy sky, from a drone <span class="arr arr-r"><i class="fa-regular fa-arrow-right"></i></span></a>
+    <a nodrag class="hero-credit label" href="/photography/" data-reveal style="--d:3">See all photos <span class="arr arr-r"><i class="fa-regular fa-arrow-right"></i></span></a>
   </section>
 
   <!-- ===== Work =====
@@ -182,9 +190,7 @@
       </figure>
       -->
 
-      <!-- Smaller apps: hidden for now. To bring them back, delete these two lines and the
-           closing marker below; their styles are still in css/home.css.
-      <figure class="app-hero app-mini" data-reveal style="--d:1">
+      <figure class="app-hero" data-reveal>
         <div nodrag class="frame app-hero-art pz-art" aria-hidden="true">
           <img class="pz-bg" src="res/pastezone/bg.jpg" alt="">
           <div class="pz-win">
@@ -201,17 +207,17 @@
           </div>
         </div>
         <figcaption>
-          <img class="app-hero-icon" src="icons/pastezone.png" alt="">
+          <img class="app-hero-icon" src="icons/pastezonefull.png" alt="">
           <div class="app-hero-t">
             <h3 class="app-hero-name">Pastezone</h3>
             <p class="dim">A scratchpad for text.</p>
           </div>
-          <span class="app-open app-open-sm" aria-hidden="true"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
+          <span class="app-open" aria-hidden="true">Open <span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
         </figcaption>
         <a class="app-hero-link" href="https://pastezone.beckettclarke.ca" aria-label="Open Pastezone"></a>
       </figure>
 
-      <figure class="app-hero app-mini" data-reveal style="--d:2">
+      <figure class="app-hero" data-reveal style="--d:1">
         <div nodrag class="frame app-hero-art is-art" aria-hidden="true">
           <div class="is-file">
             <div class="is-thumb"><img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203826_0025_D-preview.webp" alt="" loading="lazy"></div>
@@ -223,16 +229,18 @@
           </div>
         </div>
         <figcaption>
-          <img class="app-hero-icon" src="icons/imagesnap.png" alt="">
+          <img class="app-hero-icon" src="icons/imagesnapfull.png" alt="">
           <div class="app-hero-t">
             <h3 class="app-hero-name">Imagesnap</h3>
             <p class="dim">Convert images in your browser.</p>
           </div>
-          <span class="app-open app-open-sm" aria-hidden="true"><span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
+          <span class="app-open" aria-hidden="true">Open <span class="arr"><i class="fa-regular fa-arrow-up-right"></i></span></span>
         </figcaption>
         <a class="app-hero-link" href="https://beckettclarke.github.io/imagesnap/" aria-label="Open Imagesnap"></a>
       </figure>
 
+      <!-- macOS Icons: hidden for now. To bring it back, delete this line and the
+           closing marker below; its styles are still in css/home.css.
       <figure class="app-hero app-mini" data-reveal style="--d:3">
         <div nodrag class="frame app-hero-art mi-art" aria-hidden="true">
             <div class="mi-row"><div class="mi-track"><img src="https://cdn.beckettclarke.ca/site/img/macicons/cider-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/AfterShip-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/Dashmate-1-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/stremio-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/ExpressVPN-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/Insomnia-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/Noteplan-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/Ubuntu-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/cider-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/AfterShip-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/Dashmate-1-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/stremio-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/ExpressVPN-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/Insomnia-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/Noteplan-preview.webp" alt=""><img src="https://cdn.beckettclarke.ca/site/img/macicons/Ubuntu-preview.webp" alt=""></div></div>
@@ -249,7 +257,7 @@
         </figcaption>
         <a class="app-hero-link" href="/macicons/" aria-label="macOS Icons"></a>
       </figure>
-      end of smaller apps -->
+      end of macOS Icons -->
     </div>
   </section>
 
@@ -277,14 +285,14 @@
           <span class="pile-cap"><span class="pile-name">CIAS 2025</span><span class="l-dots"></span><span class="mono pile-n">118</span></span>
           <span class="label">Canadian International Airshow</span>
         </a>
-        <a class="pile" href="/photography/drone/" data-reveal style="--d:1">
+        <a class="pile" href="/photography/strathcona/" data-reveal style="--d:1">
           <span class="pile-stack">
-            <img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251123122528_0014_D-preview.webp" loading="lazy" alt="">
-            <img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203739_0020_D-preview.webp" loading="lazy" alt="">
-            <img src="https://cdn.beckettclarke.ca/site/img/collections/drone/DJI_20251209203826_0025_D-preview.webp" loading="lazy" alt="Sunset over the city from a drone">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/strathcona/DJI_20260321105214_0042_D.webp" loading="lazy" alt="">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/strathcona/DJI_20260318062909_0005_D.webp" loading="lazy" alt="">
+            <img src="https://cdn.beckettclarke.ca/site/img/collections/strathcona/DJI_20260323045424_0018_D.webp" loading="lazy" alt="A blue lake running between snowy mountains">
           </span>
-          <span class="pile-cap"><span class="pile-name">Drone</span><span class="l-dots"></span><span class="mono pile-n">07</span></span>
-          <span class="label">Misc Drone Shots</span>
+          <span class="pile-cap"><span class="pile-name">Strathcona</span><span class="l-dots"></span><span class="mono pile-n">14</span></span>
+          <span class="label">Strathcona Provincial Park, BC</span>
         </a>
         <a class="pile" href="/clients/northmount/" data-reveal style="--d:2">
           <span class="pile-stack">

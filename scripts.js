@@ -236,12 +236,30 @@ function initSplit(root) {
 }
 
 // The hero photo comes up out of the dark once it has actually arrived
+// The home hero shows one of the photos listed in its markup. The pick is made
+// once per load, so it stays put while moving around the site, and it is never
+// the one shown last time.
+let heroPick = null;
 function initHero(root) {
   const hero = root.querySelector('.hero');
   if (!hero) return;
-  const img = hero.querySelector('.hero-bg img');
+  const imgs = [...hero.querySelectorAll('.hero-bg img[data-src]')];
+  if (imgs.length && heroPick == null) {
+    let last = -1;
+    try { last = Number(localStorage.getItem('bc-hero') ?? -1); } catch (e) {}
+    const pool = imgs.map((_, i) => i).filter(i => i !== last || imgs.length === 1);
+    heroPick = pool[Math.floor(Math.random() * pool.length)];
+    try { localStorage.setItem('bc-hero', heroPick); } catch (e) {}
+  }
+  const img = imgs[heroPick] || imgs[0] || hero.querySelector('.hero-bg img');
+  imgs.forEach(el => { if (el !== img) el.remove(); });
   const go = () => hero.classList.add('in');
-  if (!img || (img.complete && img.naturalWidth)) return go();
+  if (!img) return go();
+  if (img.dataset.src) {
+    img.fetchPriority = 'high';
+    img.src = img.dataset.src;
+  }
+  if (img.complete && img.naturalWidth) return go();
   img.addEventListener('load', go, { once: true });
   img.addEventListener('error', go, { once: true });
 }

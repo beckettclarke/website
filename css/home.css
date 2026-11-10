@@ -31,9 +31,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* Anchored to the top so the skyline keeps its distance from the text;
-     a little left of centre keeps the towers in frame on a phone */
-  object-position: 45% 0;
+  /* Anchored to the top so the horizon keeps its distance from the text;
+     each photo sets --pos so its subject stays in frame on a phone */
+  object-position: var(--pos, 50% 0);
   scale: 1.06;
   /* scripts.js nudges --py as the page scrolls, so the photo trails behind */
   transform: translate3d(0, var(--py, 0px), 0);
@@ -489,8 +489,9 @@
   height: 100%;
   object-fit: cover;
 }
+/* A logo on its own colour: big enough to hold the scene the way a picture does */
 .shot-mark {
-  width: clamp(92px, 13vw, 172px);
+  width: 35%;
   height: auto;
   border-radius: 22%;
   box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .55);
@@ -607,76 +608,68 @@
     border: 1px solid var(--line-2);
     border-radius: var(--radius);
   }
-  .work-shot[style*="--bg"] { aspect-ratio: 2 / 1; }
-  .work-shot[style*="--bg"] .shot-mark { width: clamp(64px, 16vw, 96px); }
+  .work-shot[style*="--bg"] { aspect-ratio: 5 / 2; }
+  .work-shot[style*="--bg"] .shot-mark { width: 24%; }
 }
 @media (min-width: 640px) and (max-width: 860px), (min-width: 640px) and (hover: none) {
   .work { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .work-lead { grid-column: 1 / -1; }
   .work-lead .work-shot { aspect-ratio: 2 / 1; }
-  .work-shot[style*="--bg"] { aspect-ratio: 16 / 10; }
+  .work-shot[style*="--bg"] { aspect-ratio: 2 / 1; }
+  .work-shot[style*="--bg"] .shot-mark { width: 30%; }
 }
 
 /* ---------- Apps ----------
-   Each app gets a full row: its picture on one side, its name on the other,
-   and the sides swap from one row to the next. */
+   Two to a row: the picture, then icon, name and what it does on one line. */
 
 .apps {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
-  gap: clamp(44px, 6vw, 84px) 14px;
+  gap: clamp(32px, 3.6vw, 44px) 14px;
 }
-.app-hero {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  align-items: center;
-  gap: 20px clamp(28px, 5vw, 72px);
-  margin: 0;
-}
-.app-hero:not(.app-mini):nth-child(even) .app-hero-art { order: 2; }
+.app-hero { grid-column: span 3; margin: 0; }
 .app-hero-art { aspect-ratio: 2 / 1; }
 .app-hero-art img { transition: transform 1.2s var(--ease); }
-.app-hero:not(.app-mini):hover .app-hero-art img { transform: scale(1.03); }
+.app-hero:hover .app-hero-art > img:only-child { transform: scale(1.03); }
 .app-hero figcaption {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  gap: 14px;
+  margin-top: 16px;
 }
 .app-hero-icon {
   flex: none;
-  width: clamp(54px, 5.2vw, 72px);
-  height: clamp(54px, 5.2vw, 72px);
+  width: 48px;
+  height: 48px;
   border-radius: 23%;
-  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, .55);
+  box-shadow: 0 8px 18px -6px rgba(0, 0, 0, .5);
 }
-.app-hero-t { min-width: 0; margin-top: clamp(16px, 2vw, 24px); }
+.app-hero-t { flex: 1; min-width: 0; }
 .app-hero-name {
-  font-size: clamp(30px, 3.7vw, 50px);
-  line-height: 1;
-  letter-spacing: -.038em;
+  font-size: clamp(20px, 1.9vw, 25px);
+  line-height: 1.1;
+  letter-spacing: -.025em;
 }
-.app-hero-t p { margin-top: 8px; font-size: clamp(16px, 1.4vw, 19px); }
-.app-hero .pill,
-.app-open { margin-top: clamp(18px, 2.2vw, 28px); }
-/* A featured app that opens somewhere: the whole row is the link */
+.app-hero-t p { margin-top: 3px; font-size: 15px; }
+.app-hero .pill { flex: none; }
+/* An app that opens somewhere: the whole card is the link */
 .app-hero:has(.app-hero-link) { position: relative; }
 .app-hero-link { position: absolute; inset: 0; z-index: 2; border-radius: var(--radius); }
 .app-open {
   flex: none;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  height: 40px;
-  padding: 0 14px 0 17px;
+  gap: 7px;
+  height: 36px;
+  padding: 0 12px 0 15px;
   border: 1px solid var(--line-2);
   border-radius: 999px;
-  font-size: 15px;
+  font-size: 14.5px;
   font-weight: 500;
   color: var(--paper);
   transition: background .35s var(--ease), border-color .35s var(--ease), color .35s var(--ease);
 }
-.app-open .arr { font-size: 14px; }
+.app-open .arr { font-size: 13px; }
 .app-hero:hover .app-open { background: var(--paper); border-color: var(--paper); color: var(--ink); }
 
 /* TuffLyrics: its link preview rebuilt live, the demo playing in a window */
@@ -722,7 +715,7 @@
 .tl-win video { width: 100%; height: 100%; object-fit: cover; }
 .app-hero:hover .tl-win { transform: translateY(-1.6cqw); }
 
-/* ---- The smaller three: a third of the row, quieter caption ---- */
+/* ---- A smaller card: a third of the row, quieter caption ---- */
 .app-hero.app-mini { grid-column: span 2; }
 .app-mini .app-hero-art { aspect-ratio: 16 / 10; container-type: inline-size; }
 .app-mini figcaption { gap: 12px; margin-top: 14px; }
@@ -738,7 +731,7 @@
 .app-open-sm { width: 34px; height: 34px; padding: 0; justify-content: center; border-radius: 10px; }
 
 /* Pastezone: its glass window over the blurred skyline, a note typing itself */
-.pz-art { background: #0b0d14; }
+.pz-art { container-type: inline-size; background: #0b0d14; }
 .pz-art > .pz-bg {
   position: absolute;
   inset: 0;
@@ -828,6 +821,7 @@
 /* Imagesnap: one photo, its extension flipping as the format pill moves */
 .is-art {
   --is-o: #ff8a1f;
+  container-type: inline-size;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -844,9 +838,9 @@
   border: .3cqw dashed rgba(255, 168, 80, .22);
   border-radius: 2cqw;
 }
-.is-file { display: flex; flex-direction: column; align-items: center; gap: 2.4cqw; }
+.is-file { display: flex; flex-direction: column; align-items: center; gap: 2cqw; }
 .is-thumb {
-  width: 33cqw;
+  width: 27cqw;
   aspect-ratio: 4 / 3;
   overflow: hidden;
   border-radius: 2cqw;
@@ -878,7 +872,7 @@
   80%, 98%  { transform: translateY(-4.8em); }
   100%      { transform: translateY(0); }
 }
-.is-to { display: flex; flex-direction: column; align-items: center; gap: 1.6cqw; margin-top: 5cqw; }
+.is-to { display: flex; flex-direction: column; align-items: center; gap: 1.6cqw; margin-top: 3.4cqw; }
 .is-label {
   font-size: 2cqw;
   font-weight: 700;
@@ -955,25 +949,14 @@
   .pz-l { max-width: none; }
 }
 
-/* Narrower: picture on top, then icon, name and action in one line */
-@media (max-width: 860px) {
-  .app-hero { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-  .app-hero:not(.app-mini):nth-child(even) .app-hero-art { order: 0; }
-  .app-hero figcaption { flex-direction: row; align-items: center; gap: 14px; }
-  .app-hero-icon { width: 50px; height: 50px; }
-  .app-hero-t { flex: 1; margin-top: 0; }
-  .app-hero-name { font-size: clamp(21px, 4.4vw, 28px); letter-spacing: -.025em; line-height: 1.1; }
-  .app-hero-t p { margin-top: 3px; font-size: 15px; }
-  .app-hero .pill,
-  .app-open { margin-top: 0; }
-  .app-open { height: 36px; padding: 0 12px 0 14px; font-size: 14.5px; }
-}
-@media (max-width: 680px) {
+@media (max-width: 720px) {
+  .app-hero,
   .app-hero.app-mini { grid-column: 1 / -1; }
 }
 @media (max-width: 420px) {
-  .app-hero figcaption { flex-wrap: wrap; }
-  .app-hero .pill { margin-left: 64px; }
+  .app-hero figcaption { gap: 12px; }
+  .app-hero-icon { width: 44px; height: 44px; }
+  .app-hero-t p { font-size: 14.5px; }
 }
 
 /* ---------- Photo collections ----------
