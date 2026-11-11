@@ -569,6 +569,20 @@
     visibility: visible;
     transition: opacity .55s var(--ease), visibility 0s;
   }
+  /* A logo goes on the stage as itself: a square, with nothing appearing on hover */
+  .work-shot[style*="--bg"] {
+    width: 62%;
+    aspect-ratio: 1;
+  }
+  .work-shot[style*="--bg"] .shot-mark {
+    width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    scale: 1.05;
+    transition: scale 1.3s var(--ease);
+  }
+  .work-shot[style*="--bg"] .tile-go { display: none; }
+
   /* What's on the stage eases into place as it takes over */
   .work-shot > video,
   .shot-bg,
