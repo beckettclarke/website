@@ -108,7 +108,7 @@ website/
 - **Work is a list with one stage.** Each project keeps its picture beside its row in `pages/home.html`. On a wide screen with a pointer the pictures share one cell and only the active one shows; on phones and touch screens each project is a card.
 - **The hero photo changes.** `pages/home.html` lists a handful of photos in `.hero-bg`; `scripts.js` shows one at random each time the site loads, never the same one twice in a row. Add or remove an `<img data-src>` line to change the set.
 - **One motion system.** Every animation uses the curves and speeds set in `css/global.css`; the moving parts live in `css/motion.css`. Page changes use view transitions where the browser has them and a plain fade where it doesn't.
-- **Cache busting.** CSS and JS are loaded with `?v=13.2.1`. Bump it in `index.html` when shipping changes.
+- **Cache busting.** CSS and JS are loaded with `?v=13.2.2`. Bump it in `index.html` when shipping changes.
 - **Design tokens.** Warm ink `#0d0c0b`, paper `#f2ede6` and one ember accent `#ff9a1f`, set in Satoshi and IBM Plex Mono.
 
 </details>
