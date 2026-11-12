@@ -559,6 +559,11 @@
   border: 1px solid var(--line-2);
   border-radius: var(--radius);
   text-decoration: none;
+  /* Keeps the fade-in from [data-reveal] (and its delay) alongside the hover */
+  transition: opacity var(--t-slow) var(--ease), transform 1.1s var(--ease),
+              background-color .35s var(--ease), border-color .35s var(--ease),
+              scale var(--t-med) var(--ease);
+  transition-delay: calc(var(--d, 0) * var(--step)), calc(var(--d, 0) * var(--step)), 0s, 0s, 0s;
 }
 /* The mark sits in the middle of whatever room the name leaves above it */
 .work-logo > img {
@@ -568,6 +573,17 @@
   border-radius: 23%;
   box-shadow: 0 10px 22px -10px rgba(0, 0, 0, .7), 0 0 0 1px rgba(255, 255, 255, .08);
 }
+/* Hover: the tile lifts a touch, fills in faintly and its outline firms up */
+@media (hover: hover) {
+  .work-logo > img { transition: scale var(--t-med) var(--ease); }
+  .work-logo:hover {
+    background-color: rgba(242, 237, 230, .035);
+    border-color: var(--ghost);
+    scale: 1.015;
+  }
+  .work-logo:hover > img { scale: 1.04; }
+}
+.work-logo:active { scale: .99; }
 .work-logo-t {
   display: flex;
   flex-direction: column;
