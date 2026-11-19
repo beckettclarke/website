@@ -546,7 +546,7 @@
    filled. They have no picture on the stage and nothing happens on hover. */
 .work-logos {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 168px));
+  grid-template-columns: repeat(2, minmax(0, 136px));
   gap: 12px;
   padding: 16px 0;
   border-bottom: 1px solid var(--line);
@@ -555,7 +555,7 @@
   display: flex;
   flex-direction: column;
   aspect-ratio: 1;
-  padding: 0 14px 12px;
+  padding: 0 12px 10px;
   border: 1px solid var(--line-2);
   border-radius: var(--radius);
   text-decoration: none;
@@ -590,10 +590,7 @@
   gap: 2px;
 }
 .work-logo-t b {
-  font-size: 15px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: -.015em;
   line-height: 1.15;
@@ -775,6 +772,18 @@
 .app-hero:hover .tl-win { transform: translateY(-1.6cqw); }
 
 /* ---- A smaller card: a third of the row, quieter caption ---- */
+/* Plain: no picture, just the icon, name and Open, in an outlined card */
+.app-plain figcaption {
+  margin-top: 0;
+  padding: 16px 18px;
+  border: 1px solid var(--line-2);
+  border-radius: var(--radius);
+  transition: background-color .35s var(--ease), border-color .35s var(--ease);
+}
+@media (hover: hover) {
+  .app-plain:hover figcaption { background-color: rgba(242, 237, 230, .035); border-color: var(--ghost); }
+}
+
 .app-hero.app-mini { grid-column: span 2; }
 .app-mini .app-hero-art { aspect-ratio: 16 / 10; container-type: inline-size; }
 .app-mini figcaption { gap: 12px; margin-top: 14px; }
@@ -1011,6 +1020,8 @@
 @media (max-width: 720px) {
   .app-hero,
   .app-hero.app-mini { grid-column: 1 / -1; }
+  /* Stacked plain cards sit closer together than the big picture cards */
+  .app-plain + .app-plain { margin-top: calc(12px - clamp(32px, 3.6vw, 44px)); }
 }
 @media (max-width: 420px) {
   .app-hero figcaption { gap: 12px; }
